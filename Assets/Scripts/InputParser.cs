@@ -21,27 +21,22 @@ public class InputParser : MonoBehaviour
 
     IEnumerator checkReady()
     {
-        Debug.Log("Wait for ready");
         yield return new WaitUntil(() => gameMaster.isReady == true);
-        Debug.Log("Ready");
+
         StartCoroutine(parseInput());
     }
 
     IEnumerator parseInput()
-    {
-        Debug.Log("Waiting for input");
-        input = "";
-        inputField.text = "";
+    { 
 
         yield return new WaitUntil(() => input != "");
-        Debug.Log("Parsing input");
-        inputField.text = "";
 
         if (checkInput())
         {
             createWords();
-            Debug.Log("Sending parsed input");
+
             gameMaster.sendInput(words);
+            clearInput();
             StartCoroutine(checkReady());
         }
         else
@@ -54,25 +49,30 @@ public class InputParser : MonoBehaviour
 
     private bool checkInput()
     {
-        Debug.Log("Checking input");
+
        Regex re = new Regex("^[ a-zA-Z]*$");
         if (!re.IsMatch(input) || input == "")
         {
-            Debug.Log("Bad input");
             return false;
         }
-        Debug.Log("Good input");
         return true;
     }
 
     private void createWords()
     {
-        Debug.Log("Creating words");
+
        string[]  _words = input.Split(' ');
 
         for (int i = 0; i < _words.Length; i++) {
             _words[i].Trim();
             words.Add(_words[i]);
         }
+    }
+
+    private void clearInput()
+    {
+        input = "";
+        words.Clear();
+        inputField.text = "";
     }
 }

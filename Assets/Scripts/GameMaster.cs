@@ -14,7 +14,7 @@ public class GameMaster : MonoBehaviour
 
     public void sendInput(List<string> _words)
     {
-        Debug.Log("Received parsed input");
+
         isReady = false;
         List<string> words = _words;
 
@@ -23,14 +23,14 @@ public class GameMaster : MonoBehaviour
         action = words[0];
         target = words[1];
 
-        Debug.Log("action: " + action + " | target: " + target);
+
 
         checkCommand();
     }
 
     private void checkCommand()
     {
-        Debug.Log("Checking command");
+        
         if (commands.checkCommand(action))
         {
             doAction();
@@ -40,13 +40,14 @@ public class GameMaster : MonoBehaviour
 
     private void doAction()
     {
-        switch(action){
+        Debug.Log("Current action = " + action);
+        switch (action)
+        {
             case "Go":
-                Debug.Log("Do action Go");
-                isReady = true;
+                clearForNew();
                 break;
             case "Attack":
-
+                clearForNew();
                 break;
             case "Defend":
 
@@ -60,4 +61,11 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+
+    private void clearForNew()
+    {
+        action = "";
+        target = "";
+        isReady = true;
+    }
 }
