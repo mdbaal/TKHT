@@ -9,27 +9,70 @@ public class InputParser : MonoBehaviour
     public InputField inputField;
     public GameMaster gameMaster;
 
-   
+    private string input = "";
 
-    public void checkInput(string input)
+    private List<string> words = new List<string>();
+
+    private void Start()
     {
-        if(!Regex.IsMatch(input, "[a-z0-9 ]", RegexOptions.IgnoreCase))
+        StartCoroutine(checkReady());
+        inputField.onEndEdit.AddListener(delegate { input = inputField.text; });
+    }
+
+    IEnumerator checkReady()
+    {
+        Debug.Log("Wait for ready");
+        yield return new WaitUntil(() => gameMaster.isReady == true);
+        Debug.Log("Ready");
+        StartCoroutine(parseInput());
+    }
+
+    IEnumerator parseInput()
+    {
+        Debug.Log("Waiting for input");
+        input = "";
+        inputField.text = "";
+
+        yield return new WaitUntil(() => input != "");
+        Debug.Log("Parsing input");
+        inputField.text = "";
+
+        if (checkInput())
         {
-            Debug.Log("false characters");
-            return;
+            createWords();
+            Debug.Log("Sending parsed input");
+            gameMaster.sendInput(words);
+            StartCoroutine(checkReady());
+        }
+        else
+        {
+            yield return StartCoroutine(parseInput());
         }
 
-        createWords(input);
+
     }
-    private void createWords(string input)
+
+    private bool checkInput()
     {
-        List<string> words = new List<string>();
-        string[]  _words = input.Split(' ');
+        Debug.Log("Checking input");
+       Regex re = new Regex("^[ a-zA-Z]*$");
+        if (!re.IsMatch(input) || input == "")
+        {
+            Debug.Log("Bad input");
+            return false;
+        }
+        Debug.Log("Good input");
+        return true;
+    }
+
+    private void createWords()
+    {
+        Debug.Log("Creating words");
+       string[]  _words = input.Split(' ');
 
         for (int i = 0; i < _words.Length; i++) {
+            _words[i].Trim();
             words.Add(_words[i]);
         }
-
-        gameMaster.sendCommand(words);
     }
 }

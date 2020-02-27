@@ -6,17 +6,31 @@ public class GameMaster : MonoBehaviour
 {
     public Commands commands;
 
-    string action = "";
-    string target = "";
+    private string action = "";
+    private string target = "";
 
-    public void sendCommand(List<string> words)
+
+    public bool isReady = true;
+
+    public void sendInput(List<string> _words)
     {
+        Debug.Log("Received parsed input");
+        isReady = false;
+        List<string> words = _words;
+
+        if (words.Count == 0 || words == null) return;
+
         action = words[0];
         target = words[1];
+
+        Debug.Log("action: " + action + " | target: " + target);
+
+        checkCommand();
     }
 
     private void checkCommand()
     {
+        Debug.Log("Checking command");
         if (commands.checkCommand(action))
         {
             doAction();
@@ -27,11 +41,22 @@ public class GameMaster : MonoBehaviour
     private void doAction()
     {
         switch(action){
-            case "go":
+            case "Go":
+                Debug.Log("Do action Go");
+                isReady = true;
+                break;
+            case "Attack":
 
                 break;
+            case "Defend":
 
-            
+                break;
+            case "Take":
+
+                break;
+            case "Drop":
+
+                break;
         }
     }
 
