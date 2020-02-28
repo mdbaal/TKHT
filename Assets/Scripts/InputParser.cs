@@ -8,6 +8,7 @@ public class InputParser : MonoBehaviour
 {
     public InputField inputField;
     public GameMaster gameMaster;
+    public OutputManager outputManager;
 
     private string input = "";
 
@@ -36,21 +37,20 @@ public class InputParser : MonoBehaviour
             createWords();
 
             gameMaster.sendInput(words);
-            clearInput();
-            StartCoroutine(checkReady());
         }
         else
         {
-            yield return StartCoroutine(parseInput());
+            outputManager.outputMessage("You cannot use those characters");
         }
 
-
+        clearInput();
+        StartCoroutine(checkReady());
     }
 
     private bool checkInput()
     {
 
-       Regex re = new Regex("^[ a-zA-Z]*$");
+       Regex re = new Regex("^[ a-zA-Z>]*$");
         if (!re.IsMatch(input) || input == "")
         {
             return false;
@@ -63,9 +63,10 @@ public class InputParser : MonoBehaviour
 
        string[]  _words = input.Split(' ');
 
-        for (int i = 0; i < _words.Length; i++) {
+        for (int i = 1; i < _words.Length; i++) {
             _words[i].Trim();
-            words.Add(_words[i]);
+            string _word = char.ToUpper(_words[i][0]) + _words[i].Substring(1);
+            words.Add(_word);
         }
     }
 
@@ -73,6 +74,5 @@ public class InputParser : MonoBehaviour
     {
         input = "";
         words.Clear();
-        inputField.text = "";
     }
 }

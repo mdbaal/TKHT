@@ -5,6 +5,7 @@ using UnityEngine;
 public class Commands : ScriptableObject
 {
     public string[] commands = new string[]{"Go","Attack","Defend","Take","Drop"};
+    public string[] Attackcommands = new string[] {"Attack", "Defend", "Flee" };
 
     public bool checkCommand(string c)
     {

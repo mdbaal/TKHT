@@ -5,8 +5,10 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
     public Commands commands;
-
+    public OutputManager outputManager;
+    
     private string action = "";
+
     private string target = "";
 
 
@@ -33,32 +35,39 @@ public class GameMaster : MonoBehaviour
         
         if (commands.checkCommand(action))
         {
+            outputManager.outputMessage(action + " " + target);
             doAction();
-            return;
+        }
+        else
+        {
+            outputManager.outputMessage("You cannot do this");
+            clearForNew();
         }
     }
 
     private void doAction()
     {
-        Debug.Log("Current action = " + action);
         switch (action)
         {
             case "Go":
-                clearForNew();
+                outputManager.outputMessage("You went to " + target);
                 break;
             case "Attack":
-                clearForNew();
-                break;
-            case "Defend":
-
+                outputManager.outputMessage("Attacking " + target);
                 break;
             case "Take":
-
+                outputManager.outputMessage("You took " + target);
                 break;
             case "Drop":
-
+                outputManager.outputMessage("You droppped" + target);
+                break;
+            case "Exit":
+            case "Quit":
+                outputManager.outputMessage("Goodbye");
                 break;
         }
+
+        clearForNew();
     }
 
 

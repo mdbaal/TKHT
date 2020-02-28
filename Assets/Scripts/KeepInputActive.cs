@@ -10,13 +10,14 @@ public class KeepInputActive : MonoBehaviour
     void Start()
     {
         StartCoroutine(activeCheck());
-        
     }
 
     IEnumerator activeCheck()
     {
         yield return new WaitUntil(() => !inputField.isFocused);
         inputField.ActivateInputField();
+        inputField.text = "> ";
+        inputField.caretPosition = 2;
         StartCoroutine(activeCheck());
     }
 }
