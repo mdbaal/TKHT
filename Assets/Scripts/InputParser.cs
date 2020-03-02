@@ -10,7 +10,7 @@ public class InputParser : MonoBehaviour
     public GameMaster gameMaster;
     public OutputManager outputManager;
 
-    private string input = "";
+    private string input = "> ";
 
     private List<string> words = new List<string>();
 
@@ -30,7 +30,7 @@ public class InputParser : MonoBehaviour
     IEnumerator parseInput()
     { 
 
-        yield return new WaitUntil(() => input != "");
+        yield return new WaitUntil(() => input != "" && input !=">_" && input.Length > 3);
 
         if (checkInput())
         {
@@ -50,8 +50,8 @@ public class InputParser : MonoBehaviour
     private bool checkInput()
     {
 
-       Regex re = new Regex("^[ a-zA-Z>]*$");
-        if (!re.IsMatch(input) || input == "")
+        Regex re = new Regex("^[ a-zA-Z>]*$");
+        if (!re.IsMatch(input) || input == "> " || input == string.Empty)
         {
             return false;
         }
@@ -72,7 +72,7 @@ public class InputParser : MonoBehaviour
 
     private void clearInput()
     {
-        input = "";
+        input = "> ";
         words.Clear();
     }
 }

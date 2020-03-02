@@ -9,6 +9,7 @@ public class KeepInputActive : MonoBehaviour
     public InputField inputField;
     void Start()
     {
+        inputField.ActivateInputField();
         StartCoroutine(activeCheck());
     }
 
@@ -18,6 +19,7 @@ public class KeepInputActive : MonoBehaviour
         inputField.ActivateInputField();
         inputField.text = "> ";
         inputField.caretPosition = 2;
+        inputField.Select();
         StartCoroutine(activeCheck());
     }
 }
