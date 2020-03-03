@@ -26,8 +26,15 @@ public class LocationsMap : MonoBehaviour
 
         if (locations.ContainsKey(_newloc))
         {
-            currentLocation = locations[_newloc];
-            outputManager.outputMessage("You went to " + _newloc);
+            if (currentLocation.hasNeighbour(_newloc))
+            {
+                currentLocation = locations[_newloc];
+                outputManager.outputMessage("You went to " + _newloc);
+            }
+            else
+            {
+                outputManager.outputMessage("Can't go there from here");
+            }
         }
         else
         {
@@ -57,7 +64,6 @@ public class LocationsMap : MonoBehaviour
         foreach(Location l in _locations)
         {
             locations.Add(l.name, l);
-            Debug.Log("Added " + l.name);
         }
     }
 

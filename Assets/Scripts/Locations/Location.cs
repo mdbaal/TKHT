@@ -11,10 +11,20 @@ public class Location : MonoBehaviour
     public Sprite sprite;
     private Inventory inventory = new Inventory();
 
+    public Location[] neighbours;
 
     private void Awake()
     {
         makeLocation();
+    }
+
+    public bool hasNeighbour(string l)
+    {
+        foreach(Location L in neighbours)
+        {
+            if (l.Equals(L.name)) return true;
+        }
+        return false;
     }
 
     private void makeLocation()
