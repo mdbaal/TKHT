@@ -49,7 +49,7 @@ public class LocationsMap : MonoBehaviour
 
     public string getLocationDescription()
     {
-        return "You're at " + currentLocation.name + ". " + currentLocation.getDescription()+ ". " + "When you look around you see " + currentLocation.listItems() + "."; 
+        return "You're at " + currentLocation.name + ".\n  " + currentLocation.getDescription()+ ". \n" + "  When you look around you see: \n" + currentLocation.listItems(); 
     }
 
     public Location GetLocation()

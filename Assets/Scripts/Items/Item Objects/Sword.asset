@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d091debefc77e694493f5f2b8af1efa0, type: 3}
-  m_Name: Commands
+  m_Script: {fileID: 11500000, guid: 9bb90ab0a166af046a40b7b4a2e5fe03, type: 3}
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  commands:
-  - Go
-  - Attack
-  - Defend
-  - Take
-  - Drop
+  name: Sword
+  description: A sword for the stabby
+  aantal: 0
+  damage: 5
+  sprite: {fileID: 0}

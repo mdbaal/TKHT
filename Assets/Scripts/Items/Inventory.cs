@@ -23,14 +23,14 @@ public class Inventory
 
     public override string ToString()
     {
-        string _temp = "";
+        string _temp = "  - ";
         Dictionary<string, Item>.KeyCollection _keys  =  _inventory.Keys;
 
         foreach (string s in _keys)
         {
-            _temp += s + ",";
+          _temp += s + "\n  - ";
         }
-        _temp.TrimEnd(',');
+       _temp = _temp.Trim('-',' ');
 
         return _temp;
     }

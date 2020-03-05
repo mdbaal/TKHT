@@ -29,16 +29,19 @@ public class Location : MonoBehaviour
 
     private void makeLocation()
     {
-        Item[] items = this.GetComponentsInChildren<Item>();
+        ItemOBJ[] items = this.GetComponentsInChildren<ItemOBJ>();
 
-        foreach(Item i in items)
+        foreach(ItemOBJ i in items)
         {
-            inventory.addItem(i);
+            inventory.addItem(i.item);
         }
 
-        SpriteRenderer sceneImg = this.gameObject.AddComponent<SpriteRenderer>();
+        if (this.sprite != null)
+        {
+            SpriteRenderer sceneImg = this.gameObject.AddComponent<SpriteRenderer>();
 
-        sceneImg.sprite = this.sprite;
+            sceneImg.sprite = this.sprite;
+        }
     }
 
     public Item takeItem(string item)

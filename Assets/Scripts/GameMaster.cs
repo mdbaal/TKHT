@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
-    [Header("Commands list")]
-    public Commands commands;
+    private Commands commands = new Commands();
     [Header("Output manager")]
     public OutputManager outputManager;
     [Header("World Locations")]
@@ -73,6 +72,9 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Drop":
                 outputManager.outputMessage("You droppped" + target[0]);
+                break;
+            case "Look":
+                outputManager.outputMessage(locationsMap.getLocationDescription());
                 break;
             case "Exit":
             case "Quit":
