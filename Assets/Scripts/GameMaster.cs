@@ -12,6 +12,8 @@ public class GameMaster : MonoBehaviour
     public LocationsMap locationsMap;
     [Header("Gamestate")]
     public GameState gameState;
+    [Header("UI Manager")]
+    public UIManager uIManager;
     
     private string action = "";
 
@@ -77,7 +79,7 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Goodbye");
                 break;
         }
-
+        
         clearForNew();
     }
 
