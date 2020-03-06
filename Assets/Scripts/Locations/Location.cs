@@ -38,7 +38,7 @@ public class Location : MonoBehaviour
 
         if (this.sprite != null)
         {
-            SpriteRenderer sceneImg = this.gameObject.AddComponent<SpriteRenderer>();
+            SpriteRenderer sceneImg = this.gameObject.GetComponent<SpriteRenderer>();
 
             sceneImg.sprite = this.sprite;
         }
