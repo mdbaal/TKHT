@@ -30,7 +30,7 @@ public class Inventory
         {
           _temp += s + "\n  - ";
         }
-       _temp = _temp.Trim('-',' ');
+       _temp = _temp.TrimEnd('-',' ');
 
         return _temp;
     }
