@@ -18,15 +18,11 @@ public class Inventory
 
     public void addItem(Item item)
     {
-        if (_inventory.Count < inventorySpace) {
-            if (!this.hasItem(item.name))
-            {
-                _inventory.Add(item.name, item);
-            }
-            else
-            {
+        if (item == null) return;
 
-            }
+        if (!this.hasItem(item.name))
+        {
+            _inventory.Add(item.name, item);
         }
     }
 
