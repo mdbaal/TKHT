@@ -6,14 +6,28 @@ public class Inventory
 {
     private Dictionary<string, Item> _inventory = new Dictionary<string, Item>();
 
+    private int inventorySpace = 9;
+
     public Item getItem(string item)
     {
-        return _inventory[item];
+        if (!this.hasItem(item)) return null;
+        Item i = _inventory[item];
+        _inventory.Remove(item);
+        return i;
     }
 
     public void addItem(Item item)
     {
-        _inventory.Add(item.name, item);
+        if (_inventory.Count < inventorySpace) {
+            if (!this.hasItem(item.name))
+            {
+                _inventory.Add(item.name, item);
+            }
+            else
+            {
+
+            }
+        }
     }
 
     public bool hasItem(string item)

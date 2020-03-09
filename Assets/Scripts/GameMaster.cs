@@ -13,11 +13,18 @@ public class GameMaster : MonoBehaviour
     public GameState gameState;
     [Header("UI Manager")]
     public UIManager uIManager;
+    [Header("Player")]
+    public Player player = new Player();
     
     private string action = "";
 
     private string[] target;
 
+
+    private void Start()
+    {
+        gameState.player = this.player;
+    }
 
     public bool isReady = true;
 
@@ -68,6 +75,9 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Attacking " + target[0]);
                 break;
             case "Take":
+                Item i = locationsMap.GetLocation().takeItem(target[0]);
+                player.giveItem(i);
+                uIManager.addToPlayerInventory(i.sprite);
                 outputManager.outputMessage("You took " + target[0]);
                 break;
             case "Drop":

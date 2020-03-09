@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameState", menuName = "Gamestate", order = 0)]
 public class GameState : ScriptableObject
 {
-    public bool playerAlive = true;
+    public Player player;
 
     public int questItemsCollected = 0;
 
