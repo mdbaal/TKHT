@@ -16,14 +16,16 @@ public class Inventory
         return i;
     }
 
-    public void addItem(Item item)
+    public int addItem(Item item)
     {
-        if (item == null) return;
+        if (item == null) return 0;
 
         if (!this.hasItem(item.name))
         {
             _inventory.Add(item.name, item);
+            return 1;
         }
+        return -1;
     }
 
     public bool hasItem(string item)

@@ -28,12 +28,12 @@ public class GameMaster : MonoBehaviour
 
     public bool isReady = true;
 
-    public void sendInput(List<string> _words)
+    public int sendInput(List<string> _words)
     {
         isReady = false;
         List<string> words = _words;
 
-        if (words.Count == 0 || words == null) return;
+        if (words.Count == 0 || words == null) return 0;
 
         action = words[0];
         words.Remove(action);
@@ -41,6 +41,7 @@ public class GameMaster : MonoBehaviour
         target = words.ToArray();
 
         checkCommand();
+        return 1;
     }
 
     private void checkCommand()
@@ -66,22 +67,62 @@ public class GameMaster : MonoBehaviour
 
     private void doAction()
     {
+        int result = 0;
+        Item item = null;
         switch (action)
         {
             case "Go":
-                locationsMap.move(target);
+                result = locationsMap.move(target);
+                if (result == 1)
+                {
+                    outputManager.outputMessage("You went to " + locationsMap.getLocationName());
+                }
+                else if(result == 0)
+                {
+                    outputManager.outputMessage("Can't go there");
+                }
+                else if(result == -1)
+                {
+                    outputManager.outputMessage("Can't go there from here");
+                }
                 break;
             case "Attack":
                 outputManager.outputMessage("Attacking " + target[0]);
                 break;
             case "Take":
                 Item i = locationsMap.GetLocation().takeItem(target[0]);
-                player.giveItem(i);
-                uIManager.addToPlayerInventory(i.sprite);
-                outputManager.outputMessage("You took " + target[0]);
+                result = player.giveItem(i);
+                if (result == 1)
+                {
+                    uIManager.addToPlayerInventory(i.sprite);
+                    outputManager.outputMessage("You took " + target[0]);
+                }
+                else if (result == 0)
+                {
+                    outputManager.outputMessage("This item doesn't exist");
+                }
+                else
+                {
+                    outputManager.outputMessage("You already have this item");
+                }
                 break;
             case "Drop":
-                outputManager.outputMessage("You droppped" + target[0]);
+                item = player.takeItem(target[0]); 
+                result = locationsMap.GetLocation().dropItem(item);
+                if (result == 1)
+                {
+                    uIManager.removeFromPlayerInventory(item.sprite);
+                    outputManager.outputMessage("You droppped" + target[0]);
+                }
+                else if (result == 0)
+                {
+                    outputManager.outputMessage("You don't have this item");
+                }
+                else if (result == -1)
+                {
+                    outputManager.outputMessage("You can't drop this here");
+                }
+                
                 break;
             case "Look":
                 outputManager.outputMessage(locationsMap.getLocationDescription());

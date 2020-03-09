@@ -49,9 +49,9 @@ public class Location : MonoBehaviour
         return inventory.getItem(item);
     }
 
-    public void dropItem(Item item)
+    public int dropItem(Item item)
     {
-        inventory.addItem(item);
+        return inventory.addItem(item);
     }
 
     public string getDescription()

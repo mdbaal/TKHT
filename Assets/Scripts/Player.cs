@@ -10,13 +10,13 @@ public class Player
     private int stamina = 10;
     private int gold = 10;
 
-    public void giveItem(Item item)
+    public int giveItem(Item item)
     {
-        inventory.addItem(item);
+        return inventory.addItem(item);
     }
 
-    public void takeItem(string item)
+    public Item takeItem(string item)
     {
-        inventory.getItem(item);
+        return inventory.getItem(item);
     }
 }

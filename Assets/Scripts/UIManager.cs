@@ -31,4 +31,19 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    public void removeFromPlayerInventory(Sprite itemSprite)
+    {
+
+        foreach (GameObject i in inventorySlots)
+        {
+            Image img = i.GetComponent<Image>();
+            if (img.sprite == itemSprite)
+            {
+                img.sprite = null;
+                img.enabled = false;
+                return;
+            }
+        }
+    }
 }

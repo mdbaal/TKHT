@@ -6,7 +6,6 @@ public class LocationsMap : MonoBehaviour
 {
     private Dictionary<string, Location> locations = new Dictionary<string, Location>();
 
-    public OutputManager outputManager;
     [SerializeField]
     private Location currentLocation = null;
 
@@ -15,7 +14,7 @@ public class LocationsMap : MonoBehaviour
         getAllLocations();
     }
 
-    public void move(string[] newloc)
+    public int move(string[] newloc)
     {
         string _newloc = "";
         foreach(string s in newloc)
@@ -29,16 +28,16 @@ public class LocationsMap : MonoBehaviour
             if (currentLocation.hasNeighbour(_newloc))
             {
                 currentLocation = locations[_newloc];
-                outputManager.outputMessage("You went to " + _newloc);
+                return 1;
             }
             else
             {
-                outputManager.outputMessage("Can't go there from here");
+                return -1;
             }
         }
         else
         {
-            outputManager.outputMessage("This place doesn't exist");
+            return 0;
         }
     }
 
