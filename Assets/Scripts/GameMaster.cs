@@ -40,18 +40,11 @@ public class GameMaster : MonoBehaviour
 
         target = words.ToArray();
 
-        checkCommand();
-        return 1;
-    }
-
-    private void checkCommand()
-    {
-        
-        if (commands.checkCommand(action))
+        if (checkCommand())
         {
             string stringOut = action;
 
-            foreach(string s in target)
+            foreach (string s in target)
             {
                 stringOut += " " + s;
             }
@@ -62,7 +55,14 @@ public class GameMaster : MonoBehaviour
         {
             outputManager.outputMessage("You cannot do this");
             clearForNew();
+            return -1;
         }
+        return 1;
+    }
+
+    private bool checkCommand()
+    {
+        return commands.checkCommand(action);
     }
 
     private void doAction()
@@ -72,6 +72,12 @@ public class GameMaster : MonoBehaviour
         switch (action)
         {
             case "Go":
+                if(target.Length < 1)
+                {
+                    outputManager.outputMessage("You can't go there");
+                    break;
+                }
+
                 result = locationsMap.move(target);
                 if (result == 1)
                 {
@@ -79,17 +85,31 @@ public class GameMaster : MonoBehaviour
                 }
                 else if(result == 0)
                 {
-                    outputManager.outputMessage("Can't go there");
+                    outputManager.outputMessage("You can't go there");
                 }
                 else if(result == -1)
                 {
-                    outputManager.outputMessage("Can't go there from here");
+                    outputManager.outputMessage("You can't go there from here");
                 }
                 break;
             case "Attack":
+                if (target.Length > 1)
+                {
+                    outputManager.outputMessage("You can't attack more than one person");
+                }
                 outputManager.outputMessage("Attacking " + target[0]);
                 break;
             case "Take":
+                if (target.Length > 1)
+                {
+                    outputManager.outputMessage("You can only pick up one thing at a time");
+                    break;
+                }
+                if (target.Length == 0)
+                {
+                    outputManager.outputMessage("You took some air");
+                    break;
+                }
                 locationsMap.GetLocation().takeItem(target[0],out item);
                 result = player.giveItem(item);
                 if (result == 1)
@@ -107,12 +127,22 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Drop":
+                if (target.Length > 1)
+                {
+                    outputManager.outputMessage("You think about dropping everything for a while, but then decide not to");
+                    break;
+                }
+                if (target.Length == 0)
+                {
+                    outputManager.outputMessage("You dropped some air");
+                    break;
+                }
                 item = player.takeItem(target[0]); 
                 result = locationsMap.GetLocation().dropItem(item);
                 if (result == 1)
                 {
                     uIManager.removeFromPlayerInventory(item.sprite);
-                    outputManager.outputMessage("You droppped" + target[0]);
+                    outputManager.outputMessage("You droppped " + target[0]);
                 }
                 else if (result == 0)
                 {
@@ -130,6 +160,7 @@ public class GameMaster : MonoBehaviour
             case "Exit":
             case "Quit":
                 outputManager.outputMessage("Goodbye");
+                quitGame();
                 break;
         }
         
