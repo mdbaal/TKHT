@@ -13,8 +13,11 @@ public class Location : MonoBehaviour
 
     public Location[] neighbours;
 
+    ItemOBJ[] items;
+
     private void Awake()
     {
+        items = this.GetComponentsInChildren<ItemOBJ>();
         makeLocation();
     }
 
@@ -29,7 +32,7 @@ public class Location : MonoBehaviour
 
     private void makeLocation()
     {
-        ItemOBJ[] items = this.GetComponentsInChildren<ItemOBJ>();
+        
 
         foreach(ItemOBJ i in items)
         {
@@ -44,14 +47,36 @@ public class Location : MonoBehaviour
         }
     }
 
-    public Item takeItem(string item)
+    public int takeItem(string item,out Item i)
     {
-        return inventory.getItem(item);
+        i = inventory.takeItem(item);
+        if (i == null) return 0;
+        foreach(ItemOBJ iObj in items)
+        {
+            if(iObj.item == i)
+            {
+                iObj.GetComponent<SpriteRenderer>().enabled = false;
+                return 1;
+            }
+        }
+        return -1;
     }
 
     public int dropItem(Item item)
     {
-        return inventory.addItem(item);
+        int result = inventory.addItem(item);
+        if ( result== 1)
+        {
+            foreach (ItemOBJ iObj in items)
+            {
+                if (iObj.item == item)
+                {
+                    iObj.GetComponent<SpriteRenderer>().enabled = true;
+                    return result;
+                }
+            }
+        }
+          return result;
     }
 
     public string getDescription()

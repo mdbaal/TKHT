@@ -90,11 +90,11 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Attacking " + target[0]);
                 break;
             case "Take":
-                Item i = locationsMap.GetLocation().takeItem(target[0]);
-                result = player.giveItem(i);
+                locationsMap.GetLocation().takeItem(target[0],out item);
+                result = player.giveItem(item);
                 if (result == 1)
                 {
-                    uIManager.addToPlayerInventory(i.sprite);
+                    uIManager.addToPlayerInventory(item.sprite);
                     outputManager.outputMessage("You took " + target[0]);
                 }
                 else if (result == 0)

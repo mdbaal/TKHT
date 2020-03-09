@@ -8,7 +8,7 @@ public class Inventory
 
     private int inventorySpace = 9;
 
-    public Item getItem(string item)
+    public Item takeItem(string item)
     {
         if (!this.hasItem(item)) return null;
         Item i = _inventory[item];

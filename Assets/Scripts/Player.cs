@@ -17,6 +17,6 @@ public class Player
 
     public Item takeItem(string item)
     {
-        return inventory.getItem(item);
+        return inventory.takeItem(item);
     }
 }
