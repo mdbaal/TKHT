@@ -21,7 +21,6 @@ public class OutputManager : MonoBehaviour
         
     }
 
-
     public void clear()
     {
         outputField.text = string.Empty;

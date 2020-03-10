@@ -69,6 +69,7 @@ public class GameMaster : MonoBehaviour
     {
         int result = 0;
         Item item = null;
+        
         switch (action)
         {
             case "Go":
@@ -81,7 +82,7 @@ public class GameMaster : MonoBehaviour
                 result = locationsMap.move(target);
                 if (result == 1)
                 {
-                    outputManager.outputMessage("You went to " + locationsMap.getLocationDescriptionShort());
+                    outputManager.outputMessage("You went to " + locationsMap.getLocationName());
                 }
                 else if(result == 0)
                 {

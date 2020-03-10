@@ -52,7 +52,19 @@ public class LocationsMap : MonoBehaviour
 
     public string getLocationDescription()
     {
-        return "You're at " + currentLocation.name + ".\n  " + currentLocation.getDescription()+ ". \n" + "  When you look around you see: \n" + currentLocation.listItems(); 
+        string outstring = "You're at " + getLocationDescriptionShort() + "\n";
+
+        string items  = currentLocation.listItems();
+        if (items.Equals(string.Empty)){
+            outstring += "  When you look around you don't really see anything interresting";
+        }
+        else
+        {
+            outstring += "When you look around you find these items\n";
+            outstring += items;
+        }
+            
+        return outstring;
     }
 
     public string getLocationDescriptionShort()
