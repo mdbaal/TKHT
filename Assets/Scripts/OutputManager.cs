@@ -20,4 +20,10 @@ public class OutputManager : MonoBehaviour
         uIManager.toBottom();
         
     }
+
+
+    public void clear()
+    {
+        outputField.text = string.Empty;
+    }
 }

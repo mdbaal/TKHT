@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Commands
 {
-    public string[] commands = new string[]{"Go","Attack","Defend","Take","Drop","Look","Exit","Quit"};
+    public string[] commands = new string[]{"Go","Attack","Defend","Take","Drop","Look","Exit","Quit","Clear"};
     public string[] Attackcommands = new string[] {"Attack", "Defend", "Flee" };
 
     public bool checkCommand(string c)

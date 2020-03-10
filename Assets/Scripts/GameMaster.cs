@@ -162,6 +162,9 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Goodbye");
                 quitGame();
                 break;
+            case "Clear":
+                outputManager.clear();
+                break;
         }
         
         clearForNew();
