@@ -27,7 +27,11 @@ public class LocationsMap : MonoBehaviour
         {
             if (currentLocation.hasNeighbour(_newloc))
             {
+                Location old = currentLocation;
+                old.leave();
                 currentLocation = locations[_newloc];
+                currentLocation.enter();
+                
                 return 1;
             }
             else
@@ -60,6 +64,7 @@ public class LocationsMap : MonoBehaviour
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
         currentLocation = _locations[0];
+        currentLocation.enter();
         foreach(Location l in _locations)
         {
             locations.Add(l.name, l);

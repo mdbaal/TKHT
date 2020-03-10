@@ -13,7 +13,7 @@ public class Location : MonoBehaviour
 
     public Location[] neighbours;
 
-    ItemOBJ[] items;
+    private ItemOBJ[] items;
 
     private void Awake()
     {
@@ -45,6 +45,8 @@ public class Location : MonoBehaviour
 
             sceneImg.sprite = this.sprite;
         }
+
+        this.leave();
     }
 
     public int takeItem(string item,out Item i)
@@ -89,6 +91,23 @@ public class Location : MonoBehaviour
         return inventory.ToString();
     }
 
+    public void enter()
+    {
+        foreach(ItemOBJ item in items)
+        {
+            item.gameObject.SetActive(true);
+        }
+        this.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void leave()
+    {
+        foreach (ItemOBJ item in items)
+        {
+            item.gameObject.SetActive(false);
+        }
+        this.GetComponent<SpriteRenderer>().enabled = false;
+    }
 
 
 }
