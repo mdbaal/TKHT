@@ -10,6 +10,13 @@ public class CInputField : InputField
     protected override void Awake()
     {
         StartCoroutine(activeCheck());
+        this.onValueChanged.AddListener(delegate {
+            if(this.text.Length < 2)
+            {
+                this.text = "> ";
+                this.caretPosition = this.text.Length;
+            }
+        });
     }
 
     public override void OnDeselect(BaseEventData eventData)
