@@ -165,6 +165,9 @@ public class GameMaster : MonoBehaviour
             case "Clear":
                 outputManager.clear();
                 break;
+            case "Help":
+                outputManager.printHelp(commands);
+                break;
         }
         
         clearForNew();

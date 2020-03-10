@@ -26,4 +26,15 @@ public class OutputManager : MonoBehaviour
     {
         outputField.text = string.Empty;
     }
+
+    public void printHelp(Commands commands)
+    {
+        string helpString = "These are the commands:";
+        foreach(string s in commands.commandsList)
+        {
+            helpString += "\n- " + s; 
+        }
+
+        this.outputMessage(helpString);
+    }
 }
