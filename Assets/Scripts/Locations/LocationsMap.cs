@@ -55,6 +55,11 @@ public class LocationsMap : MonoBehaviour
         return "You're at " + currentLocation.name + ".\n  " + currentLocation.getDescription()+ ". \n" + "  When you look around you see: \n" + currentLocation.listItems(); 
     }
 
+    public string getLocationDescriptionShort()
+    {
+        return currentLocation.getDescription();
+    }
+
     public Location GetLocation()
     {
         return currentLocation;

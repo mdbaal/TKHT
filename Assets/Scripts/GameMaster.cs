@@ -74,14 +74,14 @@ public class GameMaster : MonoBehaviour
             case "Go":
                 if(target.Length < 1)
                 {
-                    outputManager.outputMessage("You can't go there");
+                    outputManager.outputMessage("Go where?");
                     break;
                 }
 
                 result = locationsMap.move(target);
                 if (result == 1)
                 {
-                    outputManager.outputMessage("You went to " + locationsMap.getLocationName());
+                    outputManager.outputMessage("You went to " + locationsMap.getLocationDescriptionShort());
                 }
                 else if(result == 0)
                 {

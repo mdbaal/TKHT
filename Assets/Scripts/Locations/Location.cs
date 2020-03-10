@@ -5,7 +5,7 @@ using UnityEngine;
 public class Location : MonoBehaviour
 {
     public new string name;
-
+    [TextArea]
     public string description;
 
     public Sprite sprite;
