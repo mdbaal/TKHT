@@ -91,6 +91,9 @@ public class GameMaster : MonoBehaviour
                 else if(result == -1)
                 {
                     outputManager.outputMessage("You can't go there from here");
+                }else if(result == -2)
+                {
+                    outputManager.outputMessage("You are already there");
                 }
                 break;
             case "Attack":

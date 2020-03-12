@@ -22,9 +22,10 @@ public class LocationsMap : MonoBehaviour
             _newloc += s + " ";
         }
         _newloc = _newloc.Trim();
-
         if (locations.ContainsKey(_newloc))
         {
+            if (currentLocation.name == _newloc) return -2;
+
             if (currentLocation.hasNeighbour(_newloc))
             {
                 Location old = currentLocation;
