@@ -17,31 +17,30 @@ public class UIManager : MonoBehaviour
         textScroll.verticalNormalizedPosition = 0;
     }
 
-    public void addToPlayerInventory(Sprite itemSprite)
+    public void addToPlayerInventory(Item item)
     {
-
         foreach (GameObject i in inventorySlots)
         {
             Image img = i.GetComponent<Image>();
-            if (img.sprite == null) {
-                img.sprite = itemSprite;
-                img.SetNativeSize();
+           if (img.sprite == null) {
+                img.sprite = item.sprite;
                 img.enabled = true;
                 return;
             }
         }
     }
 
-    public void removeFromPlayerInventory(Sprite itemSprite)
+    public void removeFromPlayerInventory(Item item)
     {
 
         foreach (GameObject i in inventorySlots)
         {
             Image img = i.GetComponent<Image>();
-            if (img.sprite == itemSprite)
+
+            if (img.sprite == item.sprite)
             {
                 img.sprite = null;
-                img.enabled = false;
+                img.enabled = false;   
                 return;
             }
         }

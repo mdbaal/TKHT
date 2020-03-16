@@ -50,7 +50,7 @@ public class InputParser : MonoBehaviour
     private bool checkInput()
     {
 
-        Regex re = new Regex("^[ a-zA-Z>]*$");
+        Regex re = new Regex("^[ a-zA-Z>0-9]*$");
         if (!re.IsMatch(input) || input == "> " || input == string.Empty)
         {
             return false;

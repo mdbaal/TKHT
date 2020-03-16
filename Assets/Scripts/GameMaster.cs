@@ -67,9 +67,9 @@ public class GameMaster : MonoBehaviour
 
     private void doAction()
     {
-        int result = 0;
-        Item item = null;
-        
+        int result = 0; //give back result
+        Item item = null; //item to use
+
         switch (action)
         {
             case "Go":
@@ -104,59 +104,55 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Attacking " + target[0]);
                 break;
             case "Take":
-                if (target.Length > 1)
-                {
-                    outputManager.outputMessage("You can only pick up one thing at a time");
-                    break;
-                }
                 if (target.Length == 0)
                 {
                     outputManager.outputMessage("You took some air");
                     break;
                 }
-                locationsMap.GetLocation().takeItem(target[0],out item);
-                result = player.giveItem(item);
-                if (result == 1)
+                if (!player.hasSpace())
                 {
-                    uIManager.addToPlayerInventory(item.sprite);
-                    outputManager.outputMessage("You took " + target[0]);
+                    outputManager.outputMessage("You don't have enough space");
                 }
-                else if (result == 0)
+                //get the item
+                result = locationsMap.GetLocation().takeItem(target[0], ref item);
+
+                if (result == 0)   
                 {
                     outputManager.outputMessage("This item doesn't exist");
                 }
-                else
+                else if (result == 1)
                 {
-                    outputManager.outputMessage("You already have this item");
+                    player.giveItem(item);
+                    uIManager.addToPlayerInventory(item);
+                    outputManager.outputMessage("You took " + target[0]);
                 }
+                
                 break;
             case "Drop":
-                if (target.Length > 1)
-                {
-                    outputManager.outputMessage("You think about dropping everything for a while, but then decide not to");
-                    break;
-                }
                 if (target.Length == 0)
                 {
                     outputManager.outputMessage("You dropped some air");
                     break;
                 }
-                item = player.takeItem(target[0]); 
-                result = locationsMap.GetLocation().dropItem(item);
-                if (result == 1)
+                if (!locationsMap.GetLocation().hasSpace())
                 {
-                    uIManager.removeFromPlayerInventory(item.sprite);
-                    outputManager.outputMessage("You droppped " + target[0]);
-                }
-                else if (result == 0)
-                {
-                    outputManager.outputMessage("You don't have this item");
-                }
-                else if (result == -1)
-                {
-                    outputManager.outputMessage("You can't drop this here");
+                    outputManager.outputMessage("There is no place to put this");
                 }
                 
+                //drop the item
+                result = player.takeItem(target[0],ref item);
+
+                if (result == 0)
+                {
+                    outputManager.outputMessage("This item doesn't exist");
+                }
+                else if (result == 1)
+                {
+                    locationsMap.GetLocation().dropItem(item);
+                    uIManager.removeFromPlayerInventory(item);
+                    outputManager.outputMessage("You dropped " + target[0]);
+                }
+
                 break;
             case "Look":
                 outputManager.outputMessage(locationsMap.getLocationDescription());

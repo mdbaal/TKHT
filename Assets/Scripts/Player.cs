@@ -15,8 +15,13 @@ public class Player
         return inventory.addItem(item);
     }
 
-    public Item takeItem(string item)
+    public int takeItem(string item,ref Item outItem)
     {
-        return inventory.takeItem(item);
+       return inventory.takeItem(item,ref outItem);
+    }
+
+    public bool hasSpace()
+    {
+        return inventory.hasSpace();
     }
 }

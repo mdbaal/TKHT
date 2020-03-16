@@ -8,12 +8,16 @@ public class Inventory
 
     private int inventorySpace = 9;
 
-    public Item takeItem(string item)
+    public int takeItem(string item,ref Item outItem)
     {
-        if (!this.hasItem(item)) return null;
+        if (!this.hasItem(item)) return 0;
+
         Item i = _inventory[item];
+
+            outItem = i;
         _inventory.Remove(item);
-        return i;
+            return 1;
+        
     }
 
     public int addItem(Item item)
@@ -31,6 +35,10 @@ public class Inventory
     public bool hasItem(string item)
     {
         return _inventory.ContainsKey(item);
+    }
+    public bool hasSpace()
+    {
+        return _inventory.Count < inventorySpace ? true : false;
     }
 
     public override string ToString()

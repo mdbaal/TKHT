@@ -49,10 +49,11 @@ public class Location : MonoBehaviour
         this.leave();
     }
 
-    public int takeItem(string item,out Item i)
+    public int takeItem(string item,ref Item i)
     {
-        i = inventory.takeItem(item);
-        if (i == null) return 0;
+        
+        if (inventory.takeItem(item, ref i) == 0) return 0;
+        //is it in scene?
         foreach(ItemOBJ iObj in items)
         {
             if(iObj.item == i)
@@ -109,5 +110,9 @@ public class Location : MonoBehaviour
         this.GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    public bool hasSpace()
+    {
+        return inventory.hasSpace();
+    }
 
 }

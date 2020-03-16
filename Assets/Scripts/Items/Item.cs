@@ -5,30 +5,10 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public new string name;
-
+    [TextArea()]
     public string description;
 
     public int damage = 0;
 
-    public int amount = 0;
-
-    public int maxAmount = 5;
-
     public Sprite sprite;
-
-
-    public int addToAmount(int am)
-    {
-        if (am + amount > maxAmount) return 0;
-        amount += am;
-
-        return 1;
-    }
-    public int removeFromAmount(int am)
-    {
-        if (amount - am < 0) return 0;
-
-        amount -= am;
-        return 1;
-    }
 }
