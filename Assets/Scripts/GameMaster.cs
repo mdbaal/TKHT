@@ -168,6 +168,35 @@ public class GameMaster : MonoBehaviour
             case "Help":
                 outputManager.printHelp(commands);
                 break;
+            case "Equip":
+                
+                result = player.equip(target[0],ref item);
+
+                if (result == 0)
+                {
+                    outputManager.outputMessage("You can't equip that item");
+                }
+                else if (result == 1)
+                {
+                    uIManager.addToEquiped(item);
+                    outputManager.outputMessage("You equiped " + item.name);
+                }else if(result == -1)
+                {
+                    outputManager.outputMessage("Already have something equiped there");
+                }
+                break;
+            case "Unequip":
+                result = player.unEquip(target[0], ref item);
+
+                if (result == 0)
+                {
+                    outputManager.outputMessage("You don't have that item equiped");
+                }else if(result == 1)
+                {
+                    uIManager.removeFromEquiped(item);
+                    outputManager.outputMessage("You unequiped " + item.name);
+                }
+                break;
         }
         
         clearForNew();

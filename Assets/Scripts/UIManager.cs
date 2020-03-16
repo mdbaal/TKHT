@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
 
     public List<GameObject> inventorySlots = new List<GameObject>();
 
+    public List<GameObject> equipmentSlots = new List<GameObject>();
+
     public void toBottom()
     {
         Canvas.ForceUpdateCanvases();
@@ -43,6 +45,41 @@ public class UIManager : MonoBehaviour
                 img.enabled = false;   
                 return;
             }
+        }
+    }
+
+    public void addToEquiped(Item item)
+    {
+        
+        removeFromPlayerInventory(item);
+        if (item.equipLeft)
+        {
+            Image img = equipmentSlots[0].GetComponentInChildren<Image>();
+           img.sprite = item.sprite;
+            img.enabled = true;
+        }
+        else
+        {
+            Image img = equipmentSlots[1].GetComponentInChildren<Image>();
+            img.sprite = item.sprite;
+            img.enabled = true;
+        }
+    }
+
+    public void removeFromEquiped(Item item)
+    {
+        addToPlayerInventory(item);
+        if (item.equipLeft)
+        {
+            Image img = equipmentSlots[0].GetComponentInChildren<Image>();
+            img.sprite = null;
+            img.enabled = false;
+        }
+        else
+        {
+            Image img = equipmentSlots[1].GetComponentInChildren<Image>();
+            img.sprite = null;
+            img.enabled = false;
         }
     }
 }

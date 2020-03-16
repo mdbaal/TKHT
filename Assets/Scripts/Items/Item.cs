@@ -11,4 +11,8 @@ public class Item : ScriptableObject
     public int damage = 0;
 
     public Sprite sprite;
+
+    public bool equipable = false;
+
+    public bool equipLeft = true;
 }
