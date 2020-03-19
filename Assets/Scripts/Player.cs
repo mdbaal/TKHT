@@ -77,4 +77,19 @@ public class Player
 
         return 1;
     }
+
+    public int takeDamage(int dmg)
+    {
+        if (dmg < 0) return 0;
+        if (health - dmg <= 0) return 2;
+        health -= dmg;
+        return 1;
+    }
+
+    public int doDamage(ref NPC npc)
+    {
+        if (npc == null) return -1;
+
+        return npc.takeDamage(left.damage);
+    }
 }
