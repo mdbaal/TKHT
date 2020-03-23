@@ -18,4 +18,16 @@ public class Commands
         }
         return false;
     }
+
+    public bool checkCombatCommand(string c)
+    {
+        for (int i = 0; i < AttackcommandsList.Length; i++)
+        {
+            if (AttackcommandsList[i].Equals(c))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

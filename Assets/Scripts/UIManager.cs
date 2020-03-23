@@ -7,12 +7,19 @@ public class UIManager : MonoBehaviour
 {
     [Header("Output scrollrect")]
     public ScrollRect textScroll;
-
+    [Header("Inventory & equipment")]
     public List<GameObject> inventorySlots = new List<GameObject>();
 
     public List<GameObject> equipmentSlots = new List<GameObject>();
 
-    public void toBottom()
+
+    [Header("Player health")]
+    public GameObject playerHealth;
+    public int fullHealth = 0;
+
+
+
+    public void outputToBottom()
     {
         Canvas.ForceUpdateCanvases();
 
@@ -81,5 +88,28 @@ public class UIManager : MonoBehaviour
             img.sprite = null;
             img.enabled = false;
         }
+    }
+
+    public void updatePlayerHealth(ref Player player)
+    {
+        if(fullHealth == 0)
+        {
+            fullHealth = player.Health;
+        }
+
+        Image healthImg = playerHealth.GetComponentsInChildren<Image>()[1];
+        Text healthText = playerHealth.GetComponentInChildren<Text>();
+
+        if (player.Health < 0)
+        {
+            healthText.text = "Health: 0";
+            healthImg.rectTransform.localScale = new Vector3(0, 1,1);
+        }
+        else
+        {
+            healthText.text = "Health: " +player.Health.ToString();
+            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.Health, 1,1);
+        }
+
     }
 }

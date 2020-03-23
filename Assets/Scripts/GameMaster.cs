@@ -15,18 +15,23 @@ public class GameMaster : MonoBehaviour
     public UIManager uIManager;
     [Header("Player")]
     public Player player = new Player();
-    
+    [Header("CombatManager")]
+    public CombatManager combatManager;
+
     private string action = "";
 
     private string[] target;
 
+    public bool isReady = true;
+    public bool inCombat = false;
 
     private void Start()
     {
         gameState.player = this.player;
+        combatManager.setPlayer(ref this.player);
+        uIManager.updatePlayerHealth(ref this.player);
     }
 
-    public bool isReady = true;
 
     public int sendInput(List<string> _words)
     {
@@ -39,8 +44,16 @@ public class GameMaster : MonoBehaviour
         words.Remove(action);
 
         target = words.ToArray();
-
-        if (checkCommand())
+        if(combatManager.endcode == 0)
+        {
+            inCombat = false;
+        }
+        if (inCombat)
+        {
+            combatManager.nextTurn(action);
+            clearForNew();
+        }
+        else if (checkCommand())
         {
             string stringOut = action;
 
@@ -57,12 +70,18 @@ public class GameMaster : MonoBehaviour
             clearForNew();
             return -1;
         }
+
         return 1;
     }
 
     private bool checkCommand()
     {
         return commands.checkCommand(action);
+    }
+
+    private bool checkCombatCommand()
+    {
+        return commands.checkCombatCommand(action);
     }
 
     private void doAction()
@@ -73,7 +92,7 @@ public class GameMaster : MonoBehaviour
         switch (action)
         {
             case "Go":
-                if(target.Length < 1)
+                if (target.Length < 1)
                 {
                     outputManager.outputMessage("Go where?");
                     break;
@@ -84,14 +103,15 @@ public class GameMaster : MonoBehaviour
                 {
                     outputManager.outputMessage("You went to " + locationsMap.getLocationName());
                 }
-                else if(result == 0)
+                else if (result == 0)
                 {
                     outputManager.outputMessage("You can't go there");
                 }
-                else if(result == -1)
+                else if (result == -1)
                 {
                     outputManager.outputMessage("You can't go there from here");
-                }else if(result == -2)
+                }
+                else if (result == -2)
                 {
                     outputManager.outputMessage("You are already there");
                 }
@@ -100,8 +120,11 @@ public class GameMaster : MonoBehaviour
                 if (target.Length > 1)
                 {
                     outputManager.outputMessage("You can't attack more than one person");
+                    break;
                 }
+                inCombat = true;
                 outputManager.outputMessage("Attacking " + target[0]);
+                combatManager.startCombat(locationsMap.GetLocation().getEnemy(target[0]));
                 break;
             case "Take":
                 if (target.Length == 0)
@@ -116,7 +139,7 @@ public class GameMaster : MonoBehaviour
                 //get the item
                 result = locationsMap.GetLocation().takeItem(target[0], ref item);
 
-                if (result == 0)   
+                if (result == 0)
                 {
                     outputManager.outputMessage("This item doesn't exist");
                 }
@@ -126,7 +149,7 @@ public class GameMaster : MonoBehaviour
                     uIManager.addToPlayerInventory(item);
                     outputManager.outputMessage("You took " + target[0]);
                 }
-                
+
                 break;
             case "Drop":
                 if (target.Length == 0)
@@ -138,9 +161,9 @@ public class GameMaster : MonoBehaviour
                 {
                     outputManager.outputMessage("There is no place to put this");
                 }
-                
+
                 //drop the item
-                result = player.takeItem(target[0],ref item);
+                result = player.takeItem(target[0], ref item);
 
                 if (result == 0)
                 {
@@ -169,8 +192,8 @@ public class GameMaster : MonoBehaviour
                 outputManager.printHelp(commands);
                 break;
             case "Equip":
-                
-                result = player.equip(target[0],ref item);
+
+                result = player.equip(target[0], ref item);
 
                 if (result == 0)
                 {
@@ -180,7 +203,8 @@ public class GameMaster : MonoBehaviour
                 {
                     uIManager.addToEquiped(item);
                     outputManager.outputMessage("You equiped " + item.name);
-                }else if(result == -1)
+                }
+                else if (result == -1)
                 {
                     outputManager.outputMessage("Already have something equiped there");
                 }
@@ -191,14 +215,15 @@ public class GameMaster : MonoBehaviour
                 if (result == 0)
                 {
                     outputManager.outputMessage("You don't have that item equiped");
-                }else if(result == 1)
+                }
+                else if (result == 1)
                 {
                     uIManager.removeFromEquiped(item);
                     outputManager.outputMessage("You unequiped " + item.name);
                 }
                 break;
         }
-        
+
         clearForNew();
     }
 
@@ -221,5 +246,5 @@ public class GameMaster : MonoBehaviour
         clearGame();
         Application.Quit();
     }
- 
+
 }

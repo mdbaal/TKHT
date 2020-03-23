@@ -63,6 +63,8 @@ public class InputParser : MonoBehaviour
 
        string[]  _words = input.Split(' ');
 
+        if (_words.Length < 2) return;
+
         for (int i = 1; i < _words.Length; i++) {
             _words[i].Trim();
             string _word = char.ToUpper(_words[i][0]) + _words[i].Substring(1);

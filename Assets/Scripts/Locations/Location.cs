@@ -15,6 +15,8 @@ public class Location : MonoBehaviour
 
     private ItemOBJ[] items;
 
+    private Enemy[] enemies;
+
     private void Awake()
     {
         items = this.GetComponentsInChildren<ItemOBJ>();
@@ -32,7 +34,8 @@ public class Location : MonoBehaviour
 
     private void makeLocation()
     {
-        
+
+        enemies = this.GetComponentsInChildren<Enemy>();
 
         foreach(ItemOBJ i in items)
         {
@@ -113,6 +116,18 @@ public class Location : MonoBehaviour
     public bool hasSpace()
     {
         return inventory.hasSpace();
+    }
+
+    public Enemy getEnemy(string enem)
+    {
+        foreach(Enemy e in enemies)
+        {
+            if (e.name.Equals(enem))
+            {
+                return e;
+            }
+        }
+        return null;
     }
 
 }

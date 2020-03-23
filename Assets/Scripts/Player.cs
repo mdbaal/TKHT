@@ -8,10 +8,14 @@ public class Player
 
     private int health = 10;
     private int stamina = 10;
-    private int gold = 10;
 
-    private Item left = null;
-    private Item right = null;
+    public bool isAlive = true;
+
+    private Item weapon = null;
+    private Item shield = null;
+    public bool defending = false;
+
+    public int Health { get => health; set => health = value; }
 
     public int giveItem(Item item)
     {
@@ -41,11 +45,11 @@ public class Player
         {
             if (i.equipLeft)
             {
-                left = i;
+                weapon = i;
             }
             else
             {
-                right = i;
+                shield = i;
             }
             outItem = i;
             return 1;
@@ -57,15 +61,15 @@ public class Player
     public int unEquip(string item, ref Item outItem)
     {
         Item i = null;
-        if(left.name == item)
+        if(weapon.name == item)
         {
-            i = left;
-            left = null;
+            i = weapon;
+            weapon = null;
         }
-        else if(right.name == item)
+        else if(shield.name == item)
         {
-            i = right;
-            right = null;
+            i = shield;
+            shield = null;
         }
         else
         {
@@ -78,18 +82,31 @@ public class Player
         return 1;
     }
 
-    public int takeDamage(int dmg)
+    public int takeDamage(int dmg,out int outdmg)
     {
+        outdmg = dmg;
         if (dmg < 0) return 0;
         if (health - dmg <= 0) return 2;
         health -= dmg;
         return 1;
     }
 
-    public int doDamage(ref NPC npc)
+    public int doDamage(ref Enemy enemy, out int outdmg)
     {
-        if (npc == null) return -1;
+        outdmg = 0;
+        if (enemy == null) return -1;
+        outdmg = weapon.damage;
+        return enemy.takeDamage(weapon.damage);
+    }
+    public bool canDefend()
+    {
+        return (shield != null);
+    }
 
-        return npc.takeDamage(left.damage);
+    public int defend(int dmg,out int outdmg)
+    {
+        outdmg = 0;
+        if (dmg < shield.damage) return 3;
+        return takeDamage(dmg - shield.damage,out outdmg);
     }
 }

@@ -17,7 +17,7 @@ public class OutputManager : MonoBehaviour
         
         outputField.text += "> " + msg;
         outputField.text += "\n";
-        uIManager.toBottom();
+        uIManager.outputToBottom();
         
     }
 
