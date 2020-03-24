@@ -22,7 +22,7 @@ public class InputParser : MonoBehaviour
 
     IEnumerator checkReady()
     {
-        yield return new WaitUntil(() => gameMaster.isReady == true);
+        yield return new WaitUntil(() => gameMaster.gameState.readyForPlayerInput == true);
 
         StartCoroutine(parseInput());
     }

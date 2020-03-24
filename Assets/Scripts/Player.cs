@@ -7,7 +7,7 @@ public class Player
     private Inventory inventory = new Inventory();
 
     private int health = 10;
-    private int stamina = 10;
+    //private int stamina = 10;
 
     public bool isAlive = true;
 

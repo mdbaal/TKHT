@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Output scrollrect")]
+    [Header("Game State")]
+    public GameState gameState;
+    [Header("Output Scrollrect")]
     public ScrollRect textScroll;
-    [Header("Inventory & equipment")]
+    [Header("Inventory & Equipment")]
     public List<GameObject> inventorySlots = new List<GameObject>();
 
     public List<GameObject> equipmentSlots = new List<GameObject>();
@@ -17,6 +19,16 @@ public class UIManager : MonoBehaviour
     public GameObject playerHealth;
     public int fullHealth = 0;
 
+    private void Start()
+    {
+        StartCoroutine(setPlayerValues());
+    }
+    IEnumerator setPlayerValues()
+    {
+        yield return new WaitUntil(() => gameState.player != null);
+        fullHealth = gameState.player.Health;
+        updatePlayerHealth(ref gameState.player);
+    }
 
 
     public void outputToBottom()

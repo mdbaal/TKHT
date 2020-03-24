@@ -8,8 +8,10 @@ public class GameState : ScriptableObject
 
     public int questItemsCollected = 0;
 
-    public string CurrentLocation;
+    public Location currentLocation;
 
     public bool inCombat = false;
+
+    public bool readyForPlayerInput = true;
 
 }

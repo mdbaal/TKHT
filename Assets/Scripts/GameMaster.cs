@@ -22,20 +22,15 @@ public class GameMaster : MonoBehaviour
 
     private string[] target;
 
-    public bool isReady = true;
-    public bool inCombat = false;
-
-    private void Start()
+    private void Awake()
     {
         gameState.player = this.player;
-        combatManager.setPlayer(ref this.player);
-        uIManager.updatePlayerHealth(ref this.player);
     }
 
 
     public int sendInput(List<string> _words)
     {
-        isReady = false;
+        gameState.readyForPlayerInput = false;
         List<string> words = _words;
 
         if (words.Count == 0 || words == null) return 0;
@@ -46,9 +41,9 @@ public class GameMaster : MonoBehaviour
         target = words.ToArray();
         if(combatManager.endcode == 0)
         {
-            inCombat = false;
+            gameState.inCombat = false;
         }
-        if (inCombat)
+        if (gameState.inCombat)
         {
             combatManager.nextTurn(action);
             clearForNew();
@@ -102,6 +97,7 @@ public class GameMaster : MonoBehaviour
                 if (result == 1)
                 {
                     outputManager.outputMessage("You went to " + locationsMap.getLocationName());
+                    gameState.currentLocation = locationsMap.GetLocation();
                 }
                 else if (result == 0)
                 {
@@ -113,7 +109,7 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == -2)
                 {
-                    outputManager.outputMessage("You are already there");
+                    outputManager.outputMessage("You are already at " + gameState.currentLocation.name);
                 }
                 break;
             case "Attack":
@@ -122,7 +118,7 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You can't attack more than one person");
                     break;
                 }
-                inCombat = true;
+                gameState.inCombat = true;
                 outputManager.outputMessage("Attacking " + target[0]);
                 combatManager.startCombat(locationsMap.GetLocation().getEnemy(target[0]));
                 break;
@@ -232,7 +228,7 @@ public class GameMaster : MonoBehaviour
     {
         action = "";
         target = new string[] { };
-        isReady = true;
+        gameState.readyForPlayerInput = true;
     }
 
     private void clearGame()

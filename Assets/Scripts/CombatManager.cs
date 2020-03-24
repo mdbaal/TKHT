@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
+    [Header("Game State")]
+    public GameState gameState;
+
     private Player player = null;
     private Enemy enemy = null;
 
     private bool playerTurn = true;
     public int endcode = -1;
-    [Header("TIme to wait in seconds")]
+    [Header("Time to wait in seconds")]
     public int timeToWait = 0;
 
     public OutputManager outputManager;
 
     public UIManager uIManager;
 
-    public void setPlayer(ref Player player)
+    private void Start()
     {
-        this.player = player;
+        StartCoroutine(setPlayer());
+    }
+    IEnumerator setPlayer()
+    {
+        yield return new WaitUntil(() => gameState.player != null);
+        player = gameState.player;
     }
 
     public void startCombat(Enemy enemy)
