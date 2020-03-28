@@ -15,4 +15,6 @@ public class Item : ScriptableObject
     public bool equipable = false;
 
     public bool equipLeft = true;
+
+    public bool isQuestItem = false;
 }

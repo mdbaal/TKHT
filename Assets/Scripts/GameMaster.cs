@@ -143,7 +143,15 @@ public class GameMaster : MonoBehaviour
                 {
                     player.giveItem(item);
                     uIManager.addToPlayerInventory(item);
-                    outputManager.outputMessage("You took " + target[0]);
+                    if (item.isQuestItem)
+                    {
+                        int i =  gameState.addToQuestItems(item);
+                        uIManager.UpdateObjectiveText(i);
+                        outputManager.outputMessage("You took " + target[0] + " It's one of the quest items!");
+                    }
+                    else{
+                        outputManager.outputMessage("You took " + target[0]);
+                    }
                 }
 
                 break;

@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
 
     public List<GameObject> equipmentSlots = new List<GameObject>();
 
+    [Header("Objectives texts")]
+    public Text[] ObjectivesTexts;
+    
 
     [Header("Player health")]
     public GameObject playerHealth;
@@ -123,5 +126,10 @@ public class UIManager : MonoBehaviour
             healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.Health, 1,1);
         }
 
+    }
+
+    public void UpdateObjectiveText(int index)
+    {
+        ObjectivesTexts[index].color = new Color(0, 0, 0, 1);
     }
 }

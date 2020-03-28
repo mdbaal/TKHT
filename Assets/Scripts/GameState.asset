@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e622727b928df47921bf20d93ebd02, type: 3}
   m_Name: GameState
   m_EditorClassIdentifier: 
-  questItemsCollected: 0
+  questItemsCollected: []
   currentLocation: {fileID: 0}
   inCombat: 0
   readyForPlayerInput: 1
+  allQuestItemsCollected: 0
