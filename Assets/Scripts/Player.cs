@@ -23,7 +23,14 @@ public class Player
 
     public int takeItem(string item,ref Item outItem)
     {
-       return inventory.takeItem(item,ref outItem);
+        int i = inventory.takeItem(item,ref outItem);
+
+        if (outItem.isQuestItem) {
+            inventory.addItem(outItem);
+            return -1;
+        }
+
+        return i;
     }
 
     public bool hasSpace()

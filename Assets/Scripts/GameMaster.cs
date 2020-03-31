@@ -25,6 +25,11 @@ public class GameMaster : MonoBehaviour
     private void Awake()
     {
         gameState.player = this.player;
+
+        if (gameState.firstTimePlaying)
+        {
+            //open tutorial pop up
+        }
     }
 
 
@@ -178,6 +183,10 @@ public class GameMaster : MonoBehaviour
                     locationsMap.GetLocation().dropItem(item);
                     uIManager.removeFromPlayerInventory(item);
                     outputManager.outputMessage("You dropped " + target[0]);
+                }
+                else if(result == -1)
+                {
+                    outputManager.outputMessage("You can't drop quest items");
                 }
 
                 break;
