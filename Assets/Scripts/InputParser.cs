@@ -17,7 +17,7 @@ public class InputParser : MonoBehaviour
     private void Start()
     {
         StartCoroutine(checkReady());
-        inputField.onEndEdit.AddListener(delegate { input = inputField.text; });
+        inputField.onEndEdit.AddListener(delegate { if (gameMaster.gameState.readyForPlayerInput) input = inputField.text; else { clearInput(); } });
     }
 
     IEnumerator checkReady()

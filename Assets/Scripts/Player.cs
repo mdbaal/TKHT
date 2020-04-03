@@ -8,8 +8,6 @@ public class Player
 
     private int health = 10;
 
-    public bool isAlive = true;
-
     private Item weapon = null;
     private Item shield = null;
     public bool defending = false;
@@ -21,7 +19,7 @@ public class Player
         return inventory.addItem(item);
     }
 
-    public int takeItem(string item,ref Item outItem)
+    public int takeItem(string[] item,ref Item outItem)
     {
         int i = inventory.takeItem(item,ref outItem);
 
@@ -38,7 +36,7 @@ public class Player
         return inventory.hasSpace();
     }
 
-    public int equip(string item,ref Item outItem)
+    public int equip(string[] item,ref Item outItem)
     {
         Item i = null;
 
@@ -64,15 +62,23 @@ public class Player
         return 0;
     }
 
-    public int unEquip(string item, ref Item outItem)
+    public int unEquip(string[] item, ref Item outItem)
     {
+
+        string _item = "";
+        foreach (string s in item)
+        {
+            _item += s + " ";
+        }
+        _item = _item.Trim();
+
         Item i = null;
-        if(weapon.name == item)
+        if(weapon.name == _item)
         {
             i = weapon;
             weapon = null;
         }
-        else if(shield.name == item)
+        else if(shield.name == _item)
         {
             i = shield;
             shield = null;
@@ -92,7 +98,7 @@ public class Player
     {
         outdmg = dmg;
         if (dmg < 0) return 0;
-        if (health - dmg <= 0) return 2;
+        if (health - dmg <= 0) { health -= dmg; return 2; }
         health -= dmg;
         return 1;
     }

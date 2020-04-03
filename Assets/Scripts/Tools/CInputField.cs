@@ -35,7 +35,7 @@ public class CInputField : InputField
 
     public override void OnSubmit(BaseEventData eventData)
     {
-        Debug.Log(eventData);
+        
     }
 
     IEnumerator activeCheck()

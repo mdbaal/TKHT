@@ -52,7 +52,7 @@ public class Location : MonoBehaviour
         this.leave();
     }
 
-    public int takeItem(string item,ref Item i)
+    public int takeItem(string[] item,ref Item i)
     {
         
         if (inventory.takeItem(item, ref i) == 0) return 0;

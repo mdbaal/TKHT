@@ -13,8 +13,6 @@ public class GameMaster : MonoBehaviour
     public GameState gameState;
     [Header("UI Manager")]
     public UIManager uIManager;
-    [Header("Player")]
-    public Player player = new Player();
     [Header("CombatManager")]
     public CombatManager combatManager;
 
@@ -22,13 +20,12 @@ public class GameMaster : MonoBehaviour
 
     private string[] target;
 
-    private void Awake()
+    private void Start()
     {
-        gameState.player = this.player;
 
-        if (gameState.firstTimePlaying)
+        if (!gameState.finishedTutorial)
         {
-            //open tutorial pop up
+            uIManager.startTutorial();
         }
     }
 
@@ -42,34 +39,26 @@ public class GameMaster : MonoBehaviour
 
         action = words[0];
         words.Remove(action);
-
+        if(!gameState.inCombat)
         target = words.ToArray();
-        if(combatManager.endcode == 0)
-        {
-            gameState.inCombat = false;
-        }
-        if (gameState.inCombat)
-        {
-            combatManager.nextTurn(action);
-            clearForNew();
-        }
-        else if (checkCommand())
-        {
-            string stringOut = action;
-
-            foreach (string s in target)
+       
+            if (checkCommand() || checkCombatCommand())
             {
-                stringOut += " " + s;
+                string stringOut = action;
+
+                foreach (string s in target)
+                {
+                    stringOut += " " + s;
+                }
+                outputManager.outputMessage(stringOut);
+                doAction();
             }
-            outputManager.outputMessage(stringOut);
-            doAction();
-        }
-        else
-        {
-            outputManager.outputMessage("You cannot do this");
-            clearForNew();
-            return -1;
-        }
+            else
+            {
+                outputManager.outputMessage("You cannot do this");
+                clearForNew();
+                return -1;
+            }
 
         return 1;
     }
@@ -83,11 +72,38 @@ public class GameMaster : MonoBehaviour
     {
         return commands.checkCombatCommand(action);
     }
+    private void checkCombatResult(int r)
+    {
+
+        switch (r)
+        {
+            case -1:
+
+                break;
+            case 0:
+            case 1:
+                gameState.inCombat = false;
+                break;
+            case 3:
+                gameState.inCombat = false;
+                StartCoroutine(playerDied());
+                break;
+        }
+    }
 
     private void doAction()
     {
         int result = 0; //give back result
         Item item = null; //item to use
+
+        if (gameState.inCombat)
+        {
+            combatManager.nextTurn(action);
+            clearForNew();
+            return;
+        }
+
+        
 
         switch (action)
         {
@@ -125,7 +141,7 @@ public class GameMaster : MonoBehaviour
                 }
                 gameState.inCombat = true;
                 outputManager.outputMessage("Attacking " + target[0]);
-                combatManager.startCombat(locationsMap.GetLocation().getEnemy(target[0]));
+                combatManager.startCombat(locationsMap.GetLocation().getEnemy(target[0]), new CombatManager.CombatCallback(this.checkCombatResult));
                 break;
             case "Take":
                 if (target.Length == 0)
@@ -133,12 +149,12 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You took some air");
                     break;
                 }
-                if (!player.hasSpace())
+                if (!gameState.player.hasSpace())
                 {
                     outputManager.outputMessage("You don't have enough space");
                 }
                 //get the item
-                result = locationsMap.GetLocation().takeItem(target[0], ref item);
+                result = locationsMap.GetLocation().takeItem(target, ref item);
 
                 if (result == 0)
                 {
@@ -146,16 +162,16 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == 1)
                 {
-                    player.giveItem(item);
+                    gameState.player.giveItem(item);
                     uIManager.addToPlayerInventory(item);
                     if (item.isQuestItem)
                     {
                         int i =  gameState.addToQuestItems(item);
                         uIManager.UpdateObjectiveText(i);
-                        outputManager.outputMessage("You took " + target[0] + " It's one of the quest items!");
+                        outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
                     }
                     else{
-                        outputManager.outputMessage("You took " + target[0]);
+                        outputManager.outputMessage("You took " + item.name);
                     }
                 }
 
@@ -172,7 +188,7 @@ public class GameMaster : MonoBehaviour
                 }
 
                 //drop the item
-                result = player.takeItem(target[0], ref item);
+                result = gameState.player.takeItem(target, ref item);
 
                 if (result == 0)
                 {
@@ -182,7 +198,7 @@ public class GameMaster : MonoBehaviour
                 {
                     locationsMap.GetLocation().dropItem(item);
                     uIManager.removeFromPlayerInventory(item);
-                    outputManager.outputMessage("You dropped " + target[0]);
+                    outputManager.outputMessage("You dropped " + item.name);
                 }
                 else if(result == -1)
                 {
@@ -206,7 +222,7 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Equip":
 
-                result = player.equip(target[0], ref item);
+                result = gameState.player.equip(target, ref item);
 
                 if (result == 0)
                 {
@@ -223,7 +239,7 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Unequip":
-                result = player.unEquip(target[0], ref item);
+                result = gameState.player.unEquip(target, ref item);
 
                 if (result == 0)
                 {
@@ -240,6 +256,29 @@ public class GameMaster : MonoBehaviour
         clearForNew();
     }
 
+    IEnumerator playerDied()
+    {
+        uIManager.showEndscreen(0);
+        yield return new WaitForSecondsRealtime(1f);
+        StartCoroutine(restartGameOnEnter());
+        StartCoroutine(quitGameOnEscape());
+
+    }
+    IEnumerator restartGameOnEnter()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        uIManager.closeEndScreen();
+        StopCoroutine(quitGameOnEscape());
+        restartGame();
+    }
+    IEnumerator quitGameOnEscape()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Escape));
+        StopCoroutine(restartGameOnEnter());
+        uIManager.closeEndScreen();
+        quitGame();
+    }
+
 
     private void clearForNew()
     {
@@ -248,15 +287,15 @@ public class GameMaster : MonoBehaviour
         gameState.readyForPlayerInput = true;
     }
 
-    private void clearGame()
+    private void restartGame()
     {
         action = "";
         target = new string[] { };
+        gameState.restart();
     }
 
     private void quitGame()
     {
-        clearGame();
         Application.Quit();
     }
 

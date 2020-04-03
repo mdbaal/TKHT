@@ -22,6 +22,17 @@ public class UIManager : MonoBehaviour
     public GameObject playerHealth;
     public int fullHealth = 0;
 
+    [Header("Tutorial pop-up")]
+    public GameObject tutorialPopup;
+    Text[] tutorialTexts;
+    int tutorialIndex = 1;
+
+    [Header("Endscreen UI")]
+    public GameObject Endscreen;
+    public Text EndscreenTitle;
+    public Text EndscreenText;
+
+
     private void Start()
     {
         StartCoroutine(setPlayerValues());
@@ -131,5 +142,68 @@ public class UIManager : MonoBehaviour
     public void UpdateObjectiveText(int index)
     {
         ObjectivesTexts[index].color = new Color(0, 0, 0, 1);
+    }
+
+    IEnumerator tutorialInput()
+    {
+        yield return new WaitForEndOfFrame();
+
+        yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Return));
+        nextTutorial();
+    }
+
+    public void startTutorial()
+    {
+        tutorialPopup.SetActive(true);
+
+        tutorialTexts = tutorialPopup.GetComponentsInChildren<Text>();
+
+        tutorialTexts[tutorialIndex].enabled = true;
+
+        StartCoroutine(tutorialInput());
+    }
+
+    public void nextTutorial()
+    {
+        if(tutorialIndex < tutorialTexts.Length-1)
+        {
+            tutorialTexts[tutorialIndex].enabled = false;
+            tutorialIndex++;
+            tutorialTexts[tutorialIndex].enabled = true;
+            StartCoroutine(tutorialInput());
+        }
+        else
+        {
+            endTutorial();
+        }
+    }
+
+    public void endTutorial()
+    {
+        tutorialPopup.SetActive(false);
+
+        gameState.finishedTutorial = true;
+        gameState.readyForPlayerInput = true;
+    }
+
+    public void showEndscreen(int i)
+    {
+        Endscreen.SetActive(true);
+        if(i == 0)
+        {
+            EndscreenTitle.text = "Game Over";
+            EndscreenText.text = "You died. \n Press <b>Enter</b> to start again or <b>Esc</b> to quit.";
+        }else
+        {
+            EndscreenTitle.text = "Victory";
+            EndscreenText.text = "You did it! You got all the items and now live a rich live of fortune. \n Press <b>Enter</b> to start again or <b>Esc</b> to quit.";
+        }
+    }
+
+    public void closeEndScreen()
+    {
+        Endscreen.SetActive(false);
+        EndscreenTitle.text = string.Empty;
+        EndscreenText.text = string.Empty;
     }
 }

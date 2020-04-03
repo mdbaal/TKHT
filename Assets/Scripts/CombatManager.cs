@@ -11,13 +11,16 @@ public class CombatManager : MonoBehaviour
     private Enemy enemy = null;
 
     private bool playerTurn = true;
-    public int endcode = -1;
     [Header("Time to wait in seconds")]
     public int timeToWait = 0;
 
     public OutputManager outputManager;
 
     public UIManager uIManager;
+
+    public delegate void CombatCallback(int r);
+
+    public CombatCallback combatCallback;
 
     private void Start()
     {
@@ -29,10 +32,12 @@ public class CombatManager : MonoBehaviour
         player = gameState.player;
     }
 
-    public void startCombat(Enemy enemy)
-    { 
+    public void startCombat(Enemy enemy, CombatCallback c)
+    {
+        this.combatCallback = c;
         this.enemy = enemy;
         nextTurn("Attack");
+
     }
     public void nextTurn(string action)
     {
@@ -50,6 +55,7 @@ public class CombatManager : MonoBehaviour
                     {
                         outputManager.outputMessage("You didn't do any damage");
                         playerTurn = false;
+                        combatCallback(-1);
                         StartCoroutine(waitBeforeComputerAction());
                     }
                     else if (result == 1)
@@ -57,17 +63,20 @@ public class CombatManager : MonoBehaviour
                         outputManager.outputMessage("You hit them with " + dmgDone + " damage");
                         playerTurn = false;
                         StartCoroutine(waitBeforeComputerAction());
+                        combatCallback(-1);
                     }
                     else if (result == 2)
                     {
                         outputManager.outputMessage("You hit with a fininshing blow");
                         Destroy(enemy.gameObject);
-                        endCombat(0);
+                        endCombat();
+                        combatCallback(0);
                     }
                     else if (result == -1)
                     {
                         outputManager.outputMessage("That isn't an enemy");
-                        endCombat(1);
+                        endCombat();
+                        combatCallback(1);
                     }
                     break;
                 case "Defend":
@@ -75,16 +84,20 @@ public class CombatManager : MonoBehaviour
                     {
                         outputManager.outputMessage("You don't have a shield equiped");
                         playerTurn = false;
+                        combatCallback(-1);
                         StartCoroutine(waitBeforeComputerAction());
                         break;
                     }
                     outputManager.outputMessage("You defend");
                     player.defending = true;
+                    playerTurn = false;
+                    combatCallback(-1);
                     StartCoroutine(waitBeforeComputerAction());
                     break;
                 case "Flee":
                     outputManager.outputMessage("You flee from the battle");
-                    endCombat(2);
+                    endCombat();
+                    combatCallback(2);
                     break;
             }
         }
@@ -96,27 +109,31 @@ public class CombatManager : MonoBehaviour
             if (result == -1 || result == 0)
             {
                 outputManager.outputMessage("You didn't take any damage");
+                playerTurn = true;
+                combatCallback(-1);
             } else if (result == 1)
             {
                 outputManager.outputMessage("You took " + dmgDone + " damage");
                 uIManager.updatePlayerHealth(ref player);
+                playerTurn = true;
+                combatCallback(-1);
             } else if (result == 2) {
                 outputManager.outputMessage("You have been killed");
                 uIManager.updatePlayerHealth(ref player);
-                player.isAlive = false;
-                endCombat(3);
+                endCombat();
+                combatCallback(3);
             }else if (result == 3)
             {
                 outputManager.outputMessage("You fully blocked the attack");
+                playerTurn = true;
+                combatCallback(-1);
+                
             }
-
-            playerTurn = true;
         }
     }
-    public void endCombat(int _endcode)
+    public void endCombat()
     {
         this.enemy = null;
-        this.endcode = _endcode;
     }
 
     IEnumerator waitBeforeComputerAction()

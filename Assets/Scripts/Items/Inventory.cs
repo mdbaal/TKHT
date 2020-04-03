@@ -8,14 +8,21 @@ public class Inventory
 
     private int inventorySpace = 9;
 
-    public int takeItem(string item,ref Item outItem)
+    public int takeItem(string[] item,ref Item outItem)
     {
-        if (!this.hasItem(item)) return 0;
+        string _item = "";
+        foreach (string s in item)
+        {
+            _item += s + " ";
+        }
+        _item = _item.Trim();
 
-        Item i = _inventory[item];
+        if (!this.hasItem(_item)) return 0;
+
+        Item i = _inventory[_item];
 
             outItem = i;
-        _inventory.Remove(item);
+        _inventory.Remove(_item);
             return 1;
         
     }

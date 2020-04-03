@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameState", menuName = "Gamestate", order = 0)]
 public class GameState : ScriptableObject
 {
-    public Player player;
+    public Player player = new Player();
 
     public List<Item> questItemsCollected =  new List<Item>();
 
@@ -12,9 +12,11 @@ public class GameState : ScriptableObject
 
     public bool inCombat = false;
 
-    public bool readyForPlayerInput = true;
+    public bool readyForPlayerInput = false;
 
     public bool allQuestItemsCollected = false;
+
+    public bool finishedTutorial = false;
 
 
     public int addToQuestItems(Item item)
@@ -41,6 +43,11 @@ public class GameState : ScriptableObject
         }
 
         return 0;
+    }
+
+    public void restart()
+    {
+
     }
 
 }

@@ -10,7 +10,7 @@ public class Enemy : NPC
     public int takeDamage(int dmg)
     {
         if (dmg < 0) return 0;
-        if (health - dmg <= 0) return 2;
+        if (health - dmg <= 0) {health -= dmg; return 2; }
         health -= dmg;
         return 1;
     }
