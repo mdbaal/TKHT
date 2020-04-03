@@ -192,11 +192,11 @@ public class UIManager : MonoBehaviour
         if(i == 0)
         {
             EndscreenTitle.text = "Game Over";
-            EndscreenText.text = "You died. \n Press <b>Enter</b> to start again or <b>Esc</b> to quit.";
+            EndscreenText.text = "You died. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
         }else
         {
             EndscreenTitle.text = "Victory";
-            EndscreenText.text = "You did it! You got all the items and now live a rich live of fortune. \n Press <b>Enter</b> to start again or <b>Esc</b> to quit.";
+            EndscreenText.text = "You did it! You got all the items and now live a rich live of fortune. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
         }
     }
 

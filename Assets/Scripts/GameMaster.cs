@@ -169,6 +169,10 @@ public class GameMaster : MonoBehaviour
                         int i =  gameState.addToQuestItems(item);
                         uIManager.UpdateObjectiveText(i);
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
+                        if (gameState.allQuestItemsCollected)
+                        {
+                            StartCoroutine(PlayerWon());
+                        }
                     }
                     else{
                         outputManager.outputMessage("You took " + item.name);
@@ -254,6 +258,13 @@ public class GameMaster : MonoBehaviour
         }
 
         clearForNew();
+    }
+    IEnumerator PlayerWon()
+    {
+        uIManager.showEndscreen(1);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(restartGameOnEnter());
+        StartCoroutine(quitGameOnEscape());
     }
 
     IEnumerator playerDied()
