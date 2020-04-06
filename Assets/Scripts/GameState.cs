@@ -47,7 +47,19 @@ public class GameState : ScriptableObject
 
     public void restart()
     {
+        player = new Player();
 
-    }
+        questItemsCollected = new List<Item>();
+
+        currentLocation = null;
+
+        inCombat = false;
+
+        readyForPlayerInput = false;
+
+        allQuestItemsCollected = false;
+
+        finishedTutorial = false;
+}
 
 }

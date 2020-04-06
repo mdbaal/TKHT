@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -302,11 +303,13 @@ public class GameMaster : MonoBehaviour
     {
         action = "";
         target = new string[] { };
+        SceneManager.LoadSceneAsync("Main");
         gameState.restart();
     }
 
     private void quitGame()
     {
+        restartGame();
         Application.Quit();
     }
 
