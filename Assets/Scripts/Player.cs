@@ -7,6 +7,7 @@ public class Player
     private Inventory inventory = new Inventory();
 
     private int health = 10;
+    public int maxHealth = 10;
 
     private Item weapon = null;
     private Item shield = null;
@@ -120,5 +121,25 @@ public class Player
         outdmg = 0;
         if (dmg < shield.damage) return 3;
         return takeDamage(dmg - shield.damage,out outdmg);
+    }
+
+    public int use(string[] item,out Item outItem)
+    {
+        outItem = null;
+        Item _item = null;
+        int result = this.inventory.takeItem(item,ref _item);
+        if (result == 0) return result;
+        if (_item.isConsumable && _item != null)
+        {
+            if (this.health == maxHealth) { this.inventory.addItem(_item); return 2; }
+            this.Health = this.Health + _item.healing;
+
+            if (health > maxHealth) Health = maxHealth;
+            outItem = _item;
+            return 1;
+        }
+        
+        return -1;
+
     }
 }

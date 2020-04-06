@@ -120,7 +120,7 @@ public class UIManager : MonoBehaviour
     {
         if(fullHealth == 0)
         {
-            fullHealth = player.Health;
+            fullHealth = player.maxHealth;
         }
 
         Image healthImg = playerHealth.GetComponentsInChildren<Image>()[1];
@@ -133,7 +133,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            healthText.text = "Health: " +player.Health.ToString();
+            healthText.text = "Health: " + player.Health.ToString();
             healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.Health, 1,1);
         }
 

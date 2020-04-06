@@ -256,6 +256,22 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You unequiped " + item.name);
                 }
                 break;
+            case "Use":
+                result = gameState.player.use(target,out item);
+
+                if (result == -1 || result == 0)
+                {
+                    outputManager.outputMessage("That isn't a usable item");
+                }else if(result == 1)
+                {
+                    uIManager.removeFromPlayerInventory(item);
+                    uIManager.updatePlayerHealth(ref gameState.player);
+                    outputManager.outputMessage("You used " + item.name);
+                }else if(result == 2)
+                {
+                    outputManager.outputMessage("You are alreadt at full health");
+                }
+                break;
         }
 
         clearForNew();

@@ -20,7 +20,7 @@ public class Inventory
         if (!this.hasItem(_item)) return 0;
 
         Item i = _inventory[_item];
-
+        if (i == null) return 0;
             outItem = i;
         _inventory.Remove(_item);
             return 1;

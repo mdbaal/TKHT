@@ -10,11 +10,15 @@ public class Item : ScriptableObject
 
     public int damage = 0;
 
-    public Sprite sprite;
+    public int healing = 0;
+
+    public Sprite sprite = null;
 
     public bool equipable = false;
 
     public bool equipLeft = true;
 
     public bool isQuestItem = false;
+
+    public bool isConsumable = false;
 }
