@@ -16,12 +16,9 @@ public class Location : MonoBehaviour
     private ItemOBJ[] items;
 
     private Enemy[] enemies;
+    private bool isMade = false;
 
-    private void Awake()
-    {
-        items = this.GetComponentsInChildren<ItemOBJ>();
-        makeLocation();
-    }
+    
 
     public bool hasNeighbour(string l)
     {
@@ -32,9 +29,9 @@ public class Location : MonoBehaviour
         return false;
     }
 
-    private void makeLocation()
+    public void makeLocation(bool _leave)
     {
-
+        items = this.GetComponentsInChildren<ItemOBJ>();
         enemies = this.GetComponentsInChildren<Enemy>();
 
         foreach(ItemOBJ i in items)
@@ -48,8 +45,8 @@ public class Location : MonoBehaviour
 
             sceneImg.sprite = this.sprite;
         }
-
-        this.leave();
+        this.isMade = true;
+        if(_leave) this.leave();
     }
 
     public int takeItem(string[] item,ref Item i)
@@ -97,11 +94,19 @@ public class Location : MonoBehaviour
 
     public void enter()
     {
-        foreach(ItemOBJ item in items)
+        if (isMade)
         {
-            item.gameObject.SetActive(true);
+            foreach (ItemOBJ item in items)
+            {
+                item.gameObject.SetActive(true);
+            }
+            this.GetComponent<SpriteRenderer>().enabled = true;
         }
-        this.GetComponent<SpriteRenderer>().enabled = true;
+        else
+        {
+            makeLocation(false);
+            enter();
+        }
     }
 
     public void leave()

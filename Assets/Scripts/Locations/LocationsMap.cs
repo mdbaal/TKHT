@@ -9,7 +9,7 @@ public class LocationsMap : MonoBehaviour
     [SerializeField]
     private Location currentLocation = null;
 
-    private void Awake()
+    private void Start()
     {
         getAllLocations();
     }
@@ -81,12 +81,15 @@ public class LocationsMap : MonoBehaviour
     private void getAllLocations()
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
-        currentLocation = _locations[0];
-        currentLocation.enter();
+        
         foreach(Location l in _locations)
         {
+            l.makeLocation(true);
             locations.Add(l.name, l);
         }
+
+        currentLocation = _locations[0];
+        currentLocation.enter();
     }
 
 }
