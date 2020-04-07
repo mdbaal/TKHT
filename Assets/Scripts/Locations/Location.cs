@@ -100,6 +100,10 @@ public class Location : MonoBehaviour
             {
                 item.gameObject.SetActive(true);
             }
+            foreach(Enemy enemy in enemies)
+            {
+                enemy.gameObject.SetActive(true);
+            }
             this.GetComponent<SpriteRenderer>().enabled = true;
         }
         else
@@ -114,6 +118,10 @@ public class Location : MonoBehaviour
         foreach (ItemOBJ item in items)
         {
             item.gameObject.SetActive(false);
+        }
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.gameObject.SetActive(false);
         }
         this.GetComponent<SpriteRenderer>().enabled = false;
     }
