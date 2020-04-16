@@ -15,7 +15,7 @@ public class Location : MonoBehaviour
 
     private ItemOBJ[] items;
 
-    private Enemy[] enemies;
+    private EnemyOBJ[] enemies;
     private bool isMade = false;
 
     
@@ -32,7 +32,7 @@ public class Location : MonoBehaviour
     public void makeLocation(bool _leave)
     {
         items = this.GetComponentsInChildren<ItemOBJ>();
-        enemies = this.GetComponentsInChildren<Enemy>();
+        enemies = this.GetComponentsInChildren<EnemyOBJ>();
 
         foreach(ItemOBJ i in items)
         {
@@ -100,7 +100,7 @@ public class Location : MonoBehaviour
             {
                 item.gameObject.SetActive(true);
             }
-            foreach(Enemy enemy in enemies)
+            foreach(EnemyOBJ enemy in enemies)
             {
                 enemy.gameObject.SetActive(true);
             }
@@ -119,7 +119,7 @@ public class Location : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        foreach (Enemy enemy in enemies)
+        foreach (EnemyOBJ enemy in enemies)
         {
             enemy.gameObject.SetActive(false);
         }
@@ -133,11 +133,11 @@ public class Location : MonoBehaviour
 
     public Enemy getEnemy(string enem)
     {
-        foreach(Enemy e in enemies)
+        foreach(EnemyOBJ e in enemies)
         {
             if (e.name.Equals(enem))
             {
-                return e;
+                return e.enemy;
             }
         }
         return null;

@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     IEnumerator setPlayerValues()
     {
         yield return new WaitUntil(() => gameState.player != null);
-        fullHealth = gameState.player.Health;
+        fullHealth = gameState.player.health;
         updatePlayerHealth(ref gameState.player);
     }
 
@@ -126,15 +126,15 @@ public class UIManager : MonoBehaviour
         Image healthImg = playerHealth.GetComponentsInChildren<Image>()[1];
         Text healthText = playerHealth.GetComponentInChildren<Text>();
 
-        if (player.Health < 0)
+        if (player.health < 0)
         {
             healthText.text = "Health: 0";
             healthImg.rectTransform.localScale = new Vector3(0, 1,1);
         }
         else
         {
-            healthText.text = "Health: " + player.Health.ToString();
-            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.Health, 1,1);
+            healthText.text = "Health: " + player.health.ToString();
+            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.health, 1,1);
         }
 
     }

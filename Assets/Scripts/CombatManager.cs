@@ -50,7 +50,7 @@ public class CombatManager : MonoBehaviour
             {
                 case "Attack":
                     outputManager.outputMessage("You attack");
-                    result = player.doDamage(ref this.enemy, out dmgDone);
+                    result = player.doDamage(this.enemy, out dmgDone);
                     if (result == 0)
                     {
                         outputManager.outputMessage("You didn't do any damage");
@@ -68,7 +68,7 @@ public class CombatManager : MonoBehaviour
                     else if (result == 2)
                     {
                         outputManager.outputMessage("You hit with a fininshing blow");
-                        Destroy(enemy.gameObject);
+                        enemy.die();
                         endCombat();
                         combatCallback(0);
                     }
@@ -104,7 +104,7 @@ public class CombatManager : MonoBehaviour
         else
         {
             outputManager.outputMessage(enemy.name + " attacks");
-            result = enemy.doDamage(ref player, out dmgDone);
+            result = enemy.doDamage(player, out dmgDone);
 
             if (result == -1 || result == 0)
             {
