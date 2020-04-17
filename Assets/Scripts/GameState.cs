@@ -6,7 +6,7 @@ public class GameState : ScriptableObject
 {
     public Player player = new Player();
 
-    public List<Item> questItemsCollected =  new List<Item>();
+    public List<QuestItem> questItemsCollected =  new List<QuestItem>();
 
     public Location currentLocation;
 
@@ -19,7 +19,7 @@ public class GameState : ScriptableObject
     public bool finishedTutorial = false;
 
 
-    public int addToQuestItems(Item item)
+    public int addToQuestItems(QuestItem item)
     {
 
         questItemsCollected.Add(item);
@@ -49,7 +49,7 @@ public class GameState : ScriptableObject
     {
         player = new Player();
 
-        questItemsCollected = new List<Item>();
+        questItemsCollected = new List<QuestItem>();
 
         currentLocation = null;
 

@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitUntil(() => gameState.player != null);
         fullHealth = gameState.player.health;
-        updatePlayerHealth(ref gameState.player);
+        updatePlayerHealth( gameState.player);
     }
 
 
@@ -85,13 +85,13 @@ public class UIManager : MonoBehaviour
     {
         
         removeFromPlayerInventory(item);
-        if (item.equipLeft)
+        if (item.GetType() == typeof(Weapon))
         {
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
            img.sprite = item.sprite;
             img.enabled = true;
         }
-        else
+        else if(item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
             img.sprite = item.sprite;
@@ -102,13 +102,13 @@ public class UIManager : MonoBehaviour
     public void removeFromEquiped(Item item)
     {
         addToPlayerInventory(item);
-        if (item.equipLeft)
+        if (item.GetType() == typeof(Weapon))
         {
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
             img.sprite = null;
             img.enabled = false;
         }
-        else
+        else if(item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
             img.sprite = null;
@@ -116,7 +116,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void updatePlayerHealth(ref Player player)
+    public void updatePlayerHealth( Player player)
     {
         if(fullHealth == 0)
         {

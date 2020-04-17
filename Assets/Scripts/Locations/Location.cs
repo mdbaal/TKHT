@@ -49,10 +49,10 @@ public class Location : MonoBehaviour
         if(_leave) this.leave();
     }
 
-    public int takeItem(string[] item,ref Item i)
+    public int takeItem(string[] item,out Item i)
     {
-        
-        if (inventory.takeItem(item, ref i) == 0) return 0;
+        i = null;
+        if (inventory.takeItem(item,  out i) == 0) return 0;
         //is it in scene?
         foreach(ItemOBJ iObj in items)
         {

@@ -9,8 +9,8 @@ public class EnemyOBJ : MonoBehaviour
     public Sprite _sprite;
     public string _name;
     public int _maxHealth;
-    public Item _weapon;
-    public Item _shield;
+    public Weapon _weapon;
+    public Shield _shield;
 
     public Item[] loot;
 

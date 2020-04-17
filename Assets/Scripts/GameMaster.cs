@@ -96,6 +96,7 @@ public class GameMaster : MonoBehaviour
     {
         int result = 0; //give back result
         Item item = null; //item to use
+        string itemName = "";
 
         if (gameState.inCombat)
         {
@@ -155,7 +156,7 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You don't have enough space");
                 }
                 //get the item
-                result = locationsMap.GetLocation().takeItem(target, ref item);
+                result = locationsMap.GetLocation().takeItem(target,  out item);
 
                 if (result == 0)
                 {
@@ -163,11 +164,11 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == 1)
                 {
-                    gameState.player.giveItem(item);
+                   result = gameState.player.giveItem(item);
                     uIManager.addToPlayerInventory(item);
-                    if (item.isQuestItem)
+                    if (item.GetType() == typeof(QuestItem))
                     {
-                        int i =  gameState.addToQuestItems(item);
+                        int i =  gameState.addToQuestItems((QuestItem)item);
                         uIManager.UpdateObjectiveText(i);
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
                         if (gameState.allQuestItemsCollected)
@@ -193,7 +194,7 @@ public class GameMaster : MonoBehaviour
                 }
 
                 //drop the item
-                result = gameState.player.takeItem(target, ref item);
+                result = gameState.player.takeItem(target,  out item);
 
                 if (result == 0)
                 {
@@ -227,8 +228,8 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Equip":
 
-                result = gameState.player.equip(target, ref item);
-
+                result = gameState.player.equip(target,out item);
+                
                 if (result == 0)
                 {
                     outputManager.outputMessage("You can't equip that item");
@@ -244,7 +245,7 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Unequip":
-                result = gameState.player.unEquip(target, ref item);
+                result = gameState.player.unEquip(target,  out item);
 
                 if (result == 0)
                 {
@@ -257,19 +258,20 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Use":
-                result = gameState.player.use(target,out item);
+                Food _item;
+                result = gameState.player.use(target,out _item);
 
                 if (result == -1 || result == 0)
                 {
                     outputManager.outputMessage("That isn't a usable item");
                 }else if(result == 1)
                 {
-                    uIManager.removeFromPlayerInventory(item);
-                    uIManager.updatePlayerHealth(ref gameState.player);
-                    outputManager.outputMessage("You used " + item.name);
+                    uIManager.removeFromPlayerInventory(_item);
+                    uIManager.updatePlayerHealth( gameState.player);
+                    outputManager.outputMessage("You used " + _item.name);
                 }else if(result == 2)
                 {
-                    outputManager.outputMessage("You are alreadt at full health");
+                    outputManager.outputMessage("You are already at full health");
                 }
                 break;
         }

@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    
+
     public Player()
     {
         this.maxHealthAndHealth = 10;
     }
 
-    public override int takeItem(string[] item, ref Item outItem)
+    
+    public int giveItem(string[] item, out QuestItem outItem)
     {
-        int i = _inventory.takeItem(item, ref outItem);
-
-        if (outItem.isQuestItem)
+        outItem = null;
+        int r = _inventory.addItem(outItem);
+        if(r == 0)
         {
-            _inventory.addItem(outItem);
-            return -1;
+            return 0;
         }
+        return 1;
+    }
+
+    public int takeItem(string[] item, out Food outItem)
+    {
+        Item _item = null;
+        int i = _inventory.takeItem(item, out _item);
+
+        outItem = (Food)_item;
 
         return i;
     }
@@ -28,33 +37,30 @@ public class Player : Entity
         return _inventory.hasSpace();
     }
 
-    public int equip(string[] item, ref Item outItem)
+    public int equip(string[] item, out Item outItem)
     {
         Item i = null;
-
-        if (this.takeItem(item, ref i) == 0)
+        outItem = null;
+        if (this.takeItem(item, out i) == 0)
         {
             return 0;
         }
-
-        if (i.equipable)
+        if (i.GetType() == typeof(Weapon))
         {
-            if (i.equipLeft)
-            {
-                weapon = i;
-            }
-            else
-            {
-                shield = i;
-            }
-            outItem = i;
-            return 1;
+            weapon = (Weapon) i;
+        }
+        else if (i.GetType() == typeof(Shield))
+        {
+            shield = (Shield) i;
         }
 
-        return 0;
+
+        outItem = i;
+        return 1;
+
     }
 
-    public int unEquip(string[] item, ref Item outItem)
+    public int unEquip(string[] item,out Item outItem)
     {
 
         string _item = "";
@@ -63,14 +69,14 @@ public class Player : Entity
             _item += s + " ";
         }
         _item = _item.Trim();
-
+        outItem = null;
         Item i = null;
+
         if (weapon.name == _item)
         {
             i = weapon;
             weapon = null;
-        }
-        else if (shield.name == _item)
+        }else if (shield.name == _item)
         {
             i = shield;
             shield = null;
@@ -84,5 +90,19 @@ public class Player : Entity
         outItem = i;
 
         return 1;
+    }
+
+    public int use(string[] item, out Food outItem)
+    {
+    
+        outItem = null;
+        if (health == maxHealth) return 2;
+
+        int r = this.takeItem(item, out outItem);
+        if (r == 0) return r;
+        this.health += outItem.healingPoints;
+
+        return r;
+
     }
 }

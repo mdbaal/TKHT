@@ -89,7 +89,7 @@ public class CombatManager : MonoBehaviour
                         break;
                     }
                     outputManager.outputMessage("You defend");
-                    player.defending = true;
+                    player.isDefending = true;
                     playerTurn = false;
                     combatCallback(-1);
                     StartCoroutine(waitBeforeComputerAction());
@@ -114,12 +114,12 @@ public class CombatManager : MonoBehaviour
             } else if (result == 1)
             {
                 outputManager.outputMessage("You took " + dmgDone + " damage");
-                uIManager.updatePlayerHealth(ref player);
+                uIManager.updatePlayerHealth( player);
                 playerTurn = true;
                 combatCallback(-1);
             } else if (result == 2) {
                 outputManager.outputMessage("You have been killed");
-                uIManager.updatePlayerHealth(ref player);
+                uIManager.updatePlayerHealth( player);
                 endCombat();
                 combatCallback(3);
             }else if (result == 3)

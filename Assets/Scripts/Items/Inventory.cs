@@ -8,9 +8,10 @@ public class Inventory
 
     private int inventorySpace = 9;
 
-    public int takeItem(string[] item,ref Item outItem)
+    public int takeItem(string[] item, out Item outItem)
     {
         string _item = "";
+        outItem = null;
         foreach (string s in item)
         {
             _item += s + " ";
@@ -21,10 +22,10 @@ public class Inventory
 
         Item i = _inventory[_item];
         if (i == null) return 0;
-            outItem = i;
+        outItem = i;
         _inventory.Remove(_item);
-            return 1;
-        
+        return 1;
+
     }
 
     public int addItem(Item item)
@@ -51,13 +52,13 @@ public class Inventory
     public override string ToString()
     {
         string _temp = "  - ";
-        Dictionary<string, Item>.KeyCollection _keys  =  _inventory.Keys;
+        Dictionary<string, Item>.KeyCollection _keys = _inventory.Keys;
 
         foreach (string s in _keys)
         {
-          _temp += s + "\n  - ";
+            _temp += s + "\n  - ";
         }
-       _temp = _temp.TrimEnd('-',' ');
+        _temp = _temp.TrimEnd('-', ' ');
 
         return _temp;
     }
