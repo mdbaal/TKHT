@@ -9,7 +9,7 @@ public class Location : MonoBehaviour
     public string description;
 
     public Sprite sprite;
-    private Inventory inventory = new Inventory();
+    private Inventory _inventory = new Inventory();
 
     public Location[] neighbours;
 
@@ -17,8 +17,10 @@ public class Location : MonoBehaviour
 
     private EnemyOBJ[] enemies;
     private bool isMade = false;
+    public bool PlayerVisited = false;
 
-    
+    public ItemOBJ[] Items { get => items; set => items = value; }
+    public EnemyOBJ[] Enemies { get => enemies; set => enemies = value; }
 
     public bool hasNeighbour(string l)
     {
@@ -29,14 +31,17 @@ public class Location : MonoBehaviour
         return false;
     }
 
-    public void makeLocation(bool _leave)
+    public void makeLocation(bool _leave,bool fromSave)
     {
-        items = this.GetComponentsInChildren<ItemOBJ>();
-        enemies = this.GetComponentsInChildren<EnemyOBJ>();
+        if (!fromSave)
+        {
+            items = this.GetComponentsInChildren<ItemOBJ>();
+            enemies = this.GetComponentsInChildren<EnemyOBJ>();
+        }
 
         foreach(ItemOBJ i in items)
         {
-            inventory.addItem(i.item);
+            _inventory.addItem(i.item);
         }
 
         if (this.sprite != null)
@@ -52,7 +57,7 @@ public class Location : MonoBehaviour
     public int takeItem(string[] item,out Item i)
     {
         i = null;
-        if (inventory.takeItem(item,  out i) == 0) return 0;
+        if (_inventory.takeItem(item,  out i) == 0) return 0;
         //is it in scene?
         foreach(ItemOBJ iObj in items)
         {
@@ -67,7 +72,7 @@ public class Location : MonoBehaviour
 
     public int dropItem(Item item)
     {
-        int result = inventory.addItem(item);
+        int result = _inventory.addItem(item);
         if ( result== 1)
         {
             foreach (ItemOBJ iObj in items)
@@ -89,7 +94,7 @@ public class Location : MonoBehaviour
 
     public string listItems()
     {
-        return inventory.ToString();
+        return _inventory.ToString();
     }
 
     public void enter()
@@ -108,7 +113,7 @@ public class Location : MonoBehaviour
         }
         else
         {
-            makeLocation(false);
+            makeLocation(false,false);
             enter();
         }
     }
@@ -121,6 +126,7 @@ public class Location : MonoBehaviour
         }
         foreach (EnemyOBJ enemy in enemies)
         {
+            if(enemy != null)
             enemy.gameObject.SetActive(false);
         }
         this.GetComponent<SpriteRenderer>().enabled = false;
@@ -128,7 +134,7 @@ public class Location : MonoBehaviour
 
     public bool hasSpace()
     {
-        return inventory.hasSpace();
+        return _inventory.hasSpace();
     }
 
     public Enemy getEnemy(string enem)
@@ -141,6 +147,22 @@ public class Location : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public ItemOBJ[] getInventoryItems()
+    {
+        return items;
+    }
+
+    public EnemyOBJ[] getEnemies()
+    {
+        List<EnemyOBJ> enemyOBJs = new List<EnemyOBJ>();
+
+        foreach (EnemyOBJ eo in enemies)
+        {
+            if (eo != null) enemyOBJs.Add(eo);
+        }
+        return enemyOBJs.ToArray();
     }
 
 }

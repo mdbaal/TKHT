@@ -89,4 +89,8 @@ public class Entity
         this.dieFunction();
     }
 
+    public Item[] getInventoryItems()
+    {
+        return _inventory.getItems();
+    }
 }

@@ -17,6 +17,8 @@ public class GameMaster : MonoBehaviour
     [Header("CombatManager")]
     public CombatManager combatManager;
 
+    private SaveLoadManager saveLoadManager = new SaveLoadManager();
+
     private string action = "";
 
     private string[] target;
@@ -28,6 +30,17 @@ public class GameMaster : MonoBehaviour
         {
             uIManager.startTutorial();
         }
+        if (gameState.allQuestItemsCollected)
+        {
+            StartCoroutine(playerWon());   
+        }
+        if (gameState.inCombat)
+        {
+            gameState.inCombat = false;
+            gameState.readyForPlayerInput = true;
+        }
+        if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
+       
     }
 
 
@@ -96,7 +109,6 @@ public class GameMaster : MonoBehaviour
     {
         int result = 0; //give back result
         Item item = null; //item to use
-        string itemName = "";
 
         if (gameState.inCombat)
         {
@@ -120,7 +132,7 @@ public class GameMaster : MonoBehaviour
                 if (result == 1)
                 {
                     outputManager.outputMessage("You went to " + locationsMap.getLocationName());
-                    gameState.currentLocation = locationsMap.GetLocation();
+                    gameState.currentLocation = locationsMap.getLocation();
                 }
                 else if (result == 0)
                 {
@@ -143,7 +155,7 @@ public class GameMaster : MonoBehaviour
                 }
                 gameState.inCombat = true;
                 outputManager.outputMessage("Attacking " + target[0]);
-                combatManager.startCombat(locationsMap.GetLocation().getEnemy(target[0]), new CombatManager.CombatCallback(this.checkCombatResult));
+                combatManager.startCombat(locationsMap.getLocation().getEnemy(target[0]), new CombatManager.CombatCallback(this.checkCombatResult));
                 break;
             case "Take":
                 if (target.Length == 0)
@@ -156,7 +168,7 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You don't have enough space");
                 }
                 //get the item
-                result = locationsMap.GetLocation().takeItem(target,  out item);
+                result = locationsMap.getLocation().takeItem(target,  out item);
 
                 if (result == 0)
                 {
@@ -173,7 +185,7 @@ public class GameMaster : MonoBehaviour
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
                         if (gameState.allQuestItemsCollected)
                         {
-                            StartCoroutine(PlayerWon());
+                            StartCoroutine(playerWon());
                         }
                     }
                     else{
@@ -188,7 +200,7 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You dropped some air");
                     break;
                 }
-                if (!locationsMap.GetLocation().hasSpace())
+                if (!locationsMap.getLocation().hasSpace())
                 {
                     outputManager.outputMessage("There is no place to put this");
                 }
@@ -202,7 +214,7 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == 1)
                 {
-                    locationsMap.GetLocation().dropItem(item);
+                    locationsMap.getLocation().dropItem(item);
                     uIManager.removeFromPlayerInventory(item);
                     outputManager.outputMessage("You dropped " + item.name);
                 }
@@ -274,11 +286,20 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You are already at full health");
                 }
                 break;
+            case "Save":
+                this.saveGame();
+                outputManager.outputMessage("Game saved");
+                break;
+            case "Load":
+                this.loadGame();
+                outputManager.clear();
+                outputManager.outputMessage("Game loaded");
+                break;
         }
 
         clearForNew();
     }
-    IEnumerator PlayerWon()
+    IEnumerator playerWon()
     {
         uIManager.showEndscreen(1);
         yield return new WaitForSeconds(1f);
@@ -308,6 +329,17 @@ public class GameMaster : MonoBehaviour
         uIManager.closeEndScreen();
         quitGame();
     }
+
+    public void saveGame()
+    {
+        saveLoadManager.save(this.gameState, this.locationsMap);
+    }
+
+    public void loadGame()
+    {
+        saveLoadManager.load(this.gameState, this.locationsMap,this.uIManager);
+    }
+
 
 
     private void clearForNew()

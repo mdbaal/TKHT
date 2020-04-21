@@ -1,0 +1,2 @@
+{"health":10,"maxHealth":10,"weapon":"","shield":"","inventory":[{"name":"Bread","position":[0.0,0.0,0.0]}],"currentLocation":"City Gate"}
+{"locations":[{"locationName":"City Gate","items":[{"name":"Sword","position":[-9.529999732971192,0.75,0.0]},{"name":"Shield","position":[-12.829999923706055,1.1800000667572022,0.0]},{"name":"Dagger","position":[-7.569999694824219,0.9700000286102295,0.0]}],"enemies":[{"name":"Guard","maxHealth":10,"weapon":"Dagger","shield":"","sprite":"Helmet","position":[-11.949999809265137,2.1100001335144045,0.0]}]}]}

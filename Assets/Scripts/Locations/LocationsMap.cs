@@ -11,7 +11,7 @@ public class LocationsMap : MonoBehaviour
 
     private void Start()
     {
-        getAllLocations();
+        getAllLocationsFromScene();
     }
 
     public int move(string[] newloc)
@@ -32,6 +32,7 @@ public class LocationsMap : MonoBehaviour
                 old.leave();
                 currentLocation = locations[_newloc];
                 currentLocation.enter();
+                currentLocation.PlayerVisited = true;
                 
                 return 1;
             }
@@ -50,6 +51,9 @@ public class LocationsMap : MonoBehaviour
     {
         return currentLocation.name;
     }
+
+
+    
 
     public string getLocationDescription()
     {
@@ -73,23 +77,38 @@ public class LocationsMap : MonoBehaviour
         return currentLocation.getDescription();
     }
 
-    public Location GetLocation()
+    public Location getLocation()
     {
         return currentLocation;
     }
 
-    private void getAllLocations()
+    public Location getLocation(string locName)
+    {
+        foreach (Location l in locations.Values)
+        {
+            if (l.name == locName) return l;
+        }
+        return null;
+    }
+
+    private void getAllLocationsFromScene()
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
         
         foreach(Location l in _locations)
         {
-            l.makeLocation(true);
+            l.makeLocation(true,false);
             locations.Add(l.name, l);
         }
 
         currentLocation = _locations[0];
         currentLocation.enter();
+        currentLocation.PlayerVisited = true;
+    }
+
+    public Location[] getAllLocations()
+    {
+        return this.GetComponentsInChildren<Location>();
     }
 
 }

@@ -63,4 +63,17 @@ public class Inventory
         return _temp;
     }
 
+    public Item[] getItems()
+    {
+        Dictionary<string, Item>.KeyCollection _keys = _inventory.Keys;
+        List<Item> items = new List<Item>();
+
+        foreach(string s in _keys)
+        {
+            items.Add(_inventory[s]);
+        }
+        
+        return items.ToArray();
+    }
+
 }

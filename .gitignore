@@ -15,6 +15,7 @@
 /[Aa]ssets/[Ss]cenes/
 /[Aa]ssets/[Ff]onts/
 /[Aa]ssets/[Pp]refabs/
+/[Aa]ssets/[Rr]esources/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
