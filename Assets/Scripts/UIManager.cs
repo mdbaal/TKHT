@@ -32,6 +32,10 @@ public class UIManager : MonoBehaviour
     public Text EndscreenTitle;
     public Text EndscreenText;
 
+    [Header("Minimap")]
+    public Image[] mapPoints;
+    int currentActivePoint = 0;
+
 
     private void Start()
     {
@@ -205,5 +209,37 @@ public class UIManager : MonoBehaviour
         Endscreen.SetActive(false);
         EndscreenTitle.text = string.Empty;
         EndscreenText.text = string.Empty;
+    }
+
+    public void UpdateMinimap(string loc)
+    {
+        switch (loc)
+        {
+            case "City Gate":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[0].enabled = true;
+                currentActivePoint = 0;
+                break;
+            case "Store":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[1].enabled = true;
+                currentActivePoint = 1;
+                break;
+            case "Smithy":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[2].enabled = true;
+                currentActivePoint = 2;
+                break;
+            case "Castle Gate":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[3].enabled = true;
+                currentActivePoint = 3;
+                break;
+            case "Castle Entrance":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[4].enabled = true;
+                currentActivePoint = 4;
+                break;
+        }
     }
 }

@@ -133,6 +133,7 @@ public class GameMaster : MonoBehaviour
                 {
                     outputManager.outputMessage("You went to " + locationsMap.getLocationName());
                     gameState.currentLocation = locationsMap.getLocation();
+                    uIManager.UpdateMinimap(gameState.currentLocation.name);
                 }
                 else if (result == 0)
                 {
