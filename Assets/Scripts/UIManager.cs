@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     public Text EndscreenText;
 
     [Header("Minimap")]
+    public Image mapImage;
+    public Sprite[] mapImages;
     public Image[] mapPoints;
     int currentActivePoint = 0;
 
@@ -237,9 +239,63 @@ public class UIManager : MonoBehaviour
                 break;
             case "Castle Entrance":
                 mapPoints[currentActivePoint].enabled = false;
-                mapPoints[4].enabled = true;
-                currentActivePoint = 4;
+
+                if (currentActivePoint > 4)
+                {
+                    mapPoints[4].enabled = true;
+                    currentActivePoint = 4;
+                }
+                else
+                {
+                    mapPoints[5].enabled = true;
+                    currentActivePoint = 5;
+                }
+                
+                
                 break;
+            case "Castle Hall":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[6].enabled = true;
+                currentActivePoint = 6;
+                break;
+            case "Throne Room":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[7].enabled = true;
+                currentActivePoint = 7;
+                break;
+            case "Kitchen Hall":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[8].enabled = true;
+                currentActivePoint = 8;
+                break;
+            case "Chamber Hall":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[9].enabled = true;
+                currentActivePoint = 9;
+                break;
+            case "Treasure Room":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[10].enabled = true;
+                currentActivePoint = 10;
+                break;
+            case "Kitchen":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[10].enabled = true;
+                currentActivePoint = 11;
+                break;
+            case "Royal Chambers":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[11].enabled = true;
+                currentActivePoint = 12;
+                break;
+        }
+        if(currentActivePoint < 5)
+        {
+            if (mapImage.sprite != mapImages[0]) mapImage.sprite = mapImages[0];
+        }
+        else
+        {
+            if (mapImage.sprite != mapImages[1]) mapImage.sprite = mapImages[1];
         }
     }
 }
