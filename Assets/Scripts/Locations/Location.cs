@@ -107,7 +107,10 @@ public class Location : MonoBehaviour
             }
             foreach(EnemyOBJ enemy in enemies)
             {
-                enemy.gameObject.SetActive(true);
+                if (enemy != null)
+                {
+                    enemy.gameObject.SetActive(true);
+                }
             }
             this.GetComponent<SpriteRenderer>().enabled = true;
         }
