@@ -210,13 +210,13 @@ public class SaveLoadManager
 
             List<ItemOBJ> itemObjs = new List<ItemOBJ>();
 
-            foreach (ItemOBJ itemOBJ in l.Items)
+            foreach (ItemOBJ itemOBJ in l.items)
             {
                 Item i = null;
                 l.takeItem(new string[] { itemOBJ.item.name },out i);
                 GameObject.Destroy(itemOBJ.gameObject);
             }
-            l.Items = null;
+            l.items = null;
 
 
             foreach (ItemData id in ld.items)
@@ -229,17 +229,17 @@ public class SaveLoadManager
                 itemObjs.Add(io);
             }
 
-            l.Items = itemObjs.ToArray();
+            l.items = itemObjs.ToArray();
 
             List<EnemyOBJ> enemyObjs = new List<EnemyOBJ>();
 
 
-            foreach (EnemyOBJ enemyOBJ in l.Enemies)
+            foreach (EnemyOBJ enemyOBJ in l.enemies)
             {
                 GameObject.Destroy(enemyOBJ.gameObject);
             }
 
-            l.Enemies = null;
+            l.enemies = null;
 
             foreach (EnemyData ed in ld.enemies)
             {
@@ -257,7 +257,7 @@ public class SaveLoadManager
                 enemyObjs.Add(eo);
             }
 
-            l.Enemies = enemyObjs.ToArray();
+            l.enemies = enemyObjs.ToArray();
 
             l.makeLocation(false, true);
 

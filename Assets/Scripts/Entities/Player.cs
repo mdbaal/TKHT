@@ -8,7 +8,7 @@ public class Player : Entity
     public Player()
     {
         this.maxHealthAndHealth = 10;
-       
+        gold = 10;
     }
 
 

@@ -17,7 +17,10 @@ public class GameMaster : MonoBehaviour
     [Header("CombatManager")]
     public CombatManager combatManager;
 
+    private TradeManager tradeManager = new TradeManager();
+
     private SaveLoadManager saveLoadManager = new SaveLoadManager();
+
 
     private string action = "";
 
@@ -32,7 +35,7 @@ public class GameMaster : MonoBehaviour
         }
         if (gameState.allQuestItemsCollected)
         {
-            StartCoroutine(playerWon());   
+            StartCoroutine(playerWon());
         }
         if (gameState.inCombat)
         {
@@ -40,7 +43,7 @@ public class GameMaster : MonoBehaviour
             gameState.readyForPlayerInput = true;
         }
         if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
-       
+        if (gameState.isTrading) gameState.isTrading = false;
     }
 
 
@@ -53,26 +56,27 @@ public class GameMaster : MonoBehaviour
 
         action = words[0];
         words.Remove(action);
-        if(!gameState.inCombat)
-        target = words.ToArray();
-       
-            if (checkCommand() || checkCombatCommand())
-            {
-                string stringOut = action;
 
-                foreach (string s in target)
-                {
-                    stringOut += " " + s;
-                }
-                outputManager.outputMessage(stringOut);
-                doAction();
-            }
-            else
+        if (!gameState.inCombat)
+            target = words.ToArray();
+
+        if (checkCommand() || checkCombatCommand() || checkTradeCommand())
+        {
+            string stringOut = action;
+
+            foreach (string s in target)
             {
-                outputManager.outputMessage("You cannot do this");
-                clearForNew();
-                return -1;
+                stringOut += " " + s;
             }
+            outputManager.outputMessage(stringOut);
+            doAction();
+        }
+        else
+        {
+            outputManager.outputMessage("You cannot do this");
+            clearForNew();
+            return -1;
+        }
 
         return 1;
     }
@@ -86,6 +90,14 @@ public class GameMaster : MonoBehaviour
     {
         return commands.checkCombatCommand(action);
     }
+
+    private bool checkTradeCommand()
+    {
+        return commands.checkTradeCommand(action);
+    }
+
+
+
     private void checkCombatResult(int r)
     {
 
@@ -117,7 +129,40 @@ public class GameMaster : MonoBehaviour
             return;
         }
 
-        
+        if (gameState.isTrading)
+        {
+            outputManager.outputMessage("---------------------------------");
+            result = tradeManager.trade(action, target, out item);
+            if (result == 0) outputManager.outputMessage("That item doesn't exist");
+            if (result == -1) outputManager.outputMessage("You already have that item in your inventory");
+            if (result == -2) outputManager.outputMessage("That isn't a trade command");
+            if (result == -3) outputManager.outputMessage("You don't have enough gold");
+            if (result == -4) outputManager.outputMessage("The trader doesn't have enough gold");
+            if (result == -5) outputManager.outputMessage("You can't sell a quest item");
+            if (result == 1) {
+                outputManager.outputMessage("You have bought " + item.name + " for " + item.worth + " gold");
+                uIManager.addToPlayerInventory(item); uIManager.updateGold();
+
+                if (item.GetType() == typeof(QuestItem))
+                {
+                    int i = gameState.addToQuestItems((QuestItem)item);
+                    uIManager.UpdateObjectiveText(i);
+                    outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
+                    if (gameState.allQuestItemsCollected)
+                    {
+                        StartCoroutine(playerWon());
+                    }
+                }
+            }
+            if (result == 2) { outputManager.outputMessage("You have sold " + item.name + " for " + item.worth + " gold"); uIManager.removeFromPlayerInventory(item); uIManager.updateGold(); }
+            if (result == 3) { gameState.isTrading = false; outputManager.outputMessage("You left the trader"); }
+
+            if(result != 3) outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
+            clearForNew();
+            return;
+        }
+
+
 
         switch (action)
         {
@@ -169,7 +214,7 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You don't have enough space");
                 }
                 //get the item
-                result = locationsMap.getLocation().takeItem(target,  out item);
+                result = locationsMap.getLocation().takeItem(target, out item);
 
                 if (result == 0)
                 {
@@ -177,11 +222,11 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == 1)
                 {
-                   result = gameState.player.giveItem(item);
+                    result = gameState.player.giveItem(item);
                     uIManager.addToPlayerInventory(item);
                     if (item.GetType() == typeof(QuestItem))
                     {
-                        int i =  gameState.addToQuestItems((QuestItem)item);
+                        int i = gameState.addToQuestItems((QuestItem)item);
                         uIManager.UpdateObjectiveText(i);
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
                         if (gameState.allQuestItemsCollected)
@@ -189,7 +234,8 @@ public class GameMaster : MonoBehaviour
                             StartCoroutine(playerWon());
                         }
                     }
-                    else{
+                    else
+                    {
                         outputManager.outputMessage("You took " + item.name);
                     }
                 }
@@ -207,7 +253,7 @@ public class GameMaster : MonoBehaviour
                 }
 
                 //drop the item
-                result = gameState.player.takeItem(target,  out item);
+                result = gameState.player.takeItem(target, out item);
 
                 if (result == 0)
                 {
@@ -219,7 +265,7 @@ public class GameMaster : MonoBehaviour
                     uIManager.removeFromPlayerInventory(item);
                     outputManager.outputMessage("You dropped " + item.name);
                 }
-                else if(result == -1)
+                else if (result == -1)
                 {
                     outputManager.outputMessage("You can't drop quest items");
                 }
@@ -241,8 +287,8 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Equip":
 
-                result = gameState.player.equip(target,out item);
-                
+                result = gameState.player.equip(target, out item);
+
                 if (result == 0)
                 {
                     outputManager.outputMessage("You can't equip that item");
@@ -258,7 +304,7 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Unequip":
-                result = gameState.player.unEquip(target,  out item);
+                result = gameState.player.unEquip(target, out item);
 
                 if (result == 0)
                 {
@@ -272,17 +318,19 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Use":
                 Food _item;
-                result = gameState.player.use(target,out _item);
+                result = gameState.player.use(target, out _item);
 
                 if (result == -1 || result == 0)
                 {
                     outputManager.outputMessage("That isn't a usable item");
-                }else if(result == 1)
+                }
+                else if (result == 1)
                 {
                     uIManager.removeFromPlayerInventory(_item);
-                    uIManager.updatePlayerHealth( gameState.player);
+                    uIManager.updatePlayerHealth(gameState.player);
                     outputManager.outputMessage("You used " + _item.name);
-                }else if(result == 2)
+                }
+                else if (result == 2)
                 {
                     outputManager.outputMessage("You are already at full health");
                 }
@@ -295,6 +343,12 @@ public class GameMaster : MonoBehaviour
                 this.loadGame();
                 outputManager.clear();
                 outputManager.outputMessage("Game loaded");
+                break;
+            case "Trade":
+                tradeManager.beginTrade(gameState.player, locationsMap.getLocation().getTrader());
+                gameState.isTrading = true;
+                outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
+                outputManager.outputMessage("Do you want to Buy or Sell");
                 break;
         }
 
@@ -338,7 +392,7 @@ public class GameMaster : MonoBehaviour
 
     public void loadGame()
     {
-        saveLoadManager.load(this.gameState, this.locationsMap,this.uIManager);
+        saveLoadManager.load(this.gameState, this.locationsMap, this.uIManager);
     }
 
 

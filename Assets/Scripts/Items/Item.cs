@@ -9,4 +9,6 @@ public class Item : ScriptableObject
     public string description = "";
 
     public Sprite sprite = null;
+
+    public int worth = 0;
 }

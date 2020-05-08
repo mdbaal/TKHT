@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
     public GameObject playerHealth;
     public int fullHealth = 0;
 
+    [Header("Player Gold")]
+    public Text goldText;
+
     [Header("Tutorial pop-up")]
     public GameObject tutorialPopup;
     Text[] tutorialTexts;
@@ -48,6 +51,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitUntil(() => gameState.player != null);
         fullHealth = gameState.player.health;
         updatePlayerHealth( gameState.player);
+        updateGold();
     }
 
 
@@ -297,5 +301,10 @@ public class UIManager : MonoBehaviour
         {
             if (mapImage.sprite != mapImages[1]) mapImage.sprite = mapImages[1];
         }
+    }
+
+    public void updateGold()
+    {
+        goldText.text = "Gold: " + gameState.player.gold.ToString();
     }
 }

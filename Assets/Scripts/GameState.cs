@@ -6,7 +6,7 @@ public class GameState : ScriptableObject
 {
     public Player player = new Player();
 
-    public List<QuestItem> questItemsCollected =  new List<QuestItem>();
+    public List<QuestItem> questItemsCollected = new List<QuestItem>();
 
     public Location currentLocation;
 
@@ -18,13 +18,15 @@ public class GameState : ScriptableObject
 
     public bool finishedTutorial = false;
 
+    public bool isTrading = false;
+
 
     public int addToQuestItems(QuestItem item)
     {
 
         questItemsCollected.Add(item);
 
-        if(questItemsCollected.Count == 4)
+        if (questItemsCollected.Count == 4)
         {
             allQuestItemsCollected = true;
         }
@@ -60,6 +62,6 @@ public class GameState : ScriptableObject
         allQuestItemsCollected = false;
 
         finishedTutorial = false;
-}
+    }
 
 }

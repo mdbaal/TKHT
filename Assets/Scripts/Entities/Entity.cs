@@ -15,7 +15,11 @@ public class Entity
     private Shield _shield = null;
     private bool _defending = false;
 
-    
+    private int _gold = 0;
+
+    public int gold { get => _gold; set => _gold = value; }
+
+
     public delegate void DieFunction(); //has to be public
     private DieFunction _dieFunction;
 

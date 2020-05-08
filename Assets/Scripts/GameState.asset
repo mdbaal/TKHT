@@ -18,3 +18,4 @@ MonoBehaviour:
   readyForPlayerInput: 1
   allQuestItemsCollected: 0
   finishedTutorial: 1
+  isTrading: 0
