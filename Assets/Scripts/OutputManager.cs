@@ -21,6 +21,21 @@ public class OutputManager : MonoBehaviour
         
     }
 
+    public void outputMessage(string msg,bool bold)
+    {
+        if (bold)
+        {
+            outputField.text += "> " + "<b>" + msg + "</b>" ;
+            outputField.text += "\n";
+            uIManager.outputToBottom();
+            return;
+        }
+        outputField.text += "> " + msg;
+        outputField.text += "\n";
+        uIManager.outputToBottom();
+
+    }
+
     public void clear()
     {
         outputField.text = string.Empty;

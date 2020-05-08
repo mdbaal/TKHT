@@ -133,14 +133,14 @@ public class GameMaster : MonoBehaviour
         {
             outputManager.outputMessage("---------------------------------");
             result = tradeManager.trade(action, target, out item);
-            if (result == 0) outputManager.outputMessage("That item doesn't exist");
-            if (result == -1) outputManager.outputMessage("You already have that item in your inventory");
-            if (result == -2) outputManager.outputMessage("That isn't a trade command");
-            if (result == -3) outputManager.outputMessage("You don't have enough gold");
-            if (result == -4) outputManager.outputMessage("The trader doesn't have enough gold");
-            if (result == -5) outputManager.outputMessage("You can't sell a quest item");
+            if (result == 0) outputManager.outputMessage("That item doesn't exist",true);
+            if (result == -1) outputManager.outputMessage("You already have that item in your inventory", true);
+            if (result == -2) outputManager.outputMessage("That isn't a trade command", true);
+            if (result == -3) outputManager.outputMessage("You don't have enough gold", true);
+            if (result == -4) outputManager.outputMessage("The trader doesn't have enough gold", true);
+            if (result == -5) outputManager.outputMessage("You can't sell a quest item", true);
             if (result == 1) {
-                outputManager.outputMessage("You have bought " + item.name + " for " + item.worth + " gold");
+                outputManager.outputMessage("You have bought " + item.name + " for " + item.worth + " gold", true);
                 uIManager.addToPlayerInventory(item); uIManager.updateGold();
 
                 if (item.GetType() == typeof(QuestItem))
