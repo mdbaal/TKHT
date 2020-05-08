@@ -28,22 +28,7 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-
-        if (!gameState.finishedTutorial)
-        {
-            uIManager.startTutorial();
-        }
-        if (gameState.allQuestItemsCollected)
-        {
-            StartCoroutine(playerWon());
-        }
-        if (gameState.inCombat)
-        {
-            gameState.inCombat = false;
-            gameState.readyForPlayerInput = true;
-        }
-        if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
-        if (gameState.isTrading) gameState.isTrading = false;
+        gameState.restart();
     }
 
 
@@ -147,7 +132,8 @@ public class GameMaster : MonoBehaviour
                 {
                     int i = gameState.addToQuestItems((QuestItem)item);
                     uIManager.UpdateObjectiveText(i);
-                    outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
+                    outputManager.outputMessage("It's one of the quest items!");
+
                     if (gameState.allQuestItemsCollected)
                     {
                         StartCoroutine(playerWon());
