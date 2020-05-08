@@ -183,9 +183,9 @@ public class Location : MonoBehaviour
         return enemyOBJs.ToArray();
     }
 
-    public Trader getTrader()
+    public TraderOBJ getTrader()
     {
-        return trader.trader;
+        return trader;
     }
 
 }

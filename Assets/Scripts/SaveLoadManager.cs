@@ -8,6 +8,7 @@ public class SaveLoadManager
     private Dictionary<string, Item> itemListFromResources = new Dictionary<string, Item>();
     private Dictionary<string, ItemOBJ> itemObjListFromResources = new Dictionary<string, ItemOBJ>();
     private Dictionary<string, EnemyOBJ> enemyObjListFromResources = new Dictionary<string, EnemyOBJ>();
+    private Dictionary<string, TraderOBJ> traderObjListFromResources = new Dictionary<string, TraderOBJ>();
 
     private void getObjectsFromResources()
     {
@@ -32,6 +33,13 @@ public class SaveLoadManager
             enemyObjListFromResources.Add(i.name, i);
         }
 
+        TraderOBJ[] traderOBJs = Resources.LoadAll<TraderOBJ>("Npcs/Traders/");
+
+        foreach (TraderOBJ i in traderOBJs)
+        {
+            traderObjListFromResources.Add(i.name, i);
+        }
+
     }
 
     [System.Serializable]
@@ -43,6 +51,7 @@ public class SaveLoadManager
         public string shield;
         public ItemData[] inventory;
         public string currentLocation;
+        public int gold;
     }
 
     [System.Serializable]
@@ -57,7 +66,7 @@ public class SaveLoadManager
         public string locationName;
         public ItemData[] items;
         public EnemyData[] enemies;
-
+        public TraderData trader;
     }
 
     [System.Serializable]
@@ -69,6 +78,18 @@ public class SaveLoadManager
         public string shield;
         public string sprite;
         public float[] position;
+    }
+
+    [System.Serializable]
+    public struct TraderData
+    {
+        public string name;
+        public int maxHealth;
+        public string weapon;
+        public string sprite;
+        public float[] position;
+        public int gold;
+        public ItemData[] stock;
     }
 
     [System.Serializable]
@@ -108,6 +129,8 @@ public class SaveLoadManager
         playerData.inventory = ids.ToArray();
 
         playerData.currentLocation = locationsMap.getLocationName();
+
+        playerData.gold = _player.gold;
 
         //LOCATION DATA
         Locations locations = new Locations();
@@ -153,6 +176,33 @@ public class SaveLoadManager
                     edList.Add(ed);
                 }
                 ld.enemies = edList.ToArray();
+
+
+                if (l.trader != null)
+                {
+                    TraderData td = new TraderData();
+                    TraderOBJ trader = l.getTrader();
+
+                    td.name = trader._name;
+                    td.maxHealth = trader._maxHealth;
+                    td.weapon = trader._weapon.name;
+                    td.sprite = trader._sprite.name;
+                    td.gold = trader.trader.gold;
+                    td.position = new float[] { trader.transform.position.x, trader.transform.position.y, trader.transform.position.z };
+
+                    List<ItemData> idl = new List<ItemData>();
+                    foreach (Item i in trader.stock)
+                    {
+                        ItemData id = new ItemData();
+                        id.name = i.name;
+                        id.position = new float[] { 0, 0, 0 };
+                        idl.Add(id);
+                    }
+
+                    td.stock = idl.ToArray();
+
+                    ld.trader = td;
+                }
                 lds.Add(ld);
             }
 
@@ -187,6 +237,7 @@ public class SaveLoadManager
 
         _player.health = playerData.health;
         _player.maxHealth = playerData.maxHealth;
+        _player.gold = playerData.gold;
 
         if (playerData.weapon != string.Empty && playerData.weapon != "")
             _player.weapon = (Weapon)itemListFromResources[playerData.weapon];
@@ -213,7 +264,7 @@ public class SaveLoadManager
             foreach (ItemOBJ itemOBJ in l.items)
             {
                 Item i = null;
-                l.takeItem(new string[] { itemOBJ.item.name },out i);
+                l.takeItem(new string[] { itemOBJ.item.name }, out i);
                 GameObject.Destroy(itemOBJ.gameObject);
             }
             l.items = null;
@@ -258,7 +309,28 @@ public class SaveLoadManager
             }
 
             l.enemies = enemyObjs.ToArray();
+            if (l.trader != null)
+            {
+                TraderData td = ld.trader;
 
+                TraderOBJ to = GameObject.Instantiate<TraderOBJ>(traderObjListFromResources[td.name], new Vector3(td.position[0], td.position[1], td.position[2]), Quaternion.identity);
+                to.name = td.name;
+                to._maxHealth = td.maxHealth;
+
+                if (td.weapon != string.Empty && td.weapon != "")
+                    to._weapon = (Weapon)itemListFromResources[td.weapon];
+
+                to._sprite = Resources.Load<Sprite>("/Sprites/" + td.sprite);
+
+                to.trader.gold = td.gold;
+
+                foreach (ItemData id in td.stock)
+                {
+                    to.stock.Add(itemListFromResources[id.name]);
+                }
+
+                l.trader = to;
+            }
             l.makeLocation(false, true);
 
         }
@@ -283,5 +355,8 @@ public class SaveLoadManager
         {
             uIManager.UpdateObjectiveText(gameState.questItemsCollected.IndexOf(qi));
         }
+
+        uIManager.updateGold();
+        uIManager.UpdateMinimap(gameState.currentLocation.name);
     }
 }

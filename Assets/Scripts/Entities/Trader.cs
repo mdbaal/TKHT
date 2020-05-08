@@ -45,7 +45,7 @@ public class Trader : NPC
 
     public string getListOfStock()
     {
-        string list = "This trader is offering: \nTraders gold: " + this.gold.ToString() + "\n";
+        string list = "Trading \n> Traders gold: " + this.gold.ToString() + "\n > This trader is offering: \n";
         foreach(Item i in stock)
         {
             list += "-  " + i.name +" - G " + i.worth.ToString() + "\n";

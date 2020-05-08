@@ -10,6 +10,7 @@ public class TraderOBJ : MonoBehaviour
     public string _name;
     public int _maxHealth;
     public Weapon _weapon;
+    public int _gold;
 
     public List<Item> stock;
 
@@ -23,6 +24,8 @@ public class TraderOBJ : MonoBehaviour
         this._trader.weapon = _weapon;
 
         this._trader.dieFunction = removeObject;
+
+        this._trader.gold = _gold;
 
         this._trader.stock = this.stock;
     }
