@@ -28,7 +28,23 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-        gameState.restart();
+
+        if (!gameState.finishedTutorial)
+        {
+            uIManager.startTutorial();
+        }
+        if (gameState.allQuestItemsCollected)
+        {
+            StartCoroutine(playerWon());
+        }
+        if (gameState.inCombat)
+        {
+            gameState.inCombat = false;
+            gameState.readyForPlayerInput = true;
+        }
+        if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
+
+        if (gameState.isTrading) gameState.isTrading = false;
     }
 
 
