@@ -241,9 +241,9 @@ public class UIManager : MonoBehaviour
                 mapPoints[3].enabled = true;
                 currentActivePoint = 3;
                 break;
-            case "Castle Entrance":
+            
+            case "Castle Hall":
                 mapPoints[currentActivePoint].enabled = false;
-
                 if (currentActivePoint > 4)
                 {
                     mapPoints[4].enabled = true;
@@ -254,43 +254,36 @@ public class UIManager : MonoBehaviour
                     mapPoints[5].enabled = true;
                     currentActivePoint = 5;
                 }
-                
-                
                 break;
-            case "Castle Hall":
+            case "Throne Room":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[6].enabled = true;
                 currentActivePoint = 6;
                 break;
-            case "Throne Room":
+            case "Kitchen Hall":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[7].enabled = true;
                 currentActivePoint = 7;
                 break;
-            case "Kitchen Hall":
+            case "Chamber Hall":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[8].enabled = true;
                 currentActivePoint = 8;
                 break;
-            case "Chamber Hall":
+            case "Treasure Room":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[9].enabled = true;
                 currentActivePoint = 9;
                 break;
-            case "Treasure Room":
+            case "Kitchen":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[10].enabled = true;
                 currentActivePoint = 10;
                 break;
-            case "Kitchen":
-                mapPoints[currentActivePoint].enabled = false;
-                mapPoints[10].enabled = true;
-                currentActivePoint = 11;
-                break;
             case "Royal Chambers":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[11].enabled = true;
-                currentActivePoint = 12;
+                currentActivePoint = 11;
                 break;
         }
         if(currentActivePoint < 5)
