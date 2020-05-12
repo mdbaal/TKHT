@@ -157,7 +157,7 @@ public class GameMaster : MonoBehaviour
                 }
             }
             if (result == 2) { outputManager.outputMessage("You have sold " + item.name + " for " + item.worth + " gold"); uIManager.removeFromPlayerInventory(item); uIManager.updateGold(); }
-            if (result == 3) { gameState.isTrading = false; outputManager.outputMessage("You left the trader"); }
+            if (result == 3) { gameState.isTrading = false; outputManager.outputMessage("You stopped trading"); }
 
             if(result != 3) outputManager.outputMessage(locationsMap.getLocation().getTrader().trader.getListOfStock());
             clearForNew();
