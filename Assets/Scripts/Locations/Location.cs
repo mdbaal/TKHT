@@ -100,6 +100,15 @@ public class Location : MonoBehaviour
     {
         return _inventory.ToString();
     }
+    public string getNpcs()
+    {
+        string npcs = "";
+        foreach(EnemyOBJ e in enemies)
+        {
+            npcs += "  -" + e.name + "\n";
+        }
+        return npcs;
+    }
 
     public void enter()
     {

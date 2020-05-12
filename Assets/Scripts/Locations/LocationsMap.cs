@@ -60,6 +60,7 @@ public class LocationsMap : MonoBehaviour
         string outstring = "You're at " + getLocationDescriptionShort() + "\n";
 
         string items  = currentLocation.listItems();
+        string npcs = currentLocation.getNpcs();
         if (items.Equals(string.Empty)){
             outstring += "  When you look around you don't really see anything interresting";
         }
@@ -67,6 +68,9 @@ public class LocationsMap : MonoBehaviour
         {
             outstring += "When you look around you find these items\n";
             outstring += items;
+
+            outstring += "And these people\n";
+            outstring += npcs;
         }
             
         return outstring;
