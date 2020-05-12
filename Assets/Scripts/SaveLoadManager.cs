@@ -212,7 +212,18 @@ public class SaveLoadManager
         string JSonStringPlayer = JsonUtility.ToJson(playerData);
         string JsonStringLocations = JsonUtility.ToJson(locations);
 
-        using (StreamWriter writer = new StreamWriter(@"SaveGame/Json.txt"))
+        if (!Directory.Exists("Gamesave/"))
+        {
+            try
+            {
+                Directory.CreateDirectory("Gamesave/");
+            }catch(System.Exception e)
+            {
+                Debug.Log("Creation failed: "+ e.ToString());
+            }
+        }
+
+        using (StreamWriter writer = new StreamWriter(@"Gamesave/Json.txt"))
         {
             writer.WriteLine(JSonStringPlayer);
             writer.WriteLine(JsonStringLocations);
@@ -221,10 +232,14 @@ public class SaveLoadManager
     //LOAD GAME FROM SAVE FILE
     public void load(GameState gameState, LocationsMap locationsMap, UIManager uIManager)
     {
-        getObjectsFromResources();
+        if (!Directory.Exists("Gamesave/"))
+        {
+            return;
+        }
+            getObjectsFromResources();
         string JSonStringPlayer = "";
         string JsonStringLocations = "";
-        using (StreamReader reader = new StreamReader("SaveGame/Json.txt"))
+        using (StreamReader reader = new StreamReader("Gamesave/Json.txt"))
         {
             JSonStringPlayer = reader.ReadLine();
             JsonStringLocations = reader.ReadLine();
