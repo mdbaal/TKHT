@@ -12,10 +12,12 @@ public class Location : MonoBehaviour
     private Inventory _inventory = new Inventory();
 
     public Location[] neighbours;
-
+    [Header ("All scene OBJs")]
+    [SerializeField]
     private ItemOBJ[] _items;
-
+    [SerializeField]
     private EnemyOBJ[] _enemies;
+    [SerializeField]
     private TraderOBJ _trader;
 
     private bool isMade = false;
@@ -105,7 +107,7 @@ public class Location : MonoBehaviour
         string npcs = "";
         foreach(EnemyOBJ e in enemies)
         {
-            npcs += "  -" + e.name + "\n";
+            npcs += "  - " + e.name + "\n";
         }
         return npcs;
     }

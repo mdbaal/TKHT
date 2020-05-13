@@ -17,7 +17,7 @@ public class LocationsMap : MonoBehaviour
     public int move(string[] newloc)
     {
         string _newloc = "";
-        foreach(string s in newloc)
+        foreach (string s in newloc)
         {
             _newloc += s + " ";
         }
@@ -33,7 +33,7 @@ public class LocationsMap : MonoBehaviour
                 currentLocation = locations[_newloc];
                 currentLocation.enter();
                 currentLocation.PlayerVisited = true;
-                
+
                 return 1;
             }
             else
@@ -53,26 +53,32 @@ public class LocationsMap : MonoBehaviour
     }
 
 
-    
+
 
     public string getLocationDescription()
     {
         string outstring = "You're at " + getLocationDescriptionShort() + "\n";
 
-        string items  = currentLocation.listItems();
+        string items = currentLocation.listItems();
         string npcs = currentLocation.getNpcs();
-        if (items.Equals(string.Empty)){
-            outstring += "  When you look around you don't really see anything interresting";
+
+        if (items.Equals(string.Empty))
+        {
+            outstring += "  When you look around you don't really see anything interresting\n";
+
+
         }
         else
         {
-            outstring += "When you look around you find these items\n";
+            outstring += "  When you look around you find these items\n";
             outstring += items;
-
-            outstring += "And these people\n";
+        }
+        if (!npcs.Equals(string.Empty))
+        {
+            outstring += "  There are some people about\n";
             outstring += npcs;
         }
-            
+
         return outstring;
     }
 
@@ -98,10 +104,10 @@ public class LocationsMap : MonoBehaviour
     private void getAllLocationsFromScene()
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
-        
-        foreach(Location l in _locations)
+
+        foreach (Location l in _locations)
         {
-            l.makeLocation(true,false);
+            l.makeLocation(true, false);
             locations.Add(l.name, l);
         }
 
