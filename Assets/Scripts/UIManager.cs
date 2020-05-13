@@ -206,7 +206,7 @@ public class UIManager : MonoBehaviour
         }else
         {
             EndscreenTitle.text = "Victory";
-            EndscreenText.text = "You did it! You got all the items and now live a rich live of fortune. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
+            EndscreenText.text = "You did it! You got all the items and now live a rich life of fortune. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
         }
     }
 

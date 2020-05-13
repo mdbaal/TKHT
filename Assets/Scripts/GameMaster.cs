@@ -214,7 +214,9 @@ public class GameMaster : MonoBehaviour
                 if (!gameState.player.hasSpace())
                 {
                     outputManager.outputMessage("You don't have enough space");
+                    break;
                 }
+                
                 //get the item
                 result = locationsMap.getLocation().takeItem(target, out item);
 
