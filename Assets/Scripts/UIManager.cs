@@ -27,9 +27,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Tutorial pop-up")]
     public GameObject tutorialPopup;
+    public Text tutorialNumber;
+    [SerializeField]
     Text[] tutorialTexts;
     [SerializeField]
-    int tutorialIndex = 1;
+    int tutorialIndex = 0;
 
     [Header("Endscreen UI")]
     public GameObject Endscreen;
@@ -175,8 +177,7 @@ public class UIManager : MonoBehaviour
     {
         tutorialPopup.SetActive(true);
 
-        tutorialTexts = tutorialPopup.GetComponentsInChildren<Text>();
-
+        tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
         tutorialTexts[tutorialIndex].enabled = true;
 
         StartCoroutine(tutorialInputNext());
@@ -189,6 +190,7 @@ public class UIManager : MonoBehaviour
         {
             tutorialTexts[tutorialIndex].enabled = false;
             tutorialIndex++;
+            tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
             tutorialTexts[tutorialIndex].enabled = true;
             StartCoroutine(tutorialInputNext());
         }
@@ -200,10 +202,11 @@ public class UIManager : MonoBehaviour
 
     public void prevTutorial()
     {
-        if (tutorialIndex > 1)
+        if (tutorialIndex > 0)
         {
             tutorialTexts[tutorialIndex].enabled = false;
             tutorialIndex--;
+            tutorialNumber.text = (tutorialIndex+1).ToString() + "/" + tutorialTexts.Length.ToString();
             tutorialTexts[tutorialIndex].enabled = true;
             StartCoroutine(tutorialInputPrev());
         }
