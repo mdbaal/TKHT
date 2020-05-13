@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [Header("Tutorial pop-up")]
     public GameObject tutorialPopup;
     Text[] tutorialTexts;
+    [SerializeField]
     int tutorialIndex = 1;
 
     [Header("Endscreen UI")]
@@ -154,12 +155,20 @@ public class UIManager : MonoBehaviour
         ObjectivesTexts[index].color = new Color(0, 0, 0, 1);
     }
 
-    IEnumerator tutorialInput()
+    IEnumerator tutorialInputNext()
     {
         yield return new WaitForEndOfFrame();
 
-        yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.Return));
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         nextTutorial();
+    }
+
+    IEnumerator tutorialInputPrev()
+    {
+        yield return new WaitForEndOfFrame();
+
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Backspace));
+        prevTutorial();
     }
 
     public void startTutorial()
@@ -170,21 +179,33 @@ public class UIManager : MonoBehaviour
 
         tutorialTexts[tutorialIndex].enabled = true;
 
-        StartCoroutine(tutorialInput());
+        StartCoroutine(tutorialInputNext());
+        StartCoroutine(tutorialInputPrev());
     }
 
     public void nextTutorial()
     {
-        if(tutorialIndex < tutorialTexts.Length-1)
+        if (tutorialIndex < tutorialTexts.Length-1)
         {
             tutorialTexts[tutorialIndex].enabled = false;
             tutorialIndex++;
             tutorialTexts[tutorialIndex].enabled = true;
-            StartCoroutine(tutorialInput());
+            StartCoroutine(tutorialInputNext());
         }
         else
         {
             endTutorial();
+        }
+    }
+
+    public void prevTutorial()
+    {
+        if (tutorialIndex > 1)
+        {
+            tutorialTexts[tutorialIndex].enabled = false;
+            tutorialIndex--;
+            tutorialTexts[tutorialIndex].enabled = true;
+            StartCoroutine(tutorialInputPrev());
         }
     }
 
