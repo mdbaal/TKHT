@@ -45,6 +45,11 @@ public class GameMaster : MonoBehaviour
         if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
 
         if (gameState.isTrading) gameState.isTrading = false;
+
+        foreach(QuestItem qi in gameState.questItemsCollected)
+        {
+            uIManager.UpdateObjectiveText(qi);
+        }
     }
 
 
@@ -146,8 +151,8 @@ public class GameMaster : MonoBehaviour
 
                 if (item.GetType() == typeof(QuestItem))
                 {
-                    int i = gameState.addToQuestItems((QuestItem)item);
-                    uIManager.UpdateObjectiveText(i);
+                    gameState.addToQuestItems((QuestItem)item);
+                    uIManager.UpdateObjectiveText((QuestItem)item);
                     outputManager.outputMessage("It's one of the quest items!");
 
                     if (gameState.allQuestItemsCollected)
@@ -230,8 +235,8 @@ public class GameMaster : MonoBehaviour
                     uIManager.addToPlayerInventory(item);
                     if (item.GetType() == typeof(QuestItem))
                     {
-                        int i = gameState.addToQuestItems((QuestItem)item);
-                        uIManager.UpdateObjectiveText(i);
+                        gameState.addToQuestItems((QuestItem)item);
+                        uIManager.UpdateObjectiveText((QuestItem)item);
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
                         if (gameState.allQuestItemsCollected)
                         {

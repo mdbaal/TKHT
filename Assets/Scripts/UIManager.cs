@@ -152,9 +152,24 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void UpdateObjectiveText(int index)
+    public void UpdateObjectiveText(QuestItem item)
     {
-        ObjectivesTexts[index].color = new Color(0, 0, 0, 1);
+        switch (item.name)
+        {
+            case "Crown":
+                ObjectivesTexts[0].color = new Color(0, 0, 0, 1);
+                break;
+            case "Boots":
+                ObjectivesTexts[1].color = new Color(0, 0, 0, 1);
+                break;
+            case "Dragon Egg":
+                ObjectivesTexts[2].color = new Color(0, 0, 0, 1);
+                break;
+            case "Pocket Chest":
+                ObjectivesTexts[3].color = new Color(0, 0, 0, 1);
+                break;
+        }
+        
     }
 
     IEnumerator tutorialInputNext()

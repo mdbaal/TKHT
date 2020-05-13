@@ -368,7 +368,7 @@ public class SaveLoadManager
 
         foreach (QuestItem qi in gameState.questItemsCollected)
         {
-            uIManager.UpdateObjectiveText(gameState.questItemsCollected.IndexOf(qi));
+            uIManager.UpdateObjectiveText(qi);
         }
 
         uIManager.updateGold();

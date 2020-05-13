@@ -21,7 +21,7 @@ public class GameState : ScriptableObject
     public bool isTrading = false;
 
 
-    public int addToQuestItems(QuestItem item)
+    public void addToQuestItems(QuestItem item)
     {
 
         questItemsCollected.Add(item);
@@ -30,21 +30,7 @@ public class GameState : ScriptableObject
         {
             allQuestItemsCollected = true;
         }
-        switch (item.name)
-        {
-            case "Crown":
-                return 0;
-            case "Boots":
-                return 1;
-
-            case "Dragon Egg":
-                return 2;
-
-            case "Pocket Chest":
-                return 3;
-        }
-
-        return 0;
+        
     }
 
     public void restart()
