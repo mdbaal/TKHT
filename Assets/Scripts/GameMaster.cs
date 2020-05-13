@@ -114,6 +114,7 @@ public class GameMaster : MonoBehaviour
                 break;
             case 0:
             case 1:
+            case 2:
                 gameState.inCombat = false;
                 break;
             case 3:
@@ -201,14 +202,19 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Attack":
-                if (target.Length > 1)
-                {
-                    outputManager.outputMessage("You can't attack more than one person");
-                    break;
-                }
+                
                 gameState.inCombat = true;
-                outputManager.outputMessage("Attacking " + target[0]);
-                combatManager.startCombat(locationsMap.getLocation().getEnemy(target[0]), new CombatManager.CombatCallback(this.checkCombatResult));
+
+                string targetName = "";
+                foreach(string s in target)
+                {
+                    targetName += s + " ";
+                }
+
+                targetName = targetName.Trim();
+
+                outputManager.outputMessage("Attacking " + targetName );
+                combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
                 break;
             case "Take":
                 if (target.Length == 0)

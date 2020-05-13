@@ -96,6 +96,7 @@ public class CombatManager : MonoBehaviour
                     break;
                 case "Flee":
                     outputManager.outputMessage("You flee from the battle");
+                    enemy.health = enemy.maxHealth;
                     endCombat();
                     combatCallback(2);
                     break;
