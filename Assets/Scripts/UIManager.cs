@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     public GameObject tutorialPopup;
     public Text tutorialNumber;
     [SerializeField]
-    Text[] tutorialTexts;
+    Text[] tutorialTexts = new Text[] { };
     [SerializeField]
     int tutorialIndex = 0;
 
@@ -309,7 +309,7 @@ public class UIManager : MonoBehaviour
                 mapPoints[8].enabled = true;
                 currentActivePoint = 8;
                 break;
-            case "Treasure Room":
+            case "Treasury":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[9].enabled = true;
                 currentActivePoint = 9;
