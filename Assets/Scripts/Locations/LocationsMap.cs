@@ -25,18 +25,19 @@ public class LocationsMap : MonoBehaviour
         if (locations.ContainsKey(_newloc))
         {
             if (currentLocation.name == _newloc) return -2;
-
-            if (currentLocation.hasNeighbour(_newloc))
+            if (currentLocation.allEnemiesDeadToContinue && !currentLocation.allEnemiesDead)
+            {
+                return -3;
+            }else if (currentLocation.hasNeighbour(_newloc))
             {
                 Location old = currentLocation;
                 old.leave();
                 currentLocation = locations[_newloc];
                 currentLocation.enter();
-                currentLocation.PlayerVisited = true;
+                currentLocation.playerVisited = true;
 
                 return 1;
-            }
-            else
+            }else
             {
                 return -1;
             }
@@ -113,7 +114,7 @@ public class LocationsMap : MonoBehaviour
 
         currentLocation = _locations[0];
         currentLocation.enter();
-        currentLocation.PlayerVisited = true;
+        currentLocation.playerVisited = true;
     }
 
     public Location[] getAllLocations()

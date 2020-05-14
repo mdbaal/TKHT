@@ -12,7 +12,7 @@ public class Location : MonoBehaviour
     private Inventory _inventory = new Inventory();
 
     public Location[] neighbours;
-    [Header ("All scene OBJs")]
+    [Header("All scene OBJs")]
     [SerializeField]
     private ItemOBJ[] _items;
     [SerializeField]
@@ -21,11 +21,14 @@ public class Location : MonoBehaviour
     private TraderOBJ _trader;
 
     private bool isMade = false;
-    public bool PlayerVisited = false;
+    public bool playerVisited = false;
+    public bool allEnemiesDeadToContinue = false;
+    private bool _allEnemiesDead = false;
 
     public ItemOBJ[] items { get => _items; set => _items = value; }
     public EnemyOBJ[] enemies { get => _enemies; set => _enemies = value; }
     public TraderOBJ trader { get => _trader; set => _trader = value; }
+    public bool allEnemiesDead { get => _allEnemiesDead; set => _allEnemiesDead = value; }
 
     public bool hasNeighbour(string l)
     {
@@ -63,6 +66,10 @@ public class Location : MonoBehaviour
     public int takeItem(string[] item, out Item i)
     {
         i = null;
+        if (this.allEnemiesDeadToContinue && !this.allEnemiesDead)
+        {
+            return -1;
+        }
         if (_inventory.takeItem(item, out i) == 0) return 0;
         //is it in scene?
         foreach (ItemOBJ iObj in _items)
@@ -105,7 +112,7 @@ public class Location : MonoBehaviour
     public string getNpcs()
     {
         string npcs = "";
-        foreach(EnemyOBJ e in enemies)
+        foreach (EnemyOBJ e in enemies)
         {
             npcs += "  - " + e.name + "\n";
         }
@@ -197,6 +204,16 @@ public class Location : MonoBehaviour
     public TraderOBJ getTrader()
     {
         return trader;
+    }
+
+    public void checkEnemiesDead()
+    {
+        int alive = 0;
+        foreach (EnemyOBJ eo in enemies)
+        {
+            if (eo != null) alive++;
+        }
+        if (alive == 0) allEnemiesDead = true;
     }
 
 }

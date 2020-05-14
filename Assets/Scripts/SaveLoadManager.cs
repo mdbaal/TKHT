@@ -139,7 +139,7 @@ public class SaveLoadManager
         foreach (Location l in locationsFromMap)
         {
 
-            if (l.PlayerVisited)
+            if (l.playerVisited)
             {
                 LocationData ld = new LocationData();
                 ld.locationName = l.name;
@@ -272,7 +272,7 @@ public class SaveLoadManager
         {
             Location l = locationsMap.getLocation(ld.locationName);
 
-            l.PlayerVisited = true;
+            l.playerVisited = true;
 
             List<ItemOBJ> itemObjs = new List<ItemOBJ>();
 

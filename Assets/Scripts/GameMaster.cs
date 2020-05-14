@@ -116,6 +116,7 @@ public class GameMaster : MonoBehaviour
             case 1:
             case 2:
                 gameState.inCombat = false;
+                gameState.currentLocation.checkEnemiesDead();
                 break;
             case 3:
                 gameState.inCombat = false;
@@ -199,6 +200,9 @@ public class GameMaster : MonoBehaviour
                 else if (result == -2)
                 {
                     outputManager.outputMessage("You are already at " + gameState.currentLocation.name);
+                }else if (result == -3)
+                {
+                    outputManager.outputMessage("You can't travel when there are enemies near");
                 }
                 break;
             case "Attack":
@@ -253,6 +257,9 @@ public class GameMaster : MonoBehaviour
                     {
                         outputManager.outputMessage("You took " + item.name);
                     }
+                }else if (result == -1)
+                {
+                    outputManager.outputMessage("Not the smartest move when they are looking");
                 }
 
                 break;
