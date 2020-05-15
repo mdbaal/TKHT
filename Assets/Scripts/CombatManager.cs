@@ -67,7 +67,7 @@ public class CombatManager : MonoBehaviour
                     }
                     else if (result == 2)
                     {
-                        outputManager.outputMessage("You hit with a fininshing blow");
+                        outputManager.outputMessage("You hit with a finishing blow");
                         enemy.die();
                         endCombat();
                         combatCallback(0);

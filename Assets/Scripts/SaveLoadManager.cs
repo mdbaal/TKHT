@@ -276,14 +276,7 @@ public class SaveLoadManager
 
             List<ItemOBJ> itemObjs = new List<ItemOBJ>();
 
-            foreach (ItemOBJ itemOBJ in l.items)
-            {
-                Item i = null;
-                l.takeItem(new string[] { itemOBJ.item.name }, out i);
-                GameObject.Destroy(itemOBJ.gameObject);
-            }
-            l.items = null;
-
+            l.items.Clear();
 
             foreach (ItemData id in ld.items)
             {
@@ -309,6 +302,7 @@ public class SaveLoadManager
 
             foreach (EnemyData ed in ld.enemies)
             {
+                Debug.Log(enemyObjListFromResources[ed.name]);
                 EnemyOBJ eo = GameObject.Instantiate<EnemyOBJ>(enemyObjListFromResources[ed.name], new Vector3(ed.position[0], ed.position[1], ed.position[2]), Quaternion.identity);
 
                 eo.name = ed.name;

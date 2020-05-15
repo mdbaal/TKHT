@@ -24,6 +24,8 @@ public class Location : MonoBehaviour
     public bool playerVisited = false;
     public bool allEnemiesDeadToContinue = false;
     private bool _allEnemiesDead = false;
+    private int enemiesDead = 0;
+    private int enemiesInScene = 0;
 
     private ItemDrop itemDropTool;
 
@@ -65,6 +67,8 @@ public class Location : MonoBehaviour
 
             sceneImg.sprite = this.sprite;
         }
+        enemiesInScene = enemies.Length;
+
         this.isMade = true;
         if (_leave) this.leave();
     }
@@ -186,9 +190,12 @@ public class Location : MonoBehaviour
     {
         foreach (EnemyOBJ e in _enemies)
         {
-            if (e.name.Equals(enem))
+            if (e != null)
             {
-                return e.enemy;
+                if (e.name.Equals(enem))
+                {
+                    return e.enemy;
+                }
             }
         }
         return null;
@@ -215,14 +222,15 @@ public class Location : MonoBehaviour
         return trader;
     }
 
-    public void checkEnemiesDead()
+    public void enemyDied()
     {
-        int alive = 0;
-        foreach (EnemyOBJ eo in enemies)
-        {
-            if (eo != null) alive++;
-        }
-        if (alive == 0) allEnemiesDead = true;
+
+        this.enemiesDead++;
+    }
+
+    public void checkAllDead()
+    {
+        if (enemiesDead == enemiesInScene) allEnemiesDead = true;
     }
 
 }

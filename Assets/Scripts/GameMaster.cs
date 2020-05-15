@@ -118,7 +118,8 @@ public class GameMaster : MonoBehaviour
             case 1:
             case 2:
                 gameState.inCombat = false;
-                gameState.currentLocation.checkEnemiesDead();
+                gameState.currentLocation.enemyDied();
+                gameState.currentLocation.checkAllDead();
                 break;
             case 3:
                 gameState.inCombat = false;

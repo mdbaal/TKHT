@@ -21,9 +21,14 @@ public class DrawNameLabel : MonoBehaviour
     public Color textColor;
     [Range(0,1)]
     public float alpha = 1;
+    GameState gameState = null;
 
     private void OnGUI()
     {
+        if (gameState == null) gameState = FindObjectOfType<GameState>();
+        if (gameState == null) return;
+        if (!gameState.finishedTutorial || gameState.player.health <= 0 || gameState.allQuestItemsCollected) return;
+
         float objectCenter = this.GetComponent<SpriteRenderer>().bounds.center.x;
 
         textColor.a = alpha;

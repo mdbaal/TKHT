@@ -172,19 +172,13 @@ public class UIManager : MonoBehaviour
         
     }
 
-    IEnumerator tutorialInputNext()
+    void Update()
     {
-        yield return new WaitForEndOfFrame();
-
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+       if(Input.GetKeyDown(KeyCode.Return))
         nextTutorial();
-    }
 
-    IEnumerator tutorialInputPrev()
-    {
-        yield return new WaitForEndOfFrame();
 
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Backspace));
+        if(Input.GetKeyDown(KeyCode.Backspace))
         prevTutorial();
     }
 
@@ -195,8 +189,7 @@ public class UIManager : MonoBehaviour
         tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
         tutorialTexts[tutorialIndex].enabled = true;
 
-        StartCoroutine(tutorialInputNext());
-        StartCoroutine(tutorialInputPrev());
+        
     }
 
     public void nextTutorial()
@@ -207,7 +200,6 @@ public class UIManager : MonoBehaviour
             tutorialIndex++;
             tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
             tutorialTexts[tutorialIndex].enabled = true;
-            StartCoroutine(tutorialInputNext());
         }
         else
         {
@@ -223,7 +215,6 @@ public class UIManager : MonoBehaviour
             tutorialIndex--;
             tutorialNumber.text = (tutorialIndex+1).ToString() + "/" + tutorialTexts.Length.ToString();
             tutorialTexts[tutorialIndex].enabled = true;
-            StartCoroutine(tutorialInputPrev());
         }
     }
 
