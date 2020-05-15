@@ -46,7 +46,11 @@ public class Inventory
     }
     public bool hasSpace()
     {
-        return _inventory.Count < inventorySpace ? true : false;
+        return (_inventory.Count < inventorySpace);
+    }
+    public void setSpace(int i)
+    {
+        this.inventorySpace = i;
     }
 
     public override string ToString()

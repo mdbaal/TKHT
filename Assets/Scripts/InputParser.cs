@@ -65,10 +65,14 @@ public class InputParser : MonoBehaviour
 
         if (_words.Length < 2) return;
 
-        for (int i = 1; i < _words.Length; i++) {
-            _words[i].Trim();
-            string _word = char.ToUpper(_words[i][0]) + _words[i].Substring(1);
-            words.Add(_word);
+        foreach(string word in _words)
+        {
+            if (!word.Contains(">") && word != "" && word != string.Empty) 
+            {
+                string _word = char.ToUpper(word[0]) + word.Substring(1);
+                words.Add(_word);
+            }
+
         }
     }
 

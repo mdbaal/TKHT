@@ -14,7 +14,7 @@ public class Location : MonoBehaviour
     public Location[] neighbours;
     [Header("All scene OBJs")]
     [SerializeField]
-    private ItemOBJ[] _items;
+    private List<ItemOBJ> _items = new List<ItemOBJ>();
     [SerializeField]
     private EnemyOBJ[] _enemies;
     [SerializeField]
@@ -25,7 +25,9 @@ public class Location : MonoBehaviour
     public bool allEnemiesDeadToContinue = false;
     private bool _allEnemiesDead = false;
 
-    public ItemOBJ[] items { get => _items; set => _items = value; }
+    private ItemDrop itemDropTool;
+
+    public List<ItemOBJ> items { get => _items; set => _items = value; }
     public EnemyOBJ[] enemies { get => _enemies; set => _enemies = value; }
     public TraderOBJ trader { get => _trader; set => _trader = value; }
     public bool allEnemiesDead { get => _allEnemiesDead; set => _allEnemiesDead = value; }
@@ -43,10 +45,14 @@ public class Location : MonoBehaviour
     {
         if (!fromSave)
         {
-            _items = this.GetComponentsInChildren<ItemOBJ>();
+            _items.AddRange(this.GetComponentsInChildren<ItemOBJ>());
             _enemies = this.GetComponentsInChildren<EnemyOBJ>();
             _trader = this.GetComponentInChildren<TraderOBJ>();
         }
+
+        this.itemDropTool = this.GetComponent<ItemDrop>();
+        itemDropTool.calculateValues();
+        this._inventory.setSpace(itemDropTool.amountOfItemsTotal);
 
         foreach (ItemOBJ i in _items)
         {
@@ -76,7 +82,9 @@ public class Location : MonoBehaviour
         {
             if (iObj.item == i)
             {
-                iObj.GetComponent<SpriteRenderer>().enabled = false;
+                itemDropTool.itemPickedUp(iObj.droppedIndex);
+                items.Remove(iObj);
+                Destroy(iObj.gameObject);
                 return 1;
             }
         }
@@ -85,17 +93,13 @@ public class Location : MonoBehaviour
 
     public int dropItem(Item item)
     {
-        int result = _inventory.addItem(item);
+        ItemOBJ outItemObj = null;
+        int result = itemDropTool.dropItem(item,out outItemObj);
         if (result == 1)
         {
-            foreach (ItemOBJ iObj in _items)
-            {
-                if (iObj.item == item)
-                {
-                    iObj.GetComponent<SpriteRenderer>().enabled = true;
-                    return result;
-                }
-            }
+            result = _inventory.addItem(item);
+            items.Add(outItemObj);
+                return result;
         }
         return result;
     }
@@ -114,8 +118,13 @@ public class Location : MonoBehaviour
         string npcs = "";
         foreach (EnemyOBJ e in enemies)
         {
+            if(e != null)
             npcs += "  - " + e.name + "\n";
         }
+
+        if(trader != null)
+        npcs += " - " + trader._name + "\n";
+
         return npcs;
     }
 
@@ -187,7 +196,7 @@ public class Location : MonoBehaviour
 
     public ItemOBJ[] getInventoryItems()
     {
-        return _items;
+        return _items.ToArray();
     }
 
     public EnemyOBJ[] getEnemies()

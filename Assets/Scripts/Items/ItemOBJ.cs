@@ -6,6 +6,8 @@ public class ItemOBJ : MonoBehaviour
 {
     public Item item;
 
+    public int droppedIndex = -1;
+
     private void Awake()
     {
         this.name = item.name;

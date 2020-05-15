@@ -50,6 +50,8 @@ public class GameMaster : MonoBehaviour
         {
             uIManager.UpdateObjectiveText(qi);
         }
+
+       
     }
 
 
@@ -272,6 +274,7 @@ public class GameMaster : MonoBehaviour
                 if (!locationsMap.getLocation().hasSpace())
                 {
                     outputManager.outputMessage("There is no place to put this");
+                    break;
                 }
 
                 //drop the item

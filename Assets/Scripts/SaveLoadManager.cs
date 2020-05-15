@@ -295,7 +295,7 @@ public class SaveLoadManager
                 itemObjs.Add(io);
             }
 
-            l.items = itemObjs.ToArray();
+            l.items = itemObjs;
 
             List<EnemyOBJ> enemyObjs = new List<EnemyOBJ>();
 
