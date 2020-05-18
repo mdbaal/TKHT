@@ -10,9 +10,10 @@ public class Trader : NPC
     {
         this.maxHealthAndHealth = _newMaxHealth;
     }
-
+    //Get stock
     public List<Item> stock { get => _stock; set => _stock = value; }
-
+    
+    //Trader buys from player
     public int buyFromPlayer(Item item)
     {
         if (this.gold - item.worth < 0) return -4;
@@ -22,7 +23,7 @@ public class Trader : NPC
         _stock.Add(item);
         return 1;
     }
-
+    //Trader sells to player
     public int sellToPlayer(Player player, string itemName,out Item itemBought)
     {
         itemBought = null;
@@ -42,7 +43,7 @@ public class Trader : NPC
 
         return 0;
     }
-
+    //Get items as string
     public string getListOfStock()
     {
         string list = "Trading \n> Traders gold: " + this.gold.ToString() + "\n > This trader is offering: \n";

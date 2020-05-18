@@ -26,9 +26,9 @@ public class GameMaster : MonoBehaviour
 
     private string[] target;
 
+    //Reset booleans on start to make sure game starts properly
     private void Start()
     {
-
         if (!gameState.finishedTutorial)
         {
             uIManager.startTutorial();
@@ -54,7 +54,7 @@ public class GameMaster : MonoBehaviour
        
     }
 
-
+    //Called form input parser, receive input
     public int sendInput(List<string> _words)
     {
         gameState.readyForPlayerInput = false;
@@ -88,7 +88,7 @@ public class GameMaster : MonoBehaviour
 
         return 1;
     }
-
+    //Multiple checks to keep it all seperate and clear
     private bool checkCommand()
     {
         return commands.checkCommand(action);
@@ -105,7 +105,7 @@ public class GameMaster : MonoBehaviour
     }
 
 
-
+    //Call back for combat, to check for action after combat
     private void checkCombatResult(int r)
     {
 
@@ -128,6 +128,7 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    //Decide based on action what to do
     private void doAction()
     {
         int result = 0; //give back result
@@ -380,6 +381,7 @@ public class GameMaster : MonoBehaviour
 
         clearForNew();
     }
+
     IEnumerator playerWon()
     {
         uIManager.showEndscreen(1);

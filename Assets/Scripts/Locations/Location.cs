@@ -21,7 +21,10 @@ public class Location : MonoBehaviour
     private TraderOBJ _trader;
 
     private bool isMade = false;
+
     public bool playerVisited = false;
+
+    //Enemy settings of scene
     public bool allEnemiesDeadToContinue = false;
     private bool _allEnemiesDead = false;
     private int enemiesDead = 0;
@@ -34,6 +37,7 @@ public class Location : MonoBehaviour
     public TraderOBJ trader { get => _trader; set => _trader = value; }
     public bool allEnemiesDead { get => _allEnemiesDead; set => _allEnemiesDead = value; }
 
+    //Is the location you try to access a neighbour
     public bool hasNeighbour(string l)
     {
         foreach (Location L in neighbours)
@@ -43,6 +47,7 @@ public class Location : MonoBehaviour
         return false;
     }
 
+    //At start of game build scene
     public void makeLocation(bool _leave, bool fromSave)
     {
         if (!fromSave)
@@ -73,6 +78,7 @@ public class Location : MonoBehaviour
         if (_leave) this.leave();
     }
 
+    //Take item from scene
     public int takeItem(string[] item, out Item i)
     {
         i = null;
@@ -95,6 +101,7 @@ public class Location : MonoBehaviour
         return -1;
     }
 
+    //Drop item in scene
     public int dropItem(Item item)
     {
         ItemOBJ outItemObj = null;
@@ -108,15 +115,17 @@ public class Location : MonoBehaviour
         return result;
     }
 
+    //Get the scene description
     public string getDescription()
     {
         return description;
     }
-
+    //Get list of all items in scene
     public string listItems()
     {
         return _inventory.ToString();
     }
+    //Get list of all npc's in scene
     public string getNpcs()
     {
         string npcs = "";
@@ -132,6 +141,7 @@ public class Location : MonoBehaviour
         return npcs;
     }
 
+    //Enter scene and activate objects
     public void enter()
     {
         if (isMade)
@@ -161,7 +171,7 @@ public class Location : MonoBehaviour
             enter();
         }
     }
-
+    //Leave scene and deactivate objects
     public void leave()
     {
         foreach (ItemOBJ item in _items)
@@ -181,11 +191,14 @@ public class Location : MonoBehaviour
         this.GetComponent<SpriteRenderer>().enabled = false;
     }
 
+    //Is there room to drop an item
     public bool hasSpace()
     {
         return _inventory.hasSpace();
     }
 
+
+    //Get a specific enemy
     public Enemy getEnemy(string enem)
     {
         foreach (EnemyOBJ e in _enemies)
@@ -200,12 +213,12 @@ public class Location : MonoBehaviour
         }
         return null;
     }
-
+    //Get all item objects as an array
     public ItemOBJ[] getInventoryItems()
     {
         return _items.ToArray();
     }
-
+    //Get all enemy objects
     public EnemyOBJ[] getEnemies()
     {
         List<EnemyOBJ> enemyOBJs = new List<EnemyOBJ>();
@@ -216,18 +229,18 @@ public class Location : MonoBehaviour
         }
         return enemyOBJs.ToArray();
     }
-
+    //Get all trader ojbects
     public TraderOBJ getTrader()
     {
         return trader;
     }
-
+    //Add one to dead enemies count
     public void enemyDied()
     {
 
         this.enemiesDead++;
     }
-
+    //Check if all enemies are dead
     public void checkAllDead()
     {
         if (enemiesDead == enemiesInScene) allEnemiesDead = true;

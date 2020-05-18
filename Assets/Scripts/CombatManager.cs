@@ -26,12 +26,13 @@ public class CombatManager : MonoBehaviour
     {
         StartCoroutine(setPlayer());
     }
+
     IEnumerator setPlayer()
     {
         yield return new WaitUntil(() => gameState.player != null);
         player = gameState.player;
     }
-
+    //Start combat, asign enemt and call back and call attack action
     public void startCombat(Enemy enemy, CombatCallback c)
     {
         this.combatCallback = c;
@@ -39,6 +40,7 @@ public class CombatManager : MonoBehaviour
         nextTurn("Attack");
 
     }
+    //Next turn in combat based on action and if it is the players turn
     public void nextTurn(string action)
     {
         int result = 0;

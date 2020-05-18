@@ -12,7 +12,7 @@ public class Player : Entity
     }
 
 
-    
+    //Give quest item
     public int giveItem(string[] item, out QuestItem outItem)
     {
         outItem = null;
@@ -23,7 +23,7 @@ public class Player : Entity
         }
         return 1;
     }
-
+    //Take food item
     public int takeItem(string[] item, out Food outItem)
     {
         Item _item = null;
@@ -33,12 +33,13 @@ public class Player : Entity
 
         return i;
     }
-
+    //Check inventory space
     public bool hasSpace()
     {
         return _inventory.hasSpace();
     }
 
+    //Equip and unequip weapon
     public int equip(string[] item, out Item outItem)
     {
         Item i = null;
@@ -94,6 +95,7 @@ public class Player : Entity
         return 1;
     }
 
+    //Use food item
     public int use(string[] item, out Food outItem)
     {
     

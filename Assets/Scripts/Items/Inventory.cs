@@ -8,6 +8,7 @@ public class Inventory
 
     private int inventorySpace = 9;
 
+    //Take item ou of inventory
     public int takeItem(string[] item, out Item outItem)
     {
         string _item = "";
@@ -27,7 +28,7 @@ public class Inventory
         return 1;
 
     }
-
+    //Add item to inventory
     public int addItem(Item item)
     {
         if (item == null) return 0;
@@ -40,19 +41,23 @@ public class Inventory
         return -1;
     }
 
+    //Is the item in the inventory
     public bool hasItem(string item)
     {
         return _inventory.ContainsKey(item);
     }
+    //Is there enough space
     public bool hasSpace()
     {
         return (_inventory.Count < inventorySpace);
     }
+    //Set the size of the inventory
     public void setSpace(int i)
     {
         this.inventorySpace = i;
     }
 
+    //Output list of items in inventory
     public override string ToString()
     {
         string _temp = "  - ";
@@ -67,6 +72,7 @@ public class Inventory
         return _temp;
     }
 
+    //Get all items in inventory as array
     public Item[] getItems()
     {
         Dictionary<string, Item>.KeyCollection _keys = _inventory.Keys;

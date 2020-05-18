@@ -13,7 +13,7 @@ public class LocationsMap : MonoBehaviour
     {
         getAllLocationsFromScene();
     }
-
+    //Move to new location
     public int move(string[] newloc)
     {
         string _newloc = "";
@@ -47,15 +47,13 @@ public class LocationsMap : MonoBehaviour
             return 0;
         }
     }
-
+    //Get name of current location
     public string getLocationName()
     {
         return currentLocation.name;
     }
-
-
-
-
+       
+    //Get location description called with look
     public string getLocationDescription()
     {
         string outstring = "You're at " + getLocationDescriptionShort() + "\n";
@@ -101,7 +99,7 @@ public class LocationsMap : MonoBehaviour
         }
         return null;
     }
-
+    //Look for all locations in scene and make them
     private void getAllLocationsFromScene()
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
