@@ -221,7 +221,7 @@ public class GameMaster : MonoBehaviour
 
                 targetName = targetName.Trim();
 
-                outputManager.outputMessage("Attacking " + targetName );
+                //outputManager.outputMessage("Attacking " + targetName );
                 combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
                 break;
             case "Take":

@@ -82,6 +82,7 @@ public class Entity
     {
         outdmg = 0;
         if (target == null) return -1;
+        if (this.weapon == null) return -2;
         if (target.isDefending) return target.defend(weapon.damagePoints, out outdmg);
         return target.takeDamage(weapon.damagePoints,out outdmg);
     }

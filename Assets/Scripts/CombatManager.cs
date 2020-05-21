@@ -51,7 +51,6 @@ public class CombatManager : MonoBehaviour
             switch (action)
             {
                 case "Attack":
-                    outputManager.outputMessage("You attack");
                     result = player.doDamage(this.enemy, out dmgDone);
                     if (result == 0)
                     {
@@ -80,11 +79,17 @@ public class CombatManager : MonoBehaviour
                         endCombat();
                         combatCallback(1);
                     }
+                    else if(result == -2)
+                    {
+                        outputManager.outputMessage("You don't have a weapon equipped");
+                        endCombat();
+                        combatCallback(0);
+                    }
                     break;
                 case "Defend":
                     if (!player.canDefend())
                     {
-                        outputManager.outputMessage("You don't have a shield equiped");
+                        outputManager.outputMessage("You don't have a shield equipped");
                         playerTurn = false;
                         combatCallback(-1);
                         StartCoroutine(waitBeforeComputerAction());
