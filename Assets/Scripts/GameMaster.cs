@@ -323,11 +323,11 @@ public class GameMaster : MonoBehaviour
                 else if (result == 1)
                 {
                     uIManager.addToEquiped(item);
-                    outputManager.outputMessage("You equiped " + item.name);
+                    outputManager.outputMessage("You equipped " + item.name);
                 }
                 else if (result == -1)
                 {
-                    outputManager.outputMessage("Already have something equiped there");
+                    outputManager.outputMessage("Already have something equipped there");
                 }
                 break;
             case "Unequip":
@@ -335,7 +335,7 @@ public class GameMaster : MonoBehaviour
 
                 if (result == 0)
                 {
-                    outputManager.outputMessage("You don't have that item equiped");
+                    outputManager.outputMessage("You don't have that item equipped");
                 }
                 else if (result == 1)
                 {

@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Objectives texts")]
     public Text[] ObjectivesTexts;
-    
+
 
     [Header("Player health")]
     public GameObject playerHealth;
@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitUntil(() => gameState.player != null);
         fullHealth = gameState.player.health;
-        updatePlayerHealth( gameState.player);
+        updatePlayerHealth(gameState.player);
         updateGold();
     }
 
@@ -70,7 +70,8 @@ public class UIManager : MonoBehaviour
         foreach (GameObject i in inventorySlots)
         {
             Image img = i.GetComponent<Image>();
-           if (img.sprite == null) {
+            if (img.sprite == null)
+            {
                 img.sprite = item.sprite;
                 img.enabled = true;
                 return;
@@ -88,7 +89,7 @@ public class UIManager : MonoBehaviour
             if (img.sprite == item.sprite)
             {
                 img.sprite = null;
-                img.enabled = false;   
+                img.enabled = false;
                 return;
             }
         }
@@ -96,15 +97,15 @@ public class UIManager : MonoBehaviour
 
     public void addToEquiped(Item item)
     {
-        
+
         removeFromPlayerInventory(item);
         if (item.GetType() == typeof(Weapon))
         {
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
-           img.sprite = item.sprite;
+            img.sprite = item.sprite;
             img.enabled = true;
         }
-        else if(item.GetType() == typeof(Shield))
+        else if (item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
             img.sprite = item.sprite;
@@ -121,7 +122,7 @@ public class UIManager : MonoBehaviour
             img.sprite = null;
             img.enabled = false;
         }
-        else if(item.GetType() == typeof(Shield))
+        else if (item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
             img.sprite = null;
@@ -129,9 +130,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void updatePlayerHealth( Player player)
+    public void updatePlayerHealth(Player player)
     {
-        if(fullHealth == 0)
+        if (fullHealth == 0)
         {
             fullHealth = player.maxHealth;
         }
@@ -142,12 +143,12 @@ public class UIManager : MonoBehaviour
         if (player.health < 0)
         {
             healthText.text = "Health: 0";
-            healthImg.rectTransform.localScale = new Vector3(0, 1,1);
+            healthImg.rectTransform.localScale = new Vector3(0, 1, 1);
         }
         else
         {
             healthText.text = "Health: " + player.health.ToString();
-            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.health, 1,1);
+            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.health, 1, 1);
         }
 
     }
@@ -173,17 +174,17 @@ public class UIManager : MonoBehaviour
                 ObjectivesTexts[3].text = "Collected Pocket Chest";
                 break;
         }
-        
+
     }
 
     void Update()
     {
-       if(Input.GetKeyDown(KeyCode.Return))
-        nextTutorial();
+        if (Input.GetKeyDown(KeyCode.Return))
+            nextTutorial();
 
 
-        if(Input.GetKeyDown(KeyCode.Backspace))
-        prevTutorial();
+        if (Input.GetKeyDown(KeyCode.Backspace))
+            prevTutorial();
     }
 
     public void startTutorial()
@@ -193,12 +194,12 @@ public class UIManager : MonoBehaviour
         tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
         tutorialTexts[tutorialIndex].enabled = true;
 
-        
+
     }
 
     public void nextTutorial()
     {
-        if (tutorialIndex < tutorialTexts.Length-1)
+        if (tutorialIndex < tutorialTexts.Length - 1)
         {
             tutorialTexts[tutorialIndex].enabled = false;
             tutorialIndex++;
@@ -217,7 +218,7 @@ public class UIManager : MonoBehaviour
         {
             tutorialTexts[tutorialIndex].enabled = false;
             tutorialIndex--;
-            tutorialNumber.text = (tutorialIndex+1).ToString() + "/" + tutorialTexts.Length.ToString();
+            tutorialNumber.text = (tutorialIndex + 1).ToString() + "/" + tutorialTexts.Length.ToString();
             tutorialTexts[tutorialIndex].enabled = true;
         }
     }
@@ -233,11 +234,12 @@ public class UIManager : MonoBehaviour
     public void showEndscreen(int i)
     {
         Endscreen.SetActive(true);
-        if(i == 0)
+        if (i == 0)
         {
             EndscreenTitle.text = "Game Over";
             EndscreenText.text = "You died. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
-        }else
+        }
+        else
         {
             EndscreenTitle.text = "Victory";
             EndscreenText.text = "You did it! You got all the items and now live a rich life of fortune. \nPress <b>Enter</b> to start again or <b>Esc</b> to quit.";
@@ -274,59 +276,48 @@ public class UIManager : MonoBehaviour
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[3].enabled = true;
                 currentActivePoint = 3;
+
+                if (mapImage.sprite != mapImages[0]) mapImage.sprite = mapImages[0];
                 break;
-            
+
             case "Castle Hall":
                 mapPoints[currentActivePoint].enabled = false;
-                if (currentActivePoint > 4)
-                {
-                    mapPoints[4].enabled = true;
-                    currentActivePoint = 4;
-                }
-                else
-                {
-                    mapPoints[5].enabled = true;
-                    currentActivePoint = 5;
-                }
+
+                mapPoints[4].enabled = true;
+                currentActivePoint = 4;
+
+                if (mapImage.sprite != mapImages[1]) mapImage.sprite = mapImages[1];
                 break;
             case "Throne Room":
+                mapPoints[currentActivePoint].enabled = false;
+                mapPoints[5].enabled = true;
+                currentActivePoint = 5;
+                break;
+            case "Kitchen Hall":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[6].enabled = true;
                 currentActivePoint = 6;
                 break;
-            case "Kitchen Hall":
+            case "Chamber Hall":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[7].enabled = true;
                 currentActivePoint = 7;
                 break;
-            case "Chamber Hall":
+            case "Treasury":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[8].enabled = true;
                 currentActivePoint = 8;
                 break;
-            case "Treasury":
+            case "Kitchen":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[9].enabled = true;
                 currentActivePoint = 9;
                 break;
-            case "Kitchen":
+            case "Royal Chambers":
                 mapPoints[currentActivePoint].enabled = false;
                 mapPoints[10].enabled = true;
                 currentActivePoint = 10;
                 break;
-            case "Royal Chambers":
-                mapPoints[currentActivePoint].enabled = false;
-                mapPoints[11].enabled = true;
-                currentActivePoint = 11;
-                break;
-        }
-        if(currentActivePoint < 5)
-        {
-            if (mapImage.sprite != mapImages[0]) mapImage.sprite = mapImages[0];
-        }
-        else
-        {
-            if (mapImage.sprite != mapImages[1]) mapImage.sprite = mapImages[1];
         }
     }
 
