@@ -44,22 +44,28 @@ public class Player : Entity
     {
         Item i = null;
         outItem = null;
+
         if (this.takeItem(item, out i) == 0)
         {
             return 0;
         }
+
         if (i.GetType() == typeof(Weapon))
         {
+            if (weapon != null) return -1;
             weapon = (Weapon) i;
+            outItem = i;
+            return 1;
         }
         else if (i.GetType() == typeof(Shield))
         {
+            if (shield != null) return -1;
             shield = (Shield) i;
+            outItem = i;
+            return 1;
         }
 
-
-        outItem = i;
-        return 1;
+        return 0;
 
     }
 
