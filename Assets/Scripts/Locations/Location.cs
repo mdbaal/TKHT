@@ -230,9 +230,14 @@ public class Location : MonoBehaviour
         return enemyOBJs.ToArray();
     }
     //Get all trader ojbects
-    public TraderOBJ getTrader()
+    public TraderOBJ getTraderOBJ()
     {
         return trader;
+    }
+    public Trader getTrader()
+    {
+        if (trader == null) return null;
+        return trader.trader;
     }
     //Add one to dead enemies count
     public void enemyDied()

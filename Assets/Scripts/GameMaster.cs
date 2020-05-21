@@ -170,7 +170,7 @@ public class GameMaster : MonoBehaviour
             if (result == 2) { outputManager.outputMessage("You have sold " + item.name + " for " + item.worth + " gold"); uIManager.removeFromPlayerInventory(item); uIManager.updateGold(); }
             if (result == 3) { gameState.isTrading = false; outputManager.outputMessage("You stopped trading"); }
 
-            if(result != 3) outputManager.outputMessage(locationsMap.getLocation().getTrader().trader.getListOfStock());
+            if(result != 3) outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
             clearForNew();
             return;
         }
@@ -372,11 +372,20 @@ public class GameMaster : MonoBehaviour
                 outputManager.outputMessage("Game loaded");
                 break;
             case "Trade":
-                tradeManager.beginTrade(gameState.player, locationsMap.getLocation().getTrader().trader);
-                gameState.isTrading = true;
-                outputManager.outputMessage(locationsMap.getLocation().getTrader().trader.getListOfStock());
-                outputManager.outputMessage("To stop trading type stop,quit or exit\n > Do you want to Buy or Sell");
-                break;
+                Trader trader = locationsMap.getLocation().getTrader();
+                if (trader != null) {
+
+                    tradeManager.beginTrade(gameState.player, trader);
+                    gameState.isTrading = true;
+                    outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
+                    outputManager.outputMessage("To stop trading type stop,quit or exit\n > Do you want to Buy or Sell");
+                    break;
+                }
+                else
+                {
+                    outputManager.outputMessage("There is no trader here");
+                    break;
+                }
         }
 
         clearForNew();

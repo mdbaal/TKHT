@@ -185,7 +185,7 @@ public class SaveLoadManager
                 if (l.trader != null)
                 {
                     TraderData td = new TraderData();
-                    TraderOBJ trader = l.getTrader();
+                    TraderOBJ trader = l.getTraderOBJ();
 
                     td.name = trader._name;
                     td.maxHealth = trader._maxHealth;
