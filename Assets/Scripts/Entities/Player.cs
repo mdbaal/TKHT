@@ -26,12 +26,19 @@ public class Player : Entity
     //Take food item
     public int takeItem(string[] item, out Food outItem)
     {
+        outItem = null;
         Item _item = null;
         int i = _inventory.takeItem(item, out _item);
 
-        outItem = (Food)_item;
-
-        return i;
+        if (_item.GetType() == typeof(Food))
+        {
+            outItem = (Food)_item;
+            return i;
+        }
+        else
+        {
+            return 0;
+        }
     }
     //Check inventory space
     public bool hasSpace()
@@ -104,15 +111,26 @@ public class Player : Entity
     //Use food item
     public int use(string[] item, out Food outItem)
     {
-    
         outItem = null;
-        if (health == maxHealth) return 2;
+
 
         int r = this.takeItem(item, out outItem);
-        if (r == 0) return r;
-        this.health += outItem.healingPoints;
 
-        return r;
+        if (r == 0)
+        {
+            return r;
 
+        } else if (health == maxHealth) {
+            return 2;
+        } else if (r == 1)
+        {
+            this.health += outItem.healingPoints;
+            return r;
+        }
+        else
+        {
+            this.giveItem(outItem);
+            return 0;
+        }
     }
 }
