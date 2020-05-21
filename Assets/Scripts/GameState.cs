@@ -11,7 +11,7 @@ public class GameState : ScriptableObject
     public Location currentLocation;
 
     public bool inCombat = false;
-
+    
     public bool readyForPlayerInput = false;
 
     public bool allQuestItemsCollected = false;

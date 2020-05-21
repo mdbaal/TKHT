@@ -16,28 +16,32 @@ public class SaveLoadManager
 
         foreach (Item i in items)
         {
-            itemListFromResources.Add(i.name, i);
+            if (i != null)
+                itemListFromResources.Add(i.name, i);
         }
 
         ItemOBJ[] itemOBJs = Resources.LoadAll<ItemOBJ>("Items/Prefabs/");
 
         foreach (ItemOBJ i in itemOBJs)
         {
-            itemObjListFromResources.Add(i.name, i);
+            if (i != null)
+                itemObjListFromResources.Add(i.name, i);
         }
 
         EnemyOBJ[] enemyOBJs = Resources.LoadAll<EnemyOBJ>("Npcs/Enemies/");
 
         foreach (EnemyOBJ i in enemyOBJs)
         {
-            enemyObjListFromResources.Add(i.name, i);
+            if (i != null)
+                enemyObjListFromResources.Add(i.name, i);
         }
 
         TraderOBJ[] traderOBJs = Resources.LoadAll<TraderOBJ>("Npcs/Traders/");
 
         foreach (TraderOBJ i in traderOBJs)
         {
-            traderObjListFromResources.Add(i.name, i);
+            if (i != null)
+                traderObjListFromResources.Add(i.name, i);
         }
 
     }
@@ -217,13 +221,14 @@ public class SaveLoadManager
             try
             {
                 Directory.CreateDirectory("Gamesave/");
-            }catch(System.Exception e)
+            }
+            catch (System.Exception e)
             {
-                Debug.Log("Creation failed: "+ e.ToString());
+                Debug.Log("Creation failed: " + e.ToString());
             }
         }
 
-        using (StreamWriter writer = new StreamWriter(@"Gamesave/Json.txt"))
+        using (StreamWriter writer = new StreamWriter(@"Gamesave/save.json"))
         {
             writer.WriteLine(JSonStringPlayer);
             writer.WriteLine(JsonStringLocations);
@@ -236,10 +241,10 @@ public class SaveLoadManager
         {
             return;
         }
-            getObjectsFromResources();
+        getObjectsFromResources();
         string JSonStringPlayer = "";
         string JsonStringLocations = "";
-        using (StreamReader reader = new StreamReader("Gamesave/Json.txt"))
+        using (StreamReader reader = new StreamReader("Gamesave/save.json"))
         {
             JSonStringPlayer = reader.ReadLine();
             JsonStringLocations = reader.ReadLine();
@@ -302,7 +307,7 @@ public class SaveLoadManager
 
             foreach (EnemyData ed in ld.enemies)
             {
-                Debug.Log(enemyObjListFromResources[ed.name]);
+                Debug.Log(ed.name);
                 EnemyOBJ eo = GameObject.Instantiate<EnemyOBJ>(enemyObjListFromResources[ed.name], new Vector3(ed.position[0], ed.position[1], ed.position[2]), Quaternion.identity);
 
                 eo.name = ed.name;
