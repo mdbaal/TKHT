@@ -29,7 +29,6 @@ public class TradeManager
         {
             
             int result = playerIsBuying(item, out _item);
-            if (result == 1) return 1;
 
             return result;
         }
@@ -55,6 +54,7 @@ public class TradeManager
     public int playerIsSelling(string[] item, out Item _item)
     {
         _item = null;
+        if (item == null || item.Length < 1) return 0;
         int result = _player.takeItem(item, out _item);
         if(_item.GetType() == typeof(QuestItem))
         {
@@ -77,6 +77,7 @@ public class TradeManager
     {
         int result = 0;
         _item = null;
+        if (item == null || item.Length < 1) return 0;
         string newItem = "";
         foreach (string s in item)
         {
