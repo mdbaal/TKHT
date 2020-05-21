@@ -158,15 +158,19 @@ public class UIManager : MonoBehaviour
         {
             case "Crown":
                 ObjectivesTexts[0].color = new Color(0, 0, 0, 1);
+                ObjectivesTexts[0].text = "Collected Crown";
                 break;
             case "Boots":
                 ObjectivesTexts[1].color = new Color(0, 0, 0, 1);
+                ObjectivesTexts[1].text = "Collected Boots";
                 break;
             case "Dragon Egg":
                 ObjectivesTexts[2].color = new Color(0, 0, 0, 1);
+                ObjectivesTexts[2].text = "Collected Draggon Egg";
                 break;
             case "Pocket Chest":
                 ObjectivesTexts[3].color = new Color(0, 0, 0, 1);
+                ObjectivesTexts[3].text = "Collected Pocket Chest";
                 break;
         }
         
