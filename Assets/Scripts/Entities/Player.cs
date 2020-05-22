@@ -17,7 +17,7 @@ public class Player : Entity
     {
         outItem = null;
         int r = _inventory.addItem(outItem);
-        if(r == 0)
+        if (r == 0)
         {
             return 0;
         }
@@ -60,14 +60,14 @@ public class Player : Entity
         if (i.GetType() == typeof(Weapon))
         {
             if (weapon != null) return -1;
-            weapon = (Weapon) i;
+            weapon = (Weapon)i;
             outItem = i;
             return 1;
         }
         else if (i.GetType() == typeof(Shield))
         {
             if (shield != null) return -1;
-            shield = (Shield) i;
+            shield = (Shield)i;
             outItem = i;
             return 1;
         }
@@ -76,7 +76,7 @@ public class Player : Entity
 
     }
 
-    public int unEquip(string[] item,out Item outItem)
+    public int unEquip(string[] item, out Item outItem)
     {
 
         string _item = "";
@@ -84,28 +84,40 @@ public class Player : Entity
         {
             _item += s + " ";
         }
+
         _item = _item.Trim();
         outItem = null;
         Item i = null;
 
-        if (weapon.name == _item)
+        if (weapon != null)
         {
-            i = weapon;
-            weapon = null;
-        }else if (shield.name == _item)
+            if (weapon.name == _item)
+            {
+                i = weapon;
+                weapon = null;
+            }
+        }
+        else if (shield != null)
         {
-            i = shield;
-            shield = null;
+            if (shield.name == _item && shield != null)
+            {
+                i = shield;
+                shield = null;
+            }
+            else
+            {
+                return 0;
+            }
         }
         else
         {
             return 0;
         }
+            this.giveItem(i);
+            outItem = i;
 
-        this.giveItem(i);
-        outItem = i;
-
-        return 1;
+            return 1;
+        
     }
 
     //Use food item
@@ -120,9 +132,12 @@ public class Player : Entity
         {
             return r;
 
-        } else if (health == maxHealth) {
+        }
+        else if (health == maxHealth)
+        {
             return 2;
-        } else if (r == 1)
+        }
+        else if (r == 1)
         {
             this.health += outItem.healingPoints;
             return r;

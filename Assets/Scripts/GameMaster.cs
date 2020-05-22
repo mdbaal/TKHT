@@ -57,8 +57,14 @@ public class GameMaster : MonoBehaviour
         {
             uIManager.UpdateObjectiveText(qi);
         }
-
+        StartCoroutine(asignFirstSceneToGameState());
        
+    }
+
+    IEnumerator asignFirstSceneToGameState()
+    {
+        yield return new WaitUntil(() => locationsMap.getLocation() != null);
+        gameState.currentLocation = locationsMap.getLocation();
     }
 
     //Called form input parser, receive input

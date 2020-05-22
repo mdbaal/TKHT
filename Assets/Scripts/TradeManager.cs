@@ -55,13 +55,16 @@ public class TradeManager
     {
         _item = null;
         if (item == null || item.Length < 1) return 0;
+
         int result = _player.takeItem(item, out _item);
+
+        if (result == 0) { _player.giveItem(_item); return 0; }
+
         if(_item.GetType() == typeof(QuestItem))
         {
             _player.giveItem(_item);
             return -5;
         }
-        if (result == 0) { _player.giveItem(_item); return 0; }
 
         int priceBeforeTrade = _item.worth;
         result = _trader.buyFromPlayer(_item);
