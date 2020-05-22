@@ -6,9 +6,14 @@ using UnityEngine.UI;
 
 public class InputParser : MonoBehaviour
 {
-    public InputField inputField;
+    [SerializeField]
+    private InputField inputField;
+
+    
     public GameMaster gameMaster;
-    public OutputManager outputManager;
+
+    [SerializeField]
+    private OutputManager outputManager;
 
     private string input = "> ";
 

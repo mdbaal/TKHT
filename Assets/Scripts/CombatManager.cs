@@ -5,18 +5,20 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     [Header("Game State")]
-    public GameState gameState;
+    [SerializeField]
+    private GameState gameState;
 
     private Player player = null;
     private Enemy enemy = null;
 
     private bool playerTurn = true;
     [Header("Time to wait in seconds")]
-    public int timeToWait = 0;
-
-    public OutputManager outputManager;
-
-    public UIManager uIManager;
+    [SerializeField]
+    private int timeToWait = 0;
+    [SerializeField]
+    private OutputManager outputManager;
+    [SerializeField]
+    private UIManager uIManager;
 
     public delegate void CombatCallback(int r);
 

@@ -7,15 +7,20 @@ public class GameMaster : MonoBehaviour
 {
     private Commands commands = new Commands();
     [Header("Output manager")]
-    public OutputManager outputManager;
+    [SerializeField]
+    private OutputManager outputManager;
     [Header("World Locations")]
-    public LocationsMap locationsMap;
+    [SerializeField]
+    private LocationsMap locationsMap;
     [Header("Gamestate")]
-    public GameState gameState;
+    [SerializeField]
+    private GameState _gameState;
     [Header("UI Manager")]
-    public UIManager uIManager;
+    [SerializeField]
+    private UIManager uIManager;
     [Header("CombatManager")]
-    public CombatManager combatManager;
+    [SerializeField]
+    private CombatManager combatManager;
 
     private TradeManager tradeManager = new TradeManager();
 
@@ -25,6 +30,8 @@ public class GameMaster : MonoBehaviour
     private string action = "";
 
     private string[] target;
+
+    public GameState gameState { get => _gameState; set => _gameState = value; }
 
     //Reset booleans on start to make sure game starts properly
     private void Start()
@@ -221,7 +228,7 @@ public class GameMaster : MonoBehaviour
 
                 targetName = targetName.Trim();
 
-                //outputManager.outputMessage("Attacking " + targetName );
+               
                 combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
                 break;
             case "Take":

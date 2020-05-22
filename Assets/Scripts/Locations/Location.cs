@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Location : MonoBehaviour
 {
-    public new string name;
+    [SerializeField]
+    private string _name;
     [TextArea]
-    public string description;
+    [SerializeField]
+    private string _description;
 
-    public Sprite sprite;
+    [SerializeField]
+    private Sprite _sprite;
+
     private Inventory _inventory = new Inventory();
 
-    public Location[] neighbours;
+    [SerializeField]
+    private Location[] _neighbours;
+
     [Header("All scene OBJs")]
     [SerializeField]
     private List<ItemOBJ> _items = new List<ItemOBJ>();
@@ -21,8 +27,8 @@ public class Location : MonoBehaviour
     private TraderOBJ _trader;
 
     private bool isMade = false;
-
-    public bool playerVisited = false;
+    [SerializeField]
+    private bool _playerVisited = false;
 
     //Enemy settings of scene
     public bool allEnemiesDeadToContinue = false;
@@ -36,6 +42,11 @@ public class Location : MonoBehaviour
     public EnemyOBJ[] enemies { get => _enemies; set => _enemies = value; }
     public TraderOBJ trader { get => _trader; set => _trader = value; }
     public bool allEnemiesDead { get => _allEnemiesDead; set => _allEnemiesDead = value; }
+    public string name { get => _name; set => _name = value; }
+    public string description { get => _description;}
+    public Sprite sprite { get => _sprite;}
+    public Location[] neighbours { get => _neighbours; }
+    public bool playerVisited { get => _playerVisited; set => _playerVisited = value; }
 
     //Is the location you try to access a neighbour
     public bool hasNeighbour(string l)
@@ -136,7 +147,7 @@ public class Location : MonoBehaviour
         }
 
         if(trader != null)
-        npcs += " - " + trader._name + "\n";
+        npcs += " - " + trader.name + "\n";
 
         return npcs;
     }

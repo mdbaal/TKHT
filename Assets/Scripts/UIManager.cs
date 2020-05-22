@@ -6,43 +6,60 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Game State")]
-    public GameState gameState;
+    [SerializeField]
+    private GameState gameState;
     [Header("Output Scrollrect")]
-    public ScrollRect textScroll;
+    [SerializeField]
+    private ScrollRect textScroll;
     [Header("Inventory & Equipment")]
-    public List<GameObject> inventorySlots = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> inventorySlots = new List<GameObject>();
 
-    public List<GameObject> equipmentSlots = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> equipmentSlots = new List<GameObject>();
 
     [Header("Objectives texts")]
-    public Text[] ObjectivesTexts;
+    [SerializeField]
+    private Text[] ObjectivesTexts;
 
 
     [Header("Player health")]
-    public GameObject playerHealth;
-    public int fullHealth = 0;
+    [SerializeField]
+    private GameObject playerHealth;
+
+    private int fullHealth = 0;
 
     [Header("Player Gold")]
-    public Text goldText;
+    [SerializeField]
+    private Text goldText;
 
     [Header("Tutorial pop-up")]
-    public GameObject tutorialPopup;
-    public Text tutorialNumber;
     [SerializeField]
-    Text[] tutorialTexts = new Text[] { };
+    private GameObject tutorialPopup;
     [SerializeField]
-    int tutorialIndex = 0;
+    private Text tutorialNumber;
+    [SerializeField]
+    public Text[] tutorialTexts = new Text[] { };
+
+    private int tutorialIndex = 0;
 
     [Header("Endscreen UI")]
-    public GameObject Endscreen;
-    public Text EndscreenTitle;
-    public Text EndscreenText;
+    [SerializeField]
+    private GameObject Endscreen;
+    [SerializeField]
+    private Text EndscreenTitle;
+    [SerializeField]
+    private Text EndscreenText;
 
     [Header("Minimap")]
-    public Image mapImage;
-    public Sprite[] mapImages;
-    public Image[] mapPoints;
-    int currentActivePoint = 0;
+    [SerializeField]
+    private Image mapImage;
+    [SerializeField]
+    private Sprite[] mapImages;
+    [SerializeField]
+    private Image[] mapPoints;
+
+    private int currentActivePoint = 0;
 
 
     private void Start()

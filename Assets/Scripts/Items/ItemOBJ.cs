@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class ItemOBJ : MonoBehaviour
 {
-    public Item item;
+    [SerializeField]
+    private Item _item;
 
-    public int droppedIndex = -1;
+    [SerializeField]
+    private int _droppedIndex = -1;
+
+    public Item item { get => _item; set => _item = value; }
+    public int droppedIndex { get => _droppedIndex; set => _droppedIndex = value; }
 
     private void Awake()
     {

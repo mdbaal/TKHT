@@ -5,14 +5,18 @@ using UnityEngine;
 public class TraderOBJ : MonoBehaviour
 {
     private Trader _trader;
-
-    public Sprite _sprite;
-    public string _name;
-    public int _maxHealth;
-    public Weapon _weapon;
-    public int _gold;
-
-    public List<Item> stock;
+    [SerializeField]
+    private Sprite _sprite;
+    [SerializeField]
+    private string _name;
+    [SerializeField]
+    private int _maxHealth;
+    [SerializeField]
+    private Weapon _weapon;
+    [SerializeField]
+    private int _gold;
+    [SerializeField]
+    private List<Item> _stock;
 
 
 
@@ -31,6 +35,12 @@ public class TraderOBJ : MonoBehaviour
     }
 
     public Trader trader { get => this._trader; }
+    public Sprite sprite { get => _sprite; set => _sprite = value; }
+    public string name { get => _name; set => _name = value; }
+    public int maxHealth { get => _maxHealth; set => _maxHealth = value; }
+    public Weapon weapon { get => _weapon; set => _weapon = value; }
+    public int gold { get => _gold; set => _gold = value; }
+    public List<Item> stock { get => _stock; }
 
     public void removeObject()
     {

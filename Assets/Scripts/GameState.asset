@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e622727b928df47921bf20d93ebd02, type: 3}
   m_Name: GameState
   m_EditorClassIdentifier: 
-  questItemsCollected: []
-  currentLocation: {fileID: 0}
-  inCombat: 0
-  readyForPlayerInput: 1
-  allQuestItemsCollected: 0
-  finishedTutorial: 1
-  isTrading: 1
+  _questItemsCollected: []
+  _currentLocation: {fileID: 0}
+  _inCombat: 0
+  _readyForPlayerInput: 1
+  _allQuestItemsCollected: 0
+  _finishedTutorial: 0
+  _isTrading: 0

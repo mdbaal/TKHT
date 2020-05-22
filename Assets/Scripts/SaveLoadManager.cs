@@ -170,10 +170,10 @@ public class SaveLoadManager
                 {
                     EnemyData ed = new EnemyData();
                     ed.name = e.name;
-                    ed.maxHealth = e._maxHealth;
-                    if (e._weapon != null) ed.weapon = e._weapon.name;
-                    if (e._shield != null) ed.shield = e._shield.name;
-                    ed.sprite = e._sprite.name;
+                    ed.maxHealth = e.maxHealth;
+                    if (e.weapon != null) ed.weapon = e.weapon.name;
+                    if (e.shield != null) ed.shield = e.shield.name;
+                    ed.sprite = e.sprite.name;
 
                     ed.position = new float[] { e.transform.position.x, e.transform.position.y, e.transform.position.z };
 
@@ -187,10 +187,10 @@ public class SaveLoadManager
                     TraderData td = new TraderData();
                     TraderOBJ trader = l.getTraderOBJ();
 
-                    td.name = trader._name;
-                    td.maxHealth = trader._maxHealth;
-                    td.weapon = trader._weapon.name;
-                    td.sprite = trader._sprite.name;
+                    td.name = trader.name;
+                    td.maxHealth = trader.maxHealth;
+                    td.weapon = trader.weapon.name;
+                    td.sprite = trader.sprite.name;
                     td.gold = trader.trader.gold;
                     td.position = new float[] { trader.transform.position.x, trader.transform.position.y, trader.transform.position.z };
 
@@ -311,13 +311,13 @@ public class SaveLoadManager
                 EnemyOBJ eo = GameObject.Instantiate<EnemyOBJ>(enemyObjListFromResources[ed.name], new Vector3(ed.position[0], ed.position[1], ed.position[2]), Quaternion.identity);
 
                 eo.name = ed.name;
-                eo._maxHealth = ed.maxHealth;
+                eo.maxHealth = ed.maxHealth;
                 if (ed.weapon != string.Empty && ed.weapon != "")
-                    eo._weapon = (Weapon)itemListFromResources[ed.weapon];
+                    eo.weapon = (Weapon)itemListFromResources[ed.weapon];
                 if (ed.shield != string.Empty && ed.weapon != "")
-                    eo._shield = (Shield)itemListFromResources[ed.shield];
+                    eo.shield = (Shield)itemListFromResources[ed.shield];
 
-                eo._sprite = Resources.Load<Sprite>("/Sprites/" + ed.sprite);
+                eo.sprite = Resources.Load<Sprite>("/Sprites/" + ed.sprite);
 
                 enemyObjs.Add(eo);
             }
@@ -329,12 +329,12 @@ public class SaveLoadManager
 
                 TraderOBJ to = GameObject.Instantiate<TraderOBJ>(traderObjListFromResources[td.name], new Vector3(td.position[0], td.position[1], td.position[2]), Quaternion.identity);
                 to.name = td.name;
-                to._maxHealth = td.maxHealth;
+                to.maxHealth = td.maxHealth;
 
                 if (td.weapon != string.Empty && td.weapon != "")
-                    to._weapon = (Weapon)itemListFromResources[td.weapon];
+                    to.weapon = (Weapon)itemListFromResources[td.weapon];
 
-                to._sprite = Resources.Load<Sprite>("/Sprites/" + td.sprite);
+                to.sprite = Resources.Load<Sprite>("/Sprites/" + td.sprite);
 
                 to.trader.gold = td.gold;
 

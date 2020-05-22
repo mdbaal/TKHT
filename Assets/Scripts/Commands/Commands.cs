@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Commands
 {
-    public string[] commandsList = new string[]{"Go","Attack","Take","Drop","Look","Exit","Quit","Clear","Help","Equip","Unequip","Use","Save","Load","Trade"};
-    public string[] attackCommandsList = new string[] {"Attack", "Defend", "Flee" };
-    public string[] tradeCommandsList = new string[] {"Buy","Sell","Exit","Quit","Stop"};
+    private string[] _commandsList = new string[]{"Go","Attack","Take","Drop","Look","Exit","Quit","Clear","Help","Equip","Unequip","Use","Save","Load","Trade"};
+    private string[] _attackCommandsList = new string[] {"Attack", "Defend", "Flee" };
+    private string[] _tradeCommandsList = new string[] {"Buy","Sell","Exit","Quit","Stop"};
+
+    public string[] commandsList { get => _commandsList;}
+    public string[] attackCommandsList { get => _attackCommandsList; set => _attackCommandsList = value; }
+    public string[] tradeCommandsList { get => _tradeCommandsList; set => _tradeCommandsList = value; }
 
     public bool checkCommand(string c)
     {
-        for(int i = 0; i < commandsList.Length; i++)
+        for(int i = 0; i < _commandsList.Length; i++)
         {
-            if (commandsList[i].Equals(c))
+            if (_commandsList[i].Equals(c))
             {
                 return true;
             }
@@ -22,9 +26,9 @@ public class Commands
 
     public bool checkCombatCommand(string c)
     {
-        for (int i = 0; i < attackCommandsList.Length; i++)
+        for (int i = 0; i < _attackCommandsList.Length; i++)
         {
-            if (attackCommandsList[i].Equals(c))
+            if (_attackCommandsList[i].Equals(c))
             {
                 return true;
             }
@@ -34,9 +38,9 @@ public class Commands
 
     public bool checkTradeCommand(string c)
     {
-        for (int i = 0; i < tradeCommandsList.Length; i++)
+        for (int i = 0; i < _tradeCommandsList.Length; i++)
         {
-            if (tradeCommandsList[i].Equals(c))
+            if (_tradeCommandsList[i].Equals(c))
             {
                 return true;
             }

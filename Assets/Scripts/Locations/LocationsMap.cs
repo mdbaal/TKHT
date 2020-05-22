@@ -63,7 +63,7 @@ public class LocationsMap : MonoBehaviour
 
         if (items.Equals(string.Empty))
         {
-            outstring += "  When you look around you don't really see anything interresting\n";
+            outstring += "  When you look around you don't really see anything interesting\n";
 
 
         }

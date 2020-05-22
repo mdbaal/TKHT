@@ -5,23 +5,29 @@ using UnityEngine;
 public class DrawNameLabel : MonoBehaviour
 {
     [Header("In pixels")]
-    public float heightOffset;
+    [SerializeField]
+    private float heightOffset;
     [Header("In percentage")]
     [Range(.1f, 1f)]
-    public float widthOffset = .1f;
+    [SerializeField]
+    private float widthOffset = .1f;
+    [SerializeField]
+    private int fontSize;
+    [SerializeField]
+    private int padding;
+    [SerializeField]
+    private Texture2D labelTexture;
+    [SerializeField]
+    private bool wordWrap = false;
 
-    public int fontSize;
-    public int padding;
-
-    public Texture2D labelTexture;
-
-    public bool wordWrap = false;
-
-
-    public Color textColor;
+    [SerializeField]
+    private Color textColor;
     [Range(0,1)]
-    public float alpha = 1;
+    [SerializeField]
+    private float alpha = 1;
+
     public GameState gameState;
+    
 
     private void OnGUI()
     {

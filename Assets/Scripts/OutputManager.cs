@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class OutputManager : MonoBehaviour
 {
     [Header("Output text element")]
-    public Text outputField;
+    [SerializeField]
+    private Text outputField;
 
     [Header("UI Manager")]
-    public UIManager uIManager;
+    [SerializeField]
+    private UIManager uIManager;
 
 
     public void outputMessage(string msg)
