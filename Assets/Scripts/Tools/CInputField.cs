@@ -17,6 +17,8 @@ public class CInputField : InputField
                 this.caretPosition = this.text.Length;
             }
         });
+
+        
     }
 
     public override void OnDeselect(BaseEventData eventData)
@@ -37,6 +39,7 @@ public class CInputField : InputField
     {
         
     }
+    
 
     IEnumerator activeCheck()
     {

@@ -77,12 +77,41 @@ public class UIManager : MonoBehaviour
         updateGold();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+            nextTutorial();
 
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+            prevTutorial();
+
+        if (Input.GetKeyDown(KeyCode.PageUp))
+            scrollOutputUp();
+
+
+        if (Input.GetKeyDown(KeyCode.PageDown))
+            scrollOutputDown();
+    }
+   
     public void outputToBottom()
     {
         Canvas.ForceUpdateCanvases();
 
         textScroll.verticalNormalizedPosition = 0;
+    }
+
+    public void scrollOutputUp()
+    {
+        Canvas.ForceUpdateCanvases();
+
+        textScroll.verticalNormalizedPosition += .1f;
+    }
+
+    public void scrollOutputDown()
+    {
+        Canvas.ForceUpdateCanvases();
+        textScroll.verticalNormalizedPosition -=.1f;
     }
 
     public void addToPlayerInventory(Item item)
@@ -197,15 +226,6 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-            nextTutorial();
-
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-            prevTutorial();
-    }
 
     public void startTutorial()
     {
