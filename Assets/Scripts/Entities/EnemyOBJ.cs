@@ -30,7 +30,7 @@ public class EnemyOBJ : MonoBehaviour
     }
     public Enemy enemy { get => this._enemy; }
     public Sprite sprite { get => _sprite; set => _sprite = value; }
-    public string name { get => _name; set => _name = value; }
+    public new string name { get => _name; set{ _name = value; this.gameObject.name = value; } }
     public int maxHealth { get => _maxHealth; set => _maxHealth = value; }
     public Weapon weapon { get => _weapon; set => _weapon = value; }
     public Shield shield { get => _shield; set => _shield = value; }

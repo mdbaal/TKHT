@@ -28,7 +28,8 @@ public class LocationsMap : MonoBehaviour
             if (currentLocation.allEnemiesDeadToContinue && !currentLocation.allEnemiesDead)
             {
                 return -3;
-            }else if (currentLocation.hasNeighbour(_newloc))
+            }
+            else if (currentLocation.hasNeighbour(_newloc))
             {
                 Location old = currentLocation;
                 old.leave();
@@ -37,7 +38,8 @@ public class LocationsMap : MonoBehaviour
                 currentLocation.playerVisited = true;
 
                 return 1;
-            }else
+            }
+            else
             {
                 return -1;
             }
@@ -47,12 +49,25 @@ public class LocationsMap : MonoBehaviour
             return 0;
         }
     }
+
+    //Move to new location
+    public void moveFromLoad(string newloc)
+    {
+        if (locations.ContainsKey(newloc))
+        {
+            Location old = currentLocation;
+            old.leave();
+            currentLocation = locations[newloc];
+            currentLocation.enter();
+            currentLocation.playerVisited = true;
+        }
+    }
     //Get name of current location
     public string getLocationName()
     {
         return currentLocation.name;
     }
-       
+
     //Get location description called with look
     public string getLocationDescription()
     {

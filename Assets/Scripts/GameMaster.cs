@@ -24,8 +24,6 @@ public class GameMaster : MonoBehaviour
 
     private TradeManager tradeManager = new TradeManager();
 
-    private SaveLoadManager saveLoadManager = new SaveLoadManager();
-
 
     private string action = "";
 
@@ -236,6 +234,7 @@ public class GameMaster : MonoBehaviour
 
                
                 combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
+
                 break;
             case "Take":
                 if (target.Length == 0)
@@ -255,10 +254,17 @@ public class GameMaster : MonoBehaviour
                 if (result == 0)
                 {
                     outputManager.outputMessage("This item doesn't exist");
+                    break;
                 }
                 else if (result == 1)
                 {
                     result = gameState.player.giveItem(item);
+
+                    /*if (result == -2)
+                    { 
+                        outputManager.outputMessage("You don't have enough space");
+                        break;
+                    }*/
                     uIManager.addToPlayerInventory(item);
                     if (item.GetType() == typeof(QuestItem))
                     {
@@ -274,7 +280,8 @@ public class GameMaster : MonoBehaviour
                     {
                         outputManager.outputMessage("You took " + item.name);
                     }
-                }else if (result == -1)
+                }
+                else if (result == -1)
                 {
                     outputManager.outputMessage("Not the smartest move when they are looking");
                 }
@@ -437,12 +444,12 @@ public class GameMaster : MonoBehaviour
 
     public void saveGame()
     {
-        saveLoadManager.save(this.gameState, this.locationsMap);
+        SaveLoadManager.save(this.gameState, this.locationsMap);
     }
 
     public void loadGame()
     {
-        saveLoadManager.load(this.gameState, this.locationsMap, this.uIManager);
+        SaveLoadManager.load(this.gameState, this.locationsMap, this.uIManager);
     }
 
 

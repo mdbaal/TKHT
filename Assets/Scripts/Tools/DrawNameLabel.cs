@@ -31,7 +31,8 @@ public class DrawNameLabel : MonoBehaviour
 
     private void OnGUI()
     {
-     
+
+        if (gameState == null) return;
         if (!gameState.finishedTutorial || gameState.player.health <= 0 || gameState.allQuestItemsCollected) return;
 
         float objectCenter = this.GetComponent<SpriteRenderer>().bounds.center.x;
