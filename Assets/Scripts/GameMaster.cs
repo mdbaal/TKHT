@@ -129,6 +129,7 @@ public class GameMaster : MonoBehaviour
             case 1:
             case 2:
                 gameState.inCombat = false;
+                uIManager.toggleCombatEdge();
                 gameState.currentLocation.enemyDied();
                 gameState.currentLocation.checkAllDead();
                 break;
@@ -223,7 +224,7 @@ public class GameMaster : MonoBehaviour
             case "Attack":
                 
                 gameState.inCombat = true;
-
+                uIManager.toggleCombatEdge();
                 string targetName = "";
                 foreach(string s in target)
                 {

@@ -58,6 +58,9 @@ public class UIManager : MonoBehaviour
     private Sprite[] mapImages;
     [SerializeField]
     private Image[] mapPoints;
+    [SerializeField]
+    [Space]
+    private Image combatEdge;
 
     private int currentActivePoint = 0;
 
@@ -341,5 +344,10 @@ public class UIManager : MonoBehaviour
     public void updateGold()
     {
         goldText.text = "Gold: " + gameState.player.gold.ToString();
+    }
+
+    public void toggleCombatEdge()
+    {
+        combatEdge.enabled = !combatEdge.enabled;
     }
 }
