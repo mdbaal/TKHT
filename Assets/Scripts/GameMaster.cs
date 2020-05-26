@@ -21,6 +21,9 @@ public class GameMaster : MonoBehaviour
     [Header("CombatManager")]
     [SerializeField]
     private CombatManager combatManager;
+    [Header("AudioManager")]
+    [SerializeField]
+    private AudioManager audioManager; 
 
     private TradeManager tradeManager = new TradeManager();
 
@@ -56,7 +59,7 @@ public class GameMaster : MonoBehaviour
             uIManager.UpdateObjectiveText(qi);
         }
         StartCoroutine(asignFirstSceneToGameState());
-
+        audioManager.changeSong();
     }
 
     IEnumerator asignFirstSceneToGameState()
@@ -132,6 +135,7 @@ public class GameMaster : MonoBehaviour
                 uIManager.toggleCombatEdge();
                 gameState.currentLocation.enemyDied();
                 gameState.currentLocation.checkAllDead();
+                audioManager.changeSong();
                 break;
             case 3:
                 gameState.inCombat = false;
@@ -237,7 +241,7 @@ public class GameMaster : MonoBehaviour
 
 
                 combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
-
+                audioManager.changeSong();
                 break;
             case "Take":
                 if (target.Length == 0)
@@ -274,6 +278,7 @@ public class GameMaster : MonoBehaviour
                         outputManager.outputMessage("You took " + item.name);
                     }
                     gameState.currentLocation.takeItem(target, out item);
+                    audioManager.playPickupDropSound();
                 }
                 else if (result == -2)
                 {
@@ -306,6 +311,7 @@ public class GameMaster : MonoBehaviour
                 {
                     uIManager.removeFromPlayerInventory(item);
                     outputManager.outputMessage("You dropped " + item.name);
+                    audioManager.playPickupDropSound();
                 }
                 else if (result == -1)
                 {
@@ -343,6 +349,7 @@ public class GameMaster : MonoBehaviour
                 {
                     uIManager.addToEquiped(item);
                     outputManager.outputMessage("You equipped " + item.name);
+                    audioManager.playPickupDropSound();
                 }
                 else if (result == -1)
                 {
@@ -360,6 +367,7 @@ public class GameMaster : MonoBehaviour
                 {
                     uIManager.removeFromEquiped(item);
                     outputManager.outputMessage("You unequiped " + item.name);
+                    audioManager.playPickupDropSound();
                 }
                 break;
             case "Use":

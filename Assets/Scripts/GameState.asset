@@ -17,5 +17,5 @@ MonoBehaviour:
   _inCombat: 0
   _readyForPlayerInput: 1
   _allQuestItemsCollected: 0
-  _finishedTutorial: 1
+  _finishedTutorial: 0
   _isTrading: 0
