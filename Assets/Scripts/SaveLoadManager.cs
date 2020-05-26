@@ -117,16 +117,16 @@ public static class SaveLoadManager
 
 
     //SAVE GAME TO JSON IN TXT FILE
-    public static void save(GameState gameState, LocationsMap locationsMap)
+    public static void save(LocationsMap locationsMap)
     {
-        //Gamestate data
+        //GameState data
         GameStateData gameStateData = new GameStateData();
         
-        gameStateData.finishedTutorial = gameState.finishedTutorial;
+        gameStateData.finishedTutorial = GameState.finishedTutorial;
 
         List<ItemData> idl = new List<ItemData>();
 
-        foreach (Item qi in gameState.questItemsCollected)
+        foreach (Item qi in GameState.questItemsCollected)
         {
             ItemData id = new ItemData();
             id.name = qi.name;
@@ -135,7 +135,7 @@ public static class SaveLoadManager
 
         gameStateData.questItemsCollected = idl.ToArray();
 
-        Player _player = gameState.player;
+        Player _player = GameState.player;
 
         //PLAYER DATA
         PlayerData playerData = new PlayerData();
@@ -266,7 +266,7 @@ public static class SaveLoadManager
         }
     }
     //LOAD GAME FROM SAVE FILE
-    public static void load(GameState gameState, LocationsMap locationsMap, UIManager uIManager)
+    public static void load(LocationsMap locationsMap, UIManager uIManager)
     {
         if (!Directory.Exists("Gamesave/"))
         {
@@ -283,13 +283,13 @@ public static class SaveLoadManager
 
         GameStateData gameStateData = JsonUtility.FromJson<GameStateData>(JsonGameState);
         Locations locations = JsonUtility.FromJson<Locations>(JsonStringLocations);
-        //Set gamestate values from data
-        gameState.finishedTutorial = gameStateData.finishedTutorial;
+        //Set GameState values from data
+        GameState.finishedTutorial = gameStateData.finishedTutorial;
 
         foreach(ItemData id in gameStateData.questItemsCollected)
         {
 
-            gameState.addToQuestItems((QuestItem)itemListFromResources[id.name]);
+            GameState.addToQuestItems((QuestItem)itemListFromResources[id.name]);
         }
 
         //CREATE PLAYER FROM SAVE DATA
@@ -309,7 +309,7 @@ public static class SaveLoadManager
             _player.giveItem(itemListFromResources[id.name]);
         }
 
-        gameState.player = _player;
+        GameState.player = _player;
 
         //EDIT EXISTING LOCATIONS WITH SAVE DATA
 
@@ -396,7 +396,7 @@ public static class SaveLoadManager
         //Update Scene
         locationsMap.moveFromLoad(gameStateData.currentLocation);
 
-        gameState.currentLocation = locationsMap.getLocation();
+        GameState.currentLocation = locationsMap.getLocation();
 
         //Update player UI
         uIManager.updatePlayerHealth(_player);
@@ -410,12 +410,12 @@ public static class SaveLoadManager
         if (_player.shield != null)
             uIManager.addToEquiped(_player.shield);
 
-        foreach (QuestItem qi in gameState.questItemsCollected)
+        foreach (QuestItem qi in GameState.questItemsCollected)
         {
             uIManager.UpdateObjectiveText(qi);
         }
 
         uIManager.updateGold();
-        uIManager.UpdateMinimap(gameState.currentLocation.name);
+        uIManager.UpdateMinimap(GameState.currentLocation.name);
     }
 }

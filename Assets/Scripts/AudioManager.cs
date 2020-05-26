@@ -16,8 +16,6 @@ public class AudioManager : MonoBehaviour
     private float fadeEffectSpeed = .1f;
     [SerializeField]
     private float fadeEffectWaitTime = 1;
-    [SerializeField]
-    private GameState gameState;
 
 
     public void playPickupDropSound()
@@ -28,7 +26,7 @@ public class AudioManager : MonoBehaviour
 
     public void changeSong()
     {
-        if (gameState.inCombat)
+        if (GameState.inCombat)
         {
             StartCoroutine(transitionAndChangeMusic(Random.Range(2, 4),1));
         }

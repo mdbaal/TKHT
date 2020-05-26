@@ -25,15 +25,11 @@ public class DrawNameLabel : MonoBehaviour
     [Range(0,1)]
     [SerializeField]
     private float alpha = 1;
-
-    public GameState gameState;
     
 
     private void OnGUI()
     {
-
-        if (gameState == null) return;
-        if (!gameState.finishedTutorial || gameState.player.health <= 0 || gameState.allQuestItemsCollected) return;
+        if (!GameState.finishedTutorial || GameState.player.health <= 0 || GameState.allQuestItemsCollected) return;
 
         float objectCenter = this.GetComponent<SpriteRenderer>().bounds.center.x;
 

@@ -1,36 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "GameState", menuName = "Gamestate", order = 0)]
-public class GameState : ScriptableObject
+//[CreateAssetMenu(fileName = "GameState", menuName = "GameState", order = 0)]
+public static class GameState
 {
     [SerializeField]
-    private Player _player = new Player();
+    private static Player _player = new Player();
     [SerializeField]
-    private List<QuestItem> _questItemsCollected = new List<QuestItem>();
+    private static List<QuestItem> _questItemsCollected = new List<QuestItem>();
     [SerializeField]
-    private Location _currentLocation;
+    private static Location _currentLocation;
     [SerializeField]
-    private bool _inCombat = false;
+    private static bool _inCombat = false;
     [SerializeField]
-    private bool _readyForPlayerInput = false;
+    private static bool _readyForPlayerInput = false;
     [SerializeField]
-    private bool _allQuestItemsCollected = false;
+    private static bool _allQuestItemsCollected = false;
     [SerializeField]
-    private bool _finishedTutorial = false;
+    private static bool _finishedTutorial = false;
     [SerializeField]
-    private bool _isTrading = false;
+    private static bool _isTrading = false;
 
-    public Player player { get => _player; set => _player = value; }
-    public List<QuestItem> questItemsCollected { get => _questItemsCollected; set => _questItemsCollected = value; }
-    public Location currentLocation { get => _currentLocation; set => _currentLocation = value; }
-    public bool inCombat { get => _inCombat; set => _inCombat = value; }
-    public bool readyForPlayerInput { get => _readyForPlayerInput; set => _readyForPlayerInput = value; }
-    public bool allQuestItemsCollected { get => _allQuestItemsCollected; set => _allQuestItemsCollected = value; }
-    public bool finishedTutorial { get => _finishedTutorial; set => _finishedTutorial = value; }
-    public bool isTrading { get => _isTrading; set => _isTrading = value; }
+    public static Player player { get => _player; set => _player = value; }
+    public static List<QuestItem> questItemsCollected { get => _questItemsCollected; set => _questItemsCollected = value; }
+    public static Location currentLocation { get => _currentLocation; set => _currentLocation = value; }
+    public static bool inCombat { get => _inCombat; set => _inCombat = value; }
+    public static bool readyForPlayerInput { get => _readyForPlayerInput; set => _readyForPlayerInput = value; }
+    public static bool allQuestItemsCollected { get => _allQuestItemsCollected; set => _allQuestItemsCollected = value; }
+    public static bool finishedTutorial { get => _finishedTutorial; set => _finishedTutorial = value; }
+    public static bool isTrading { get => _isTrading; set => _isTrading = value; }
 
-    public void addToQuestItems(QuestItem item)
+    public static void addToQuestItems(QuestItem item)
     {
 
         questItemsCollected.Add(item);
@@ -42,7 +42,7 @@ public class GameState : ScriptableObject
         
     }
 
-    public void restart()
+    public static void restart()
     {
         player = new Player();
 

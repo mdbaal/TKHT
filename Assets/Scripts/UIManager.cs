@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Game State")]
-    [SerializeField]
-    private GameState gameState;
+    
     [Header("Output Scrollrect")]
     [SerializeField]
     private ScrollRect textScroll;
@@ -71,9 +70,9 @@ public class UIManager : MonoBehaviour
     }
     IEnumerator setPlayerValues()
     {
-        yield return new WaitUntil(() => gameState.player != null);
-        fullHealth = gameState.player.health;
-        updatePlayerHealth(gameState.player);
+        yield return new WaitUntil(() => GameState.player != null);
+        fullHealth = GameState.player.health;
+        updatePlayerHealth(GameState.player);
         updateGold();
     }
 
@@ -267,8 +266,8 @@ public class UIManager : MonoBehaviour
     {
         tutorialPopup.SetActive(false);
 
-        gameState.finishedTutorial = true;
-        gameState.readyForPlayerInput = true;
+        GameState.finishedTutorial = true;
+        GameState.readyForPlayerInput = true;
     }
 
     public void showEndscreen(int i)
@@ -363,7 +362,7 @@ public class UIManager : MonoBehaviour
 
     public void updateGold()
     {
-        goldText.text = "Gold: " + gameState.player.gold.ToString();
+        goldText.text = "Gold: " + GameState.player.gold.ToString();
     }
 
     public void toggleCombatEdge()

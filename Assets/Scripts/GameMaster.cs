@@ -12,9 +12,9 @@ public class GameMaster : MonoBehaviour
     [Header("World Locations")]
     [SerializeField]
     private LocationsMap locationsMap;
-    [Header("Gamestate")]
+    /*[Header("GameState")]
     [SerializeField]
-    private GameState _gameState;
+    private GameState _gameState;*/
     [Header("UI Manager")]
     [SerializeField]
     private UIManager uIManager;
@@ -32,46 +32,47 @@ public class GameMaster : MonoBehaviour
 
     private string[] target;
 
-    public GameState gameState { get => _gameState; set => _gameState = value; }
+    //public GameState GameState { get => _gameState; set => _gameState = value; }
 
     //Reset booleans on start to make sure game starts properly
     private void Start()
     {
-        if (!gameState.finishedTutorial)
+        if (!GameState.finishedTutorial)
         {
             uIManager.startTutorial();
         }
-        if (gameState.allQuestItemsCollected)
+        if (GameState.allQuestItemsCollected)
         {
             StartCoroutine(playerWon());
         }
-        if (gameState.inCombat)
+        if (GameState.inCombat)
         {
-            gameState.inCombat = false;
-            gameState.readyForPlayerInput = true;
+            GameState.inCombat = false;
+            GameState.readyForPlayerInput = true;
         }
-        if (!gameState.readyForPlayerInput) gameState.readyForPlayerInput = true;
+        if (!GameState.readyForPlayerInput) GameState.readyForPlayerInput = true;
 
-        if (gameState.isTrading) gameState.isTrading = false;
+        if (GameState.isTrading) GameState.isTrading = false;
 
-        foreach (QuestItem qi in gameState.questItemsCollected)
+        foreach (QuestItem qi in GameState.questItemsCollected)
         {
             uIManager.UpdateObjectiveText(qi);
         }
         StartCoroutine(asignFirstSceneToGameState());
+
         audioManager.changeSong();
     }
 
     IEnumerator asignFirstSceneToGameState()
     {
         yield return new WaitUntil(() => locationsMap.getLocation() != null);
-        gameState.currentLocation = locationsMap.getLocation();
+        GameState.currentLocation = locationsMap.getLocation();
     }
 
     //Called form input parser, receive input
     public int sendInput(List<string> _words)
     {
-        gameState.readyForPlayerInput = false;
+        GameState.readyForPlayerInput = false;
         List<string> words = _words;
 
         if (words.Count == 0 || words == null) return 0;
@@ -79,7 +80,7 @@ public class GameMaster : MonoBehaviour
         action = words[0];
         words.Remove(action);
 
-        if (!gameState.inCombat)
+        if (!GameState.inCombat)
             target = words.ToArray();
 
         if (checkCommand() || checkCombatCommand() || checkTradeCommand())
@@ -131,14 +132,14 @@ public class GameMaster : MonoBehaviour
             case 0:
             case 1:
             case 2:
-                gameState.inCombat = false;
+                GameState.inCombat = false;
                 uIManager.toggleCombatEdge();
-                gameState.currentLocation.enemyDied();
-                gameState.currentLocation.checkAllDead();
+                GameState.currentLocation.enemyDied();
+                GameState.currentLocation.checkAllDead();
                 audioManager.changeSong();
                 break;
             case 3:
-                gameState.inCombat = false;
+                GameState.inCombat = false;
                 StartCoroutine(playerDied());
                 break;
         }
@@ -150,14 +151,14 @@ public class GameMaster : MonoBehaviour
         int result = 0; //give back result
         Item item = null; //item to use
 
-        if (gameState.inCombat)
+        if (GameState.inCombat)
         {
             combatManager.nextTurn(action);
             clearForNew();
             return;
         }
 
-        if (gameState.isTrading)
+        if (GameState.isTrading)
         {
             outputManager.outputMessage("---------------------------------");
             result = tradeManager.trade(action, target, out item);
@@ -174,18 +175,18 @@ public class GameMaster : MonoBehaviour
 
                 if (item.GetType() == typeof(QuestItem))
                 {
-                    gameState.addToQuestItems((QuestItem)item);
+                    GameState.addToQuestItems((QuestItem)item);
                     uIManager.UpdateObjectiveText((QuestItem)item);
                     outputManager.outputMessage("It's one of the quest items!");
 
-                    if (gameState.allQuestItemsCollected)
+                    if (GameState.allQuestItemsCollected)
                     {
                         StartCoroutine(playerWon());
                     }
                 }
             }
             if (result == 2) { outputManager.outputMessage("You have sold " + item.name + " for " + item.worth + " gold"); uIManager.removeFromPlayerInventory(item); uIManager.updateGold(); }
-            if (result == 3) { gameState.isTrading = false; outputManager.outputMessage("You stopped trading"); }
+            if (result == 3) { GameState.isTrading = false; outputManager.outputMessage("You stopped trading"); }
 
             if (result != 3) outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
             clearForNew();
@@ -207,8 +208,8 @@ public class GameMaster : MonoBehaviour
                 if (result == 1)
                 {
                     outputManager.outputMessage("You went to " + locationsMap.getLocationName());
-                    gameState.currentLocation = locationsMap.getLocation();
-                    uIManager.UpdateMinimap(gameState.currentLocation.name);
+                    GameState.currentLocation = locationsMap.getLocation();
+                    uIManager.UpdateMinimap(GameState.currentLocation.name);
                 }
                 else if (result == 0)
                 {
@@ -220,7 +221,7 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == -2)
                 {
-                    outputManager.outputMessage("You are already at " + gameState.currentLocation.name);
+                    outputManager.outputMessage("You are already at " + GameState.currentLocation.name);
                 }
                 else if (result == -3)
                 {
@@ -240,7 +241,7 @@ public class GameMaster : MonoBehaviour
 
                 if (result == 1)
                 { 
-                    gameState.inCombat = true;
+                    GameState.inCombat = true;
                     audioManager.changeSong();
                     uIManager.toggleCombatEdge();
                     
@@ -254,9 +255,9 @@ public class GameMaster : MonoBehaviour
                 }
 
                 //get the item
-                item = gameState.currentLocation.getItem(target);
+                item = GameState.currentLocation.getItem(target);
 
-                result = gameState.player.giveItem(item);
+                result = GameState.player.giveItem(item);
 
                 if (result == 0)
                 {
@@ -268,10 +269,10 @@ public class GameMaster : MonoBehaviour
                     uIManager.addToPlayerInventory(item);
                     if (item.GetType() == typeof(QuestItem))
                     {
-                        gameState.addToQuestItems((QuestItem)item);
+                        GameState.addToQuestItems((QuestItem)item);
                         uIManager.UpdateObjectiveText((QuestItem)item);
                         outputManager.outputMessage("You took " + item.name + " It's one of the quest items!");
-                        if (gameState.allQuestItemsCollected)
+                        if (GameState.allQuestItemsCollected)
                         {
                             StartCoroutine(playerWon());
                         }
@@ -280,7 +281,7 @@ public class GameMaster : MonoBehaviour
                     {
                         outputManager.outputMessage("You took " + item.name);
                     }
-                    gameState.currentLocation.takeItem(target, out item);
+                    GameState.currentLocation.takeItem(target, out item);
                     audioManager.playPickupDropSound();
                 }
                 else if (result == -2)
@@ -302,9 +303,9 @@ public class GameMaster : MonoBehaviour
                 }
 
                 //drop the item
-                item = gameState.player.getItem(target);
+                item = GameState.player.getItem(target);
 
-                result = gameState.currentLocation.dropItem(item);
+                result = GameState.currentLocation.dropItem(item);
 
                 if (result == 0)
                 {
@@ -342,7 +343,7 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Equip":
 
-                result = gameState.player.equip(target, out item);
+                result = GameState.player.equip(target, out item);
 
                 if (result == 0)
                 {
@@ -360,7 +361,7 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Unequip":
-                result = gameState.player.unEquip(target, out item);
+                result = GameState.player.unEquip(target, out item);
 
                 if (result == 0)
                 {
@@ -375,7 +376,7 @@ public class GameMaster : MonoBehaviour
                 break;
             case "Use":
                 Food _item;
-                result = gameState.player.use(target, out _item);
+                result = GameState.player.use(target, out _item);
 
                 if (result == -1 || result == 0)
                 {
@@ -384,7 +385,7 @@ public class GameMaster : MonoBehaviour
                 else if (result == 1)
                 {
                     uIManager.removeFromPlayerInventory(_item);
-                    uIManager.updatePlayerHealth(gameState.player);
+                    uIManager.updatePlayerHealth(GameState.player);
                     outputManager.outputMessage("You used " + _item.name);
                 }
                 else if (result == 2)
@@ -406,8 +407,8 @@ public class GameMaster : MonoBehaviour
                 if (trader != null)
                 {
 
-                    tradeManager.beginTrade(gameState.player, trader);
-                    gameState.isTrading = true;
+                    tradeManager.beginTrade(GameState.player, trader);
+                    GameState.isTrading = true;
                     outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
                     outputManager.outputMessage("To stop trading type stop,quit or exit\n > Do you want to Buy or Sell");
                     break;
@@ -455,12 +456,12 @@ public class GameMaster : MonoBehaviour
 
     public void saveGame()
     {
-        SaveLoadManager.save(this.gameState, this.locationsMap);
+        SaveLoadManager.save(this.locationsMap);
     }
 
     public void loadGame()
     {
-        SaveLoadManager.load(this.gameState, this.locationsMap, this.uIManager);
+        SaveLoadManager.load(this.locationsMap, this.uIManager);
     }
 
 
@@ -469,7 +470,7 @@ public class GameMaster : MonoBehaviour
     {
         action = "";
         target = new string[] { };
-        gameState.readyForPlayerInput = true;
+        GameState.readyForPlayerInput = true;
     }
 
     private void restartGame()
@@ -477,7 +478,7 @@ public class GameMaster : MonoBehaviour
         action = "";
         target = new string[] { };
         SceneManager.LoadSceneAsync("Main");
-        gameState.restart();
+        GameState.restart();
     }
 
     private void quitGame()

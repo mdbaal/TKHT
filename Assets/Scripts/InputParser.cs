@@ -22,12 +22,12 @@ public class InputParser : MonoBehaviour
     private void Start()
     {
         StartCoroutine(checkReady());
-        inputField.onEndEdit.AddListener(delegate { if (gameMaster.gameState.readyForPlayerInput) input = inputField.text; else { clearInput(); } });
+        inputField.onEndEdit.AddListener(delegate { if (GameState.readyForPlayerInput) input = inputField.text; else { clearInput(); } });
     }
 
     IEnumerator checkReady()
     {
-        yield return new WaitUntil(() => gameMaster.gameState.readyForPlayerInput == true);
+        yield return new WaitUntil(() => GameState.readyForPlayerInput == true);
 
         StartCoroutine(parseInput());
     }

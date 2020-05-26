@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
-    [Header("Game State")]
-    [SerializeField]
-    private GameState gameState;
-
     private Player player = null;
     private Enemy enemy = null;
 
@@ -31,8 +27,8 @@ public class CombatManager : MonoBehaviour
 
     IEnumerator setPlayer()
     {
-        yield return new WaitUntil(() => gameState.player != null);
-        player = gameState.player;
+        yield return new WaitUntil(() => GameState.player != null);
+        player = GameState.player;
     }
     //Start combat, asign enemt and call back and call attack action
     public int startCombat(Enemy enemy, CombatCallback c)
