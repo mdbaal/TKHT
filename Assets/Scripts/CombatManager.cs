@@ -35,12 +35,19 @@ public class CombatManager : MonoBehaviour
         player = gameState.player;
     }
     //Start combat, asign enemt and call back and call attack action
-    public void startCombat(Enemy enemy, CombatCallback c)
+    public int startCombat(Enemy enemy, CombatCallback c)
     {
-        this.combatCallback = c;
+        if (this.combatCallback != c) this.combatCallback = c;
+
+        if (enemy == null)
+        {
+            outputManager.outputMessage("That isn't an enemy");
+            return -1;
+        }
+
         this.enemy = enemy;
         nextTurn("Attack");
-
+        return 1;
     }
     //Next turn in combat based on action and if it is the players turn
     public void nextTurn(string action)
@@ -75,12 +82,7 @@ public class CombatManager : MonoBehaviour
                         endCombat();
                         combatCallback(0);
                     }
-                    else if (result == -1)
-                    {
-                        outputManager.outputMessage("That isn't an enemy");
-                        endCombat();
-                        combatCallback(1);
-                    }
+                    
                     else if(result == -2)
                     {
                         outputManager.outputMessage("You don't have a weapon equipped");

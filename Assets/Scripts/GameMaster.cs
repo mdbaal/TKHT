@@ -228,9 +228,6 @@ public class GameMaster : MonoBehaviour
                 }
                 break;
             case "Attack":
-
-                gameState.inCombat = true;
-                uIManager.toggleCombatEdge();
                 string targetName = "";
                 foreach (string s in target)
                 {
@@ -239,9 +236,15 @@ public class GameMaster : MonoBehaviour
 
                 targetName = targetName.Trim();
 
+                result = combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
 
-                combatManager.startCombat(locationsMap.getLocation().getEnemy(targetName), new CombatManager.CombatCallback(this.checkCombatResult));
-                audioManager.changeSong();
+                if (result == 1)
+                { 
+                    gameState.inCombat = true;
+                    audioManager.changeSong();
+                    uIManager.toggleCombatEdge();
+                    
+                }
                 break;
             case "Take":
                 if (target.Length == 0)
