@@ -116,6 +116,9 @@ public class Location : MonoBehaviour
     public int dropItem(Item item)
     {
         ItemOBJ outItemObj = null;
+        if (item == null) return 0;
+        if (item.GetType() == typeof(QuestItem)) return -1;
+        if (!hasSpace()) return -2;
         int result = itemDropTool.dropItem(item,out outItemObj);
         if (result == 1)
         {
@@ -124,6 +127,12 @@ public class Location : MonoBehaviour
                 return result;
         }
         return result;
+    }
+
+    //Get item without removing it.
+    public Item getItem(string[] item)
+    {
+        return _inventory.getItem(item);
     }
 
     //Get the scene description

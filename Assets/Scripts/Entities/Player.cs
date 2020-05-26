@@ -40,6 +40,12 @@ public class Player : Entity
             return 0;
         }
     }
+    //Get item with out removing it
+    public Item getItem(string[] item)
+    {
+        return _inventory.getItem(item);
+    }
+
     //Check inventory space
     public bool hasSpace()
     {

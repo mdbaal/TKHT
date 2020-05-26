@@ -41,6 +41,20 @@ public class Inventory
         }
         return -1;
     }
+    //Get item with out removing it
+    public Item getItem(string[] _item)
+    {
+        string item = "";
+
+        foreach (string s in _item)
+        {
+            item += s + " ";
+        }
+        item = item.Trim();
+        if (!_inventory.ContainsKey(item)) return null;
+
+        return _inventory[item];
+    }
 
     //Is the item in the inventory
     public bool hasItem(string item)
