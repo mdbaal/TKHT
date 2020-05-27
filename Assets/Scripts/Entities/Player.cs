@@ -53,32 +53,38 @@ public class Player : Entity
     }
 
     //Equip and unequip weapon
-    public int equip(string[] item, out Item outItem)
+    public int equip(string[] item, out Item outItem,out Item unequiped)
     {
         Item i = null;
         outItem = null;
+        unequiped = null;
+        int returnValue = 0;
 
-        if (this.takeItem(item, out i) == 0)
-        {
-            return 0;
-        }
+        i = this.getItem(item);
+
+        if (i == null) return returnValue;
 
         if (i.GetType() == typeof(Weapon))
         {
-            if (weapon != null) return -1;
+            returnValue = 1;
+            if (weapon != null) { this.unEquip(new string[] { weapon.name }, out unequiped); this.giveItem(unequiped); returnValue = 2; }
             weapon = (Weapon)i;
+            this.takeItem(item, out i);
             outItem = i;
-            return 1;
+
+            return returnValue;
         }
         else if (i.GetType() == typeof(Shield))
         {
-            if (shield != null) return -1;
+            returnValue = 1;
+            if (shield != null) { this.unEquip(new string[] { shield.name }, out unequiped); this.giveItem(unequiped); returnValue = 2; }
             shield = (Shield)i;
+            this.takeItem(item, out i);
             outItem = i;
-            return 1;
+            return returnValue;
         }
 
-        return 0;
+        return returnValue;
 
     }
 
@@ -93,46 +99,44 @@ public class Player : Entity
 
         _item = _item.Trim();
         outItem = null;
-        Item i = null;
+
 
         if (weapon != null)
         {
             if (weapon.name == _item)
             {
-                i = weapon;
+                outItem = weapon;
                 weapon = null;
+                this.giveItem(outItem);
+                return 1;
             }
         }
-        else if (shield != null)
-        {
-            if (shield.name == _item && shield != null)
-            {
-                i = shield;
-                shield = null;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            return 0;
-        }
-            this.giveItem(i);
-            outItem = i;
 
-            return 1;
-        
+        if (shield != null)
+        {
+            if (shield.name == _item)
+            {
+                outItem = shield;
+                shield = null;
+                this.giveItem(outItem);
+                return 1;
+            }
+        }
+
+        return 0;
     }
 
     //Use food item
     public int use(string[] item, out Food outItem)
     {
         outItem = null;
-
-
-        int r = this.takeItem(item, out outItem);
+        int r = 0;
+        Item i = this.getItem(item);
+        if (i == null) return 0;
+        if (i.GetType() == typeof(Food))
+        {
+            r = 1;
+        }
 
         if (r == 0)
         {
@@ -145,13 +149,11 @@ public class Player : Entity
         }
         else if (r == 1)
         {
+            this.takeItem(item, out outItem);
             this.health += outItem.healingPoints;
             return r;
         }
-        else
-        {
-            this.giveItem(outItem);
-            return 0;
-        }
+
+        return 0;
     }
 }

@@ -380,4 +380,5 @@ public class UIManager : MonoBehaviour
     {
         combatEdge.enabled = !combatEdge.enabled;
     }
+
 }

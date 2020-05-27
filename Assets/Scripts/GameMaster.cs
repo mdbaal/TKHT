@@ -336,8 +336,8 @@ public class GameMaster : MonoBehaviour
                 outputManager.printHelp(commands);
                 break;
             case "Equip":
-
-                result = GameState.player.equip(target, out item);
+                Item unequiped = null;
+                result = GameState.player.equip(target, out item,out unequiped);
 
                 if (result == 0)
                 {
@@ -348,6 +348,13 @@ public class GameMaster : MonoBehaviour
                     uIManager.addToEquiped(item);
                     outputManager.outputMessage("You equipped " + item.name);
                     audioManager.playPickupDropSound();
+                }else if(result == 2)
+                {
+                    uIManager.addToEquiped(item);
+                    if (unequiped != null) uIManager.addToPlayerInventory(unequiped);
+                    outputManager.outputMessage("You equipped " + item.name);
+                    audioManager.playPickupDropSound();
+
                 }
                 else if (result == -1)
                 {
