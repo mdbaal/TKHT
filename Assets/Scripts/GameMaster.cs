@@ -12,9 +12,7 @@ public class GameMaster : MonoBehaviour
     [Header("World Locations")]
     [SerializeField]
     private LocationsMap locationsMap;
-    /*[Header("GameState")]
-    [SerializeField]
-    private GameState _gameState;*/
+
     [Header("UI Manager")]
     [SerializeField]
     private UIManager uIManager;
@@ -27,46 +25,40 @@ public class GameMaster : MonoBehaviour
 
     private TradeManager tradeManager = new TradeManager();
 
-
     private string action = "";
 
     private string[] target;
-
-    //public GameState GameState { get => _gameState; set => _gameState = value; }
-
-    //Reset booleans on start to make sure game starts properly
+    
     private void Start()
     {
-        if (!GameState.finishedTutorial)
+        StartCoroutine(setupGameOnStart());
+    }
+
+     IEnumerator setupGameOnStart()
+    {
+        locationsMap.makeLocations();
+
+        yield return new WaitUntil(() => locationsMap.allLocationsMade);
+
+        if (!this.loadGame())
         {
-            uIManager.startTutorial();
+            if (!GameState.finishedTutorial)
+            {
+                uIManager.startTutorial();
+            }
+            GameState.currentLocation = locationsMap.getLocation();
         }
+        
         if (GameState.allQuestItemsCollected)
         {
-            StartCoroutine(playerWon());
+            yield return StartCoroutine(playerWon());
         }
-        if (GameState.inCombat)
-        {
-            GameState.inCombat = false;
-            GameState.readyForPlayerInput = true;
-        }
+
         if (!GameState.readyForPlayerInput) GameState.readyForPlayerInput = true;
 
         if (GameState.isTrading) GameState.isTrading = false;
 
-        foreach (QuestItem qi in GameState.questItemsCollected)
-        {
-            uIManager.UpdateObjectiveText(qi);
-        }
-        StartCoroutine(asignFirstSceneToGameState());
-
-        audioManager.changeSong();
-    }
-
-    IEnumerator asignFirstSceneToGameState()
-    {
-        yield return new WaitUntil(() => locationsMap.getLocation() != null);
-        GameState.currentLocation = locationsMap.getLocation();
+        GameState.readyForPlayerInput = true;
     }
 
     //Called form input parser, receive input
@@ -459,9 +451,9 @@ public class GameMaster : MonoBehaviour
         SaveLoadManager.save(this.locationsMap);
     }
 
-    public void loadGame()
+    public bool loadGame()
     {
-        SaveLoadManager.load(this.locationsMap, this.uIManager);
+        return SaveLoadManager.load(this.locationsMap, this.uIManager);
     }
 
 

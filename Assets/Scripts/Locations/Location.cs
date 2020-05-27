@@ -271,4 +271,9 @@ public class Location : MonoBehaviour
         if (enemiesDead == enemiesInScene) allEnemiesDead = true;
     }
 
+    public void clearInventory()
+    {
+        this._inventory.clearInventory();
+    }
+
 }

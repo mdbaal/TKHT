@@ -275,11 +275,11 @@ public static class SaveLoadManager
 
     #region load
     //LOAD GAME FROM SAVE FILE
-    public static void load(LocationsMap locationsMap, UIManager uIManager)
+    public static bool load(LocationsMap locationsMap, UIManager uIManager)
     {
         if (!Directory.Exists("Gamesave/"))
         {
-            return;
+            return false;
         }
         getObjectsFromResources();
         string JsonGameState = "";
@@ -331,12 +331,15 @@ public static class SaveLoadManager
 
             List<ItemOBJ> itemObjs = new List<ItemOBJ>();
 
+            l.clearInventory();
+
             foreach (ItemOBJ io in l.items)
             {
                 GameObject.Destroy(io.gameObject);
             }
 
             l.items.Clear();
+            l.items.TrimExcess();
 
             foreach (ItemData id in ld.items)
             {
@@ -401,7 +404,7 @@ public static class SaveLoadManager
                 l.trader = to;
             }
             l.makeLocation(false, true);
-
+            
         }
         //Update Scene
         locationsMap.moveFromLoad(gameStateData.currentLocation);
@@ -431,6 +434,8 @@ public static class SaveLoadManager
 
         uIManager.updateGold();
         uIManager.UpdateMinimap(GameState.currentLocation.name);
+
+        return true;
     }
 
     #endregion

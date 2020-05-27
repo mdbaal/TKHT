@@ -71,6 +71,12 @@ public class Inventory
     {
         this.inventorySpace = i;
     }
+    //clear Inventory
+    public void clearInventory()
+    {
+        _inventory.Clear();
+        _inventory = new Dictionary<string, Item>();
+    }
 
     //Output list of items in inventory
     public override string ToString()

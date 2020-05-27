@@ -9,10 +9,10 @@ public class LocationsMap : MonoBehaviour
     [SerializeField]
     private Location currentLocation = null;
 
-    private void Start()
-    {
-        getAllLocationsFromScene();
-    }
+    private bool _allLocationsLoaded = false;
+
+    public bool allLocationsMade { get => _allLocationsLoaded; set => _allLocationsLoaded = value; }
+
     //Move to new location
     public int move(string[] newloc)
     {
@@ -115,7 +115,7 @@ public class LocationsMap : MonoBehaviour
         return null;
     }
     //Look for all locations in scene and make them
-    private void getAllLocationsFromScene()
+    public void makeLocations()
     {
         Location[] _locations = this.GetComponentsInChildren<Location>();
 
@@ -128,6 +128,8 @@ public class LocationsMap : MonoBehaviour
         currentLocation = _locations[0];
         currentLocation.enter();
         currentLocation.playerVisited = true;
+
+        allLocationsMade = true;
     }
 
     public Location[] getAllLocations()
