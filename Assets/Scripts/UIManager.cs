@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Game State")]
-    
+
     [Header("Output Scrollrect")]
     [SerializeField]
     private ScrollRect textScroll;
@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.PageDown))
             scrollOutputDown();
     }
-   
+
     public void outputToBottom()
     {
         Canvas.ForceUpdateCanvases();
@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
     public void scrollOutputDown()
     {
         Canvas.ForceUpdateCanvases();
-        textScroll.verticalNormalizedPosition -=.1f;
+        textScroll.verticalNormalizedPosition -= .1f;
     }
 
     public void addToPlayerInventory(Item item)
@@ -173,6 +173,17 @@ public class UIManager : MonoBehaviour
         else if (item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
+            img.sprite = null;
+            img.enabled = false;
+        }
+    }
+
+    public void clearInventory()
+    {
+        foreach (GameObject i in inventorySlots)
+        {
+            Image img = i.GetComponent<Image>();
+
             img.sprite = null;
             img.enabled = false;
         }

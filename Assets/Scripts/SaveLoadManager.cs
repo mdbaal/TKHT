@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public static class SaveLoadManager
 {
@@ -12,6 +13,8 @@ public static class SaveLoadManager
     private static Dictionary<string, ItemOBJ> itemObjListFromResources = new Dictionary<string, ItemOBJ>();
     private static Dictionary<string, EnemyOBJ> enemyObjListFromResources = new Dictionary<string, EnemyOBJ>();
     private static Dictionary<string, TraderOBJ> traderObjListFromResources = new Dictionary<string, TraderOBJ>();
+    private static SpriteAtlas characterSprites;
+
 
     private static void getObjectsFromResources()
     {
@@ -47,6 +50,9 @@ public static class SaveLoadManager
             if (i != null)
                 traderObjListFromResources.Add(i.name, i);
         }
+
+        characterSprites = Resources.Load<SpriteAtlas>("Sprites/Characters");
+
         loadedResources = true;
     }
 
@@ -115,13 +121,13 @@ public static class SaveLoadManager
         public float[] position;
     }
 
-
+    #region save
     //SAVE GAME TO JSON IN TXT FILE
     public static void save(LocationsMap locationsMap)
     {
         //GameState data
         GameStateData gameStateData = new GameStateData();
-        
+
         gameStateData.finishedTutorial = GameState.finishedTutorial;
 
         List<ItemData> idl = new List<ItemData>();
@@ -265,6 +271,9 @@ public static class SaveLoadManager
             writer.WriteLine(JsonStringLocations);
         }
     }
+    #endregion
+
+    #region load
     //LOAD GAME FROM SAVE FILE
     public static void load(LocationsMap locationsMap, UIManager uIManager)
     {
@@ -286,7 +295,7 @@ public static class SaveLoadManager
         //Set GameState values from data
         GameState.finishedTutorial = gameStateData.finishedTutorial;
 
-        foreach(ItemData id in gameStateData.questItemsCollected)
+        foreach (ItemData id in gameStateData.questItemsCollected)
         {
 
             GameState.addToQuestItems((QuestItem)itemListFromResources[id.name]);
@@ -306,6 +315,7 @@ public static class SaveLoadManager
 
         foreach (ItemData id in gameStateData.player.inventory)
         {
+            
             _player.giveItem(itemListFromResources[id.name]);
         }
 
@@ -321,7 +331,7 @@ public static class SaveLoadManager
 
             List<ItemOBJ> itemObjs = new List<ItemOBJ>();
 
-            foreach(ItemOBJ io in l.items)
+            foreach (ItemOBJ io in l.items)
             {
                 GameObject.Destroy(io.gameObject);
             }
@@ -330,7 +340,7 @@ public static class SaveLoadManager
 
             foreach (ItemData id in ld.items)
             {
-                ItemOBJ io = GameObject.Instantiate<ItemOBJ>(itemObjListFromResources[id.name], new Vector3(id.position[0], id.position[1], id.position[2]), Quaternion.identity,l.transform);
+                ItemOBJ io = GameObject.Instantiate<ItemOBJ>(itemObjListFromResources[id.name], new Vector3(id.position[0], id.position[1], id.position[2]), Quaternion.identity, l.transform);
 
                 io.item = itemListFromResources[id.name];
 
@@ -352,7 +362,7 @@ public static class SaveLoadManager
 
             foreach (EnemyData ed in ld.enemies)
             {
-                EnemyOBJ eo = GameObject.Instantiate<EnemyOBJ>(enemyObjListFromResources[ed.name.Split(' ')[0]], new Vector3(ed.position[0], ed.position[1], ed.position[2]), Quaternion.identity,l.transform);
+                EnemyOBJ eo = GameObject.Instantiate<EnemyOBJ>(enemyObjListFromResources[ed.name.Split(' ')[0]], new Vector3(ed.position[0], ed.position[1], ed.position[2]), Quaternion.identity, l.transform);
 
                 eo.name = ed.name;
                 eo.maxHealth = ed.maxHealth;
@@ -361,7 +371,7 @@ public static class SaveLoadManager
                 if (ed.shield != string.Empty && ed.weapon != "")
                     eo.shield = (Shield)itemListFromResources[ed.shield];
 
-                eo.sprite = Resources.Load<Sprite>("/Sprites/" + ed.sprite);
+                eo.sprite = characterSprites.GetSprite(ed.sprite);
 
                 enemyObjs.Add(eo);
             }
@@ -372,14 +382,14 @@ public static class SaveLoadManager
             {
                 TraderData td = ld.trader;
 
-                TraderOBJ to = GameObject.Instantiate<TraderOBJ>(traderObjListFromResources[td.name], new Vector3(td.position[0], td.position[1], td.position[2]), Quaternion.identity,l.transform);
+                TraderOBJ to = GameObject.Instantiate<TraderOBJ>(traderObjListFromResources[td.name.Split(' ')[0]], new Vector3(td.position[0], td.position[1], td.position[2]), Quaternion.identity, l.transform);
                 to.name = td.name;
                 to.maxHealth = td.maxHealth;
 
                 if (td.weapon != string.Empty && td.weapon != "")
                     to.weapon = (Weapon)itemListFromResources[td.weapon];
 
-                to.sprite = Resources.Load<Sprite>("/Sprites/" + td.sprite);
+                to.sprite = characterSprites.GetSprite(td.sprite);
 
                 to.trader.gold = td.gold;
 
@@ -400,11 +410,15 @@ public static class SaveLoadManager
 
         //Update player UI
         uIManager.updatePlayerHealth(_player);
+        
+        uIManager.clearInventory();
+       
 
         foreach (Item item in _player.getInventoryItems())
         {
             uIManager.addToPlayerInventory(item);
         }
+
         if (_player.weapon != null)
             uIManager.addToEquiped(_player.weapon);
         if (_player.shield != null)
@@ -418,4 +432,6 @@ public static class SaveLoadManager
         uIManager.updateGold();
         uIManager.UpdateMinimap(GameState.currentLocation.name);
     }
+
+    #endregion
 }
