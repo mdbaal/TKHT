@@ -419,6 +419,9 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("There is no trader here");
                     break;
                 }
+            case "Restart":
+                restartGame();
+                break;
         }
 
         clearForNew();
