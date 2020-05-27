@@ -59,6 +59,8 @@ public class GameMaster : MonoBehaviour
         if (GameState.isTrading) GameState.isTrading = false;
 
         GameState.readyForPlayerInput = true;
+
+        audioManager.changeSong();
     }
 
     //Called form input parser, receive input
