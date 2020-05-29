@@ -178,7 +178,6 @@ public static class SaveLoadManager
         List<LocationData> lds = new List<LocationData>();
         foreach (Location l in locationsFromMap)
         {
-
             if (l.playerVisited)
             {
                 LocationData ld = new LocationData();
@@ -381,8 +380,12 @@ public static class SaveLoadManager
 
             l.enemies = enemyObjs.ToArray();
 
+
             if (l.trader != null)
             {
+                GameObject.Destroy(l.trader.gameObject);
+                l.trader = null;
+
                 TraderData td = ld.trader;
 
                 TraderOBJ to = GameObject.Instantiate<TraderOBJ>(traderObjListFromResources[td.name.Split(' ')[0]], new Vector3(td.position[0], td.position[1], td.position[2]), Quaternion.identity, l.transform);
@@ -403,8 +406,8 @@ public static class SaveLoadManager
 
                 l.trader = to;
             }
-            l.makeLocation(false, true);
-            
+            l.makeLocation(true, true);
+            l.checkAllDead();
         }
         //Update Scene
         locationsMap.moveFromLoad(gameStateData.currentLocation);
@@ -439,4 +442,10 @@ public static class SaveLoadManager
     }
 
     #endregion
+
+    public static void deleteSaveGame()
+    {
+        File.Delete("Gamesave/save.json");
+        Directory.Delete("Gamesave/");
+    }
 }

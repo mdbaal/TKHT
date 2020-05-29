@@ -481,6 +481,7 @@ public class GameMaster : MonoBehaviour
     {
         action = "";
         target = new string[] { };
+        SaveLoadManager.deleteSaveGame();
         SceneManager.LoadSceneAsync("Main");
         GameState.restart();
     }

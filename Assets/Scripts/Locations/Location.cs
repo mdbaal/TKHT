@@ -262,7 +262,6 @@ public class Location : MonoBehaviour
     //Add one to dead enemies count
     public void enemyDied()
     {
-
         this.enemiesDead++;
     }
     //Check if all enemies are dead
