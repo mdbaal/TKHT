@@ -8,6 +8,7 @@ public class LocationsMap : MonoBehaviour
 
     [SerializeField]
     private Location currentLocation = null;
+    private Location previousLocation = null;
 
     private bool _allLocationsLoaded = false;
 
@@ -25,14 +26,14 @@ public class LocationsMap : MonoBehaviour
         if (locations.ContainsKey(_newloc))
         {
             if (currentLocation.name == _newloc) return -2;
-            if (currentLocation.allEnemiesDeadToContinue && !currentLocation.allEnemiesDead)
+            if (currentLocation.allEnemiesDeadToContinue && !currentLocation.allEnemiesDead && previousLocation.name != _newloc)
             {
                 return -3;
             }
             else if (currentLocation.hasNeighbour(_newloc))
             {
-                Location old = currentLocation;
-                old.leave();
+                previousLocation = currentLocation;
+                previousLocation.leave();
                 currentLocation = locations[_newloc];
                 currentLocation.enter();
                 currentLocation.playerVisited = true;
