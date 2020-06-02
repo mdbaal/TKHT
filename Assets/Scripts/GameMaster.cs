@@ -131,6 +131,7 @@ public class GameMaster : MonoBehaviour
                 GameState.currentLocation.enemyDied();
                 GameState.currentLocation.checkAllDead();
                 audioManager.changeSong();
+                GameState.player.gold += Random.Range(0,6);
                 break;
             case 3:
                 GameState.inCombat = false;
@@ -307,6 +308,7 @@ public class GameMaster : MonoBehaviour
                 }
                 else if (result == 1)
                 {
+                    GameState.player.takeItem(target,out item);
                     uIManager.removeFromPlayerInventory(item);
                     outputManager.outputMessage("You dropped " + item.name);
                     audioManager.playPickupDropSound();
@@ -491,5 +493,4 @@ public class GameMaster : MonoBehaviour
         restartGame();
         Application.Quit();
     }
-
 }

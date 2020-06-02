@@ -42,7 +42,7 @@ public class Location : MonoBehaviour
     public EnemyOBJ[] enemies { get => _enemies; set => _enemies = value; }
     public TraderOBJ trader { get => _trader; set => _trader = value; }
     public bool allEnemiesDead { get => _allEnemiesDead; set => _allEnemiesDead = value; }
-    public string name { get => _name; set => _name = value; }
+    public new string name { get => _name; set => _name = value; }
     public string description { get => _description;}
     public Sprite sprite { get => _sprite;}
     public Location[] neighbours { get => _neighbours; }

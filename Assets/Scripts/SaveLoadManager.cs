@@ -445,14 +445,17 @@ public static class SaveLoadManager
 
     public static void deleteSaveGame()
     {
-        try
+        if (Directory.Exists("Gamesave/"))
         {
-            File.Delete("Gamesave/save.json");
-            Directory.Delete("Gamesave/");
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log("Deleting save file failed, Reason: " + e);
+            try
+            {
+                File.Delete("Gamesave/save.json");
+                Directory.Delete("Gamesave/");
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log("Deleting save file failed, Reason: " + e);
+            }
         }
     }
 }
