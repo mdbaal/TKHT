@@ -68,14 +68,16 @@ public class Location : MonoBehaviour
             _trader = this.GetComponentInChildren<TraderOBJ>();
         }
 
-        this.itemDropTool = this.GetComponent<ItemDrop>();
-        itemDropTool.calculateValues();
-        this._inventory.setSpace(itemDropTool.amountOfItemsTotal);
+        
 
         foreach (ItemOBJ i in _items)
         {
             _inventory.addItem(i.item);
         }
+
+        this.itemDropTool = this.GetComponent<ItemDrop>();
+        itemDropTool.calculateValues();
+        this._inventory.space = itemDropTool.amountOfItemsTotal + _items.Count;
 
         if (this.sprite != null)
         {
@@ -103,6 +105,7 @@ public class Location : MonoBehaviour
         {
             if (iObj.item == i)
             {
+                if (iObj.droppedIndex == -1) this._inventory.space--;
                 itemDropTool.itemPickedUp(iObj.droppedIndex);
                 items.Remove(iObj);
                 Destroy(iObj.gameObject);

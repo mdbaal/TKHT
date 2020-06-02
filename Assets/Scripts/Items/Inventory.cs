@@ -66,11 +66,12 @@ public class Inventory
     {
         return (_inventory.Count < inventorySpace);
     }
-    //Set the size of the inventory
-    public void setSpace(int i)
+    //Set or get the size of the inventory
+    public int space
     {
-        this.inventorySpace = i;
+        get => this.inventorySpace; set => this.inventorySpace = value;
     }
+    
     //clear Inventory
     public void clearInventory()
     {
