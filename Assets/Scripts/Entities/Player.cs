@@ -7,7 +7,7 @@ public class Player : Entity
 
     public Player()
     {
-        this.maxHealthAndHealth = 10;
+        this.maxHealthAndHealth = 15;
         gold = 10;
     }
 

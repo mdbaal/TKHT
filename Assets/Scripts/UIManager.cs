@@ -122,6 +122,7 @@ public class UIManager : MonoBehaviour
             {
                 img.sprite = item.sprite;
                 img.enabled = true;
+                i.transform.parent.GetComponentInChildren<Text>().text = "G " + item.worth.ToString();
                 return;
             }
         }
@@ -138,6 +139,7 @@ public class UIManager : MonoBehaviour
             {
                 img.sprite = null;
                 img.enabled = false;
+                i.transform.parent.GetComponentInChildren<Text>().text = string.Empty;
                 return;
             }
         }
@@ -169,6 +171,7 @@ public class UIManager : MonoBehaviour
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
             img.sprite = null;
             img.enabled = false;
+
         }
         else if (item.GetType() == typeof(Shield))
         {
@@ -186,6 +189,7 @@ public class UIManager : MonoBehaviour
 
             img.sprite = null;
             img.enabled = false;
+            i.transform.parent.GetComponentInChildren<Text>().text = string.Empty;
         }
     }
 
@@ -207,7 +211,7 @@ public class UIManager : MonoBehaviour
         else
         {
             healthText.text = "Health: " + player.health.ToString();
-            healthImg.rectTransform.localScale = new Vector3((float)fullHealth / 100 * player.health, 1, 1);
+            healthImg.rectTransform.localScale = new Vector3(1/ (float)fullHealth * player.health, 1, 1);
         }
 
     }
