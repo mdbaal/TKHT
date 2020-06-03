@@ -122,7 +122,19 @@ public class UIManager : MonoBehaviour
             {
                 img.sprite = item.sprite;
                 img.enabled = true;
-                i.transform.parent.GetComponentInChildren<Text>().text = "G " + item.worth.ToString();
+                Text[] texts = i.transform.parent.GetComponentsInChildren<Text>();
+                texts[0].text = "G " + item.worth.ToString();
+                if (item.GetType().Equals(typeof(Weapon)))
+                {
+                    Weapon weapon = (Weapon)item;
+                    texts[1].text = "Att " + weapon.damagePoints.ToString();
+                }
+                if (item.GetType().Equals(typeof(Shield)))
+                {
+                    Shield shield = (Shield)item;
+                    texts[1].text = "Def " + shield.defencePoints.ToString();
+                }
+
                 return;
             }
         }
@@ -139,7 +151,11 @@ public class UIManager : MonoBehaviour
             {
                 img.sprite = null;
                 img.enabled = false;
-                i.transform.parent.GetComponentInChildren<Text>().text = string.Empty;
+                Text[] texts = i.transform.parent.GetComponentsInChildren<Text>();
+                texts[0].text = string.Empty;
+                texts[1].text = string.Empty;
+               
+
                 return;
             }
         }
@@ -147,19 +163,25 @@ public class UIManager : MonoBehaviour
 
     public void addToEquiped(Item item)
     {
-
+        Text[] texts = equipmentSlots[0].transform.parent.GetComponentsInChildren<Text>();
         removeFromPlayerInventory(item);
         if (item.GetType() == typeof(Weapon))
         {
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
             img.sprite = item.sprite;
             img.enabled = true;
+            Weapon weapon = (Weapon)item;
+            
+            texts[1].text = "Att " + weapon.damagePoints.ToString();
+
         }
         else if (item.GetType() == typeof(Shield))
         {
             Image img = equipmentSlots[1].GetComponentInChildren<Image>();
             img.sprite = item.sprite;
             img.enabled = true;
+            Shield shield = (Shield)item;
+            texts[1].text = "Def " + shield.defencePoints.ToString();
         }
     }
 
@@ -171,7 +193,6 @@ public class UIManager : MonoBehaviour
             Image img = equipmentSlots[0].GetComponentInChildren<Image>();
             img.sprite = null;
             img.enabled = false;
-
         }
         else if (item.GetType() == typeof(Shield))
         {
@@ -179,6 +200,7 @@ public class UIManager : MonoBehaviour
             img.sprite = null;
             img.enabled = false;
         }
+        equipmentSlots[0].transform.parent.GetComponentsInChildren<Text>()[1].text = string.Empty;
     }
 
     public void clearInventory()
