@@ -262,6 +262,7 @@ public class GameMaster : MonoBehaviour
                 else if (result == 1)
                 {
                     uIManager.addToPlayerInventory(item);
+
                     if (item.GetType() == typeof(QuestItem))
                     {
                         GameState.addToQuestItems((QuestItem)item);
@@ -277,6 +278,7 @@ public class GameMaster : MonoBehaviour
                         outputManager.outputMessage("You took " + item.name);
                     }
                     GameState.currentLocation.takeItem(target, out item);
+                    GameState.player.giveItem(item);
                     audioManager.playPickupDropSound();
                 }
                 else if (result == -2)

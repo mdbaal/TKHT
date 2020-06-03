@@ -108,6 +108,7 @@ public class Location : MonoBehaviour
                 if (iObj.droppedIndex == -1) this._inventory.space--;
                 itemDropTool.itemPickedUp(iObj.droppedIndex);
                 items.Remove(iObj);
+                iObj.GetComponent<SpriteRenderer>().enabled = false;
                 Destroy(iObj.gameObject);
                 return 1;
             }

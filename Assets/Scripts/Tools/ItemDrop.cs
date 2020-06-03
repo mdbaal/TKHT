@@ -60,7 +60,8 @@ public class ItemDrop : MonoBehaviour
             }
 
         }
-        dropPositionsAvailable = dropPositionsCalculated;
+        foreach (Vector3 v in dropPositionsCalculated)
+            dropPositionsAvailable.Add(v);
     }
 
 
