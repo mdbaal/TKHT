@@ -35,6 +35,12 @@ public class CombatManager : MonoBehaviour
     {
         if (this.combatCallback != c) this.combatCallback = c;
 
+        if(GameState.player.weapon == null)
+        {
+            outputManager.outputMessage("You don't have a weapon equiped");
+            return -1;
+        }
+
         if (enemy == null)
         {
             outputManager.outputMessage("That isn't an enemy");
@@ -78,7 +84,6 @@ public class CombatManager : MonoBehaviour
                         endCombat();
                         combatCallback(0);
                     }
-                    
                     else if(result == -2)
                     {
                         outputManager.outputMessage("You don't have a weapon equipped");
