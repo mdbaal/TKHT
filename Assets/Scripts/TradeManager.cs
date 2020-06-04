@@ -39,7 +39,7 @@ public class TradeManager
 
             return result;
         }
-        else if (action == "Quit" || action == "Exit" || action == "Stop")
+        else if (action == "Stop")
         {
             endTrade();
             return 3;

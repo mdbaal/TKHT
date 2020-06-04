@@ -53,6 +53,8 @@ public class Trader : NPC
         }
         list = list.Trim();
 
+        list += "\nTo stop trading type 'stop'";
+
         return list;
     }
 }

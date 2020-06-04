@@ -415,7 +415,7 @@ public class GameMaster : MonoBehaviour
                     tradeManager.beginTrade(GameState.player, trader);
                     GameState.isTrading = true;
                     outputManager.outputMessage(locationsMap.getLocation().getTrader().getListOfStock());
-                    outputManager.outputMessage("To stop trading type stop,quit or exit\n > Do you want to Buy or Sell");
+                    outputManager.outputMessage("Do you want to Buy or Sell");
                     break;
                 }
                 else
