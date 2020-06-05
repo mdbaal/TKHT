@@ -48,7 +48,6 @@ public class CombatManager : MonoBehaviour
         }
 
         this.enemy = enemy;
-        nextTurn("Attack");
         return 1;
     }
     //Next turn in combat based on action and if it is the players turn
@@ -69,6 +68,7 @@ public class CombatManager : MonoBehaviour
                         playerTurn = false;
                         combatCallback(-1);
                         StartCoroutine(waitBeforeComputerAction());
+                        break;
                     }
                     else if (result == 1)
                     {
@@ -76,6 +76,7 @@ public class CombatManager : MonoBehaviour
                         playerTurn = false;
                         StartCoroutine(waitBeforeComputerAction());
                         combatCallback(-1);
+                        break;
                     }
                     else if (result == 2)
                     {
@@ -83,12 +84,14 @@ public class CombatManager : MonoBehaviour
                         enemy.die();
                         endCombat();
                         combatCallback(0);
+                        break;
                     }
                     else if(result == -2)
                     {
                         outputManager.outputMessage("You don't have a weapon equipped");
                         endCombat();
                         combatCallback(0);
+                        break;
                     }
                     break;
                 case "Defend":

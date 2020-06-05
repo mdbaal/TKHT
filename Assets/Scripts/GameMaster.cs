@@ -131,13 +131,16 @@ public class GameMaster : MonoBehaviour
                 GameState.currentLocation.enemyDied();
                 GameState.currentLocation.checkAllDead();
                 audioManager.changeSong();
-                GameState.player.gold += Random.Range(0,6);
+                GameState.player.gold += Random.Range(1,6);
+                uIManager.updateGold();
                 break;
             case 3:
                 GameState.inCombat = false;
                 StartCoroutine(playerDied());
                 break;
         }
+
+        
     }
 
     //Decide based on action what to do
@@ -239,6 +242,7 @@ public class GameMaster : MonoBehaviour
                     GameState.inCombat = true;
                     audioManager.changeSong();
                     uIManager.toggleCombatEdge();
+                    combatManager.nextTurn("Attack");
                     
                 }
                 break;

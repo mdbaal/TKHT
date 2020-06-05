@@ -30,9 +30,10 @@ public static class GameState
     public static bool finishedTutorial { get => _finishedTutorial; set => _finishedTutorial = value; }
     public static bool isTrading { get => _isTrading; set => _isTrading = value; }
 
+
     public static void addToQuestItems(QuestItem item)
     {
-
+        
         questItemsCollected.Add(item);
 
         if (questItemsCollected.Count == 4)
