@@ -163,7 +163,8 @@ public class UIManager : MonoBehaviour
 
     public void addToEquiped(Item item)
     {
-        Text[] texts = equipmentSlots[0].transform.parent.GetComponentsInChildren<Text>();
+        Text[] textsWeapon = equipmentSlots[0].transform.parent.GetComponentsInChildren<Text>();
+        Text[] textsShield = equipmentSlots[1].transform.parent.GetComponentsInChildren<Text>();
         removeFromPlayerInventory(item);
         if (item.GetType() == typeof(Weapon))
         {
@@ -171,8 +172,8 @@ public class UIManager : MonoBehaviour
             img.sprite = item.sprite;
             img.enabled = true;
             Weapon weapon = (Weapon)item;
-            
-            texts[1].text = "Att " + weapon.damagePoints.ToString();
+
+            textsWeapon[1].text = "Att " + weapon.damagePoints.ToString();
 
         }
         else if (item.GetType() == typeof(Shield))
@@ -181,7 +182,7 @@ public class UIManager : MonoBehaviour
             img.sprite = item.sprite;
             img.enabled = true;
             Shield shield = (Shield)item;
-            texts[1].text = "Def " + shield.defencePoints.ToString();
+            textsShield[1].text = "Def " + shield.defencePoints.ToString();
         }
     }
 
