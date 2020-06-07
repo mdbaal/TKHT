@@ -5,7 +5,7 @@ using UnityEngine;
 public class Commands
 {
     private string[] _commandsList = new string[]{"Go","Attack","Take","Drop","Look","Exit","Quit","Clear","Help","Equip","Unequip","Use","Save","Load","Trade","Restart"};
-    private string[] _attackCommandsList = new string[] {"Attack", "Defend", "Flee" };
+    private string[] _attackCommandsList = new string[] {"Attack", "Defend", "Flee","Help" };
     private string[] _tradeCommandsList = new string[] {"Buy","Sell","Stop"};
 
     public string[] commandsList { get => _commandsList;}

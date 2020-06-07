@@ -115,6 +115,9 @@ public class CombatManager : MonoBehaviour
                     endCombat();
                     combatCallback(2);
                     break;
+                case "Help":
+                    outputManager.printHelp(new Commands());
+                    break;
             }
         }
         else
