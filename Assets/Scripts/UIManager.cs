@@ -134,8 +134,13 @@ public class UIManager : MonoBehaviour
                     Shield shield = (Shield)item;
                     texts[1].text = "Def " + shield.defencePoints.ToString();
                 }
+                if (item.GetType().Equals(typeof(Food)))
+                {
+                    Food food = (Food)item;
+                    texts[1].text = "HP " + food.healingPoints.ToString();
+                }
 
-                return;
+                    return;
             }
         }
     }
