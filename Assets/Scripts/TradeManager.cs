@@ -76,6 +76,8 @@ public class TradeManager
         return 1;
     }
 
+    
+
     public int playerIsBuying(string[] item, out Item _item)
     {
         int result = 0;
@@ -87,6 +89,11 @@ public class TradeManager
             newItem += s;
         }
         newItem = newItem.Trim();
+
+        if (_player.hasItem(newItem))
+        {
+            return -1;
+        }
 
         result = _trader.sellToPlayer(_player, newItem, out _item);
 

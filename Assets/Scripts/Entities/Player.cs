@@ -156,4 +156,10 @@ public class Player : Entity
 
         return 0;
     }
+
+    public bool hasItem(string item)
+    {
+        return _inventory.hasItem(item);
+    }
+
 }
