@@ -252,6 +252,11 @@ public class GameMaster : MonoBehaviour
                     outputManager.outputMessage("You took some air");
                     break;
                 }
+                if(GameState.currentLocation.allEnemiesDeadToContinue && !GameState.currentLocation.allEnemiesDead)
+                {
+                    outputManager.outputMessage("There are enemies around, not very smart");
+                    break;
+                }
 
                 //get the item
                 item = GameState.currentLocation.getItem(target);
