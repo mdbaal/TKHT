@@ -100,7 +100,6 @@ public class TradeManager
         if (result == 0) return -2;
         if (result == -3) return result;
         if (_item == null) return 0;
-
         return _player.giveItem(_item);
     }
 

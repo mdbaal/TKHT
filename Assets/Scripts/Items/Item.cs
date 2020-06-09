@@ -14,7 +14,7 @@ public class Item : ScriptableObject
     [SerializeField]
     private int _worth = 0;
 
-    public string name { get => _name; set => _name = value; }
+    public new string name { get => _name; set => _name = value; }
     public string description { get => _description; set => _description = value; }
     public Sprite sprite { get => _sprite; set => _sprite = value; }
     public int worth { get => _worth; set => _worth = value; }
